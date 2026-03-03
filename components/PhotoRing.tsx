@@ -75,14 +75,14 @@ export default function PhotoRing() {
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 1, delay: 3.2, ease: [0.22, 1, 0.36, 1] }}
     >
-      <Canvas
+      {/* <Canvas
         camera={{ position: [0, 0, 4.8], fov: 45 }}
         style={{ position: "absolute", inset: 0, zIndex: 2 }}
         dpr={[1, 2]}
         gl={{ antialias: true, alpha: true }}
       >
         <RotatingRings />
-      </Canvas>
+      </Canvas> */}
 
       <div
         className="absolute inset-[15%] z-[1] overflow-hidden rounded-full border border-accent/20"
@@ -90,8 +90,8 @@ export default function PhotoRing() {
           boxShadow: "0 0 80px rgba(59, 130, 246, 0.2), inset 0 0 60px rgba(59, 130, 246, 0.08)",
         }}
       >
-        {/* Replace this placeholder with your photo:
-            <img src="/photo.jpg" alt="Vishal" className="h-full w-full object-cover" /> */}
+        {/* Replace this placeholder with your photo: */}
+            <img src="/v.jpg" alt="Vishal" className="h-full w-full object-cover" />
         <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-accent/5 via-surface to-accent/5">
           <span className="text-7xl font-bold text-accent/30 select-none">V</span>
         </div>

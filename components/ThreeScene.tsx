@@ -54,7 +54,7 @@ export default function ThreeScene() {
       dpr={[1, 1.5]}
       gl={{ antialias: true, alpha: true }}
     >
-      <Particles count={200} />
+      <Particles count={2000} />
     </Canvas>
   );
 }
