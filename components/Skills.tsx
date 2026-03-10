@@ -6,6 +6,7 @@ import {
   FiSmartphone,
   FiCpu,
   FiCloud,
+  FiPenTool,
 } from "react-icons/fi";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -14,6 +15,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   mobile: FiSmartphone,
   ai: FiCpu,
   devops: FiCloud,
+  creative: FiPenTool,
 };
 
 const containerVariants = {

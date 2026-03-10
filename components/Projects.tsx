@@ -6,8 +6,8 @@ import { FiGithub, FiExternalLink, FiFolder } from "react-icons/fi";
 const categories = [
   { key: "all", label: "All Projects" },
   { key: "web", label: "Web Apps" },
-  { key: "mobile", label: "Mobile Apps" },
   { key: "ai", label: "AI / ML" },
+  { key: "creative", label: "Creative" },
 ];
 
 export default function Projects() {
