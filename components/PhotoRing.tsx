@@ -91,7 +91,7 @@ export default function PhotoRing() {
         }}
       >
         {/* Replace this placeholder with your photo: */}
-            <img src="/v.jpg" alt="Vishal" className="h-full w-full object-cover" />
+            <img src="/v2.png" alt="Vishal" className="h-full w-full object-cover" />
         <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-accent/5 via-surface to-accent/5">
           <span className="text-7xl font-bold text-accent/30 select-none">V</span>
         </div>

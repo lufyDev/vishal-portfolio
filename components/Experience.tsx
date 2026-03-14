@@ -114,9 +114,13 @@ export default function Experience() {
                     <h3 className="text-lg font-semibold text-foreground">
                       {"role" in item ? item.role : item.degree}
                     </h3>
-                    <p className="mb-3 text-sm text-accent/80">
+                    <p className="text-sm text-accent/80">
                       {"company" in item ? item.company : item.institution}
                     </p>
+                    {"subtitle" in item && item.subtitle && (
+                      <p className="mb-3 text-xs text-muted">{item.subtitle}</p>
+                    )}
+                    {!("subtitle" in item) && <div className="mb-3" />}
 
                     <ul className="space-y-2">
                       {item.highlights.map((highlight, hi) => (
