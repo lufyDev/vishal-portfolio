@@ -28,7 +28,7 @@ export default function Hero() {
         <ThreeScene />
       </div>
 
-      <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/50" />
+      <div className="absolute inset-0 bg-linear-to-t from-background via-transparent to-background/50" />
 
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-8">
@@ -37,7 +37,7 @@ export default function Hero() {
               className="mb-6 inline-flex items-center gap-2 rounded-full border border-border px-4 py-1.5"
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 3 }}
+              transition={{ duration: 0.5, delay: 0.15 }}
             >
               <span className="h-2 w-2 animate-pulse rounded-full bg-green-500" />
               <span
@@ -54,7 +54,7 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{
                 duration: 0.8,
-                delay: 3.2,
+                delay: 0.25,
                 ease: [0.22, 1, 0.36, 1],
               }}
             >
@@ -68,7 +68,7 @@ export default function Hero() {
               style={{ fontFamily: "var(--font-mono)" }}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 3.4 }}
+              transition={{ duration: 0.6, delay: 0.35 }}
             >
               <span className="text-accent">&gt;</span>
               {personalInfo.title}
@@ -78,7 +78,7 @@ export default function Hero() {
               className="mb-8 max-w-md text-sm leading-relaxed text-muted md:text-base"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 3.6 }}
+              transition={{ duration: 0.8, delay: 0.45 }}
             >
               {personalInfo.description}
             </motion.p>
@@ -87,7 +87,7 @@ export default function Hero() {
               className="flex flex-wrap items-center gap-5"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 3.8 }}
+              transition={{ duration: 0.8, delay: 0.55 }}
             >
               <a
                 href="#projects"
@@ -139,7 +139,7 @@ export default function Hero() {
         className="absolute bottom-8 left-1/2 -translate-x-1/2"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 4.2, duration: 0.6 }}
+        transition={{ delay: 0.8, duration: 0.6 }}
       >
         <motion.div
           className="flex flex-col items-center gap-2"

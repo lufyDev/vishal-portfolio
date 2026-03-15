@@ -2,10 +2,10 @@ import { motion } from "framer-motion";
 import { aboutParagraphs, personalInfo } from "@/data/portfolio";
 
 const stats = [
-  { label: "Years Experience", value: "5+" },
-  { label: "Projects Completed", value: "20+" },
-  { label: "Technologies", value: "20+" },
-  { label: "Happy Clients", value: "15+" },
+  { label: "Videos / Month", value: "1000+" },
+  { label: "Videos / Day", value: "500+" },
+  { label: "Platform Uptime", value: "99.9%" },
+  { label: "Load Time Win", value: "99.9%" },
 ];
 
 export default function About() {

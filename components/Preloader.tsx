@@ -10,11 +10,11 @@ export default function Preloader({
   const name = "VISHAL";
 
   useEffect(() => {
-    const timer1 = setTimeout(() => setPhase("reveal"), 2000);
+    const timer1 = setTimeout(() => setPhase("reveal"), 1100);
     const timer2 = setTimeout(() => {
       setPhase("done");
       onComplete();
-    }, 2800);
+    }, 1550);
 
     return () => {
       clearTimeout(timer1);
@@ -26,9 +26,9 @@ export default function Preloader({
     <AnimatePresence>
       {phase !== "done" && (
         <motion.div
-          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#0a0a0a]"
+          className="fixed inset-0 z-100 flex flex-col items-center justify-center bg-[#0a0a0a]"
           exit={{ y: "-100%" }}
-          transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
+          transition={{ duration: 0.55, ease: [0.76, 0, 0.24, 1] }}
         >
           <div className="relative flex items-center gap-1">
             {name.split("").map((char, i) => (
@@ -68,10 +68,10 @@ export default function Preloader({
           </motion.p>
 
           <motion.div
-            className="absolute bottom-16 h-[1px] bg-accent/30"
+            className="absolute bottom-16 h-px bg-accent/30"
             initial={{ width: 0 }}
             animate={{ width: "120px" }}
-            transition={{ duration: 1.8, ease: "easeInOut" }}
+            transition={{ duration: 1.1, ease: "easeInOut" }}
           />
         </motion.div>
       )}

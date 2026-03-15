@@ -29,7 +29,9 @@ export default function App({ Component, pageProps }: AppProps) {
     >
       <Preloader onComplete={handlePreloaderComplete} />
       <CustomCursor />
-      {!loading && <Component {...pageProps} />}
+      <div aria-hidden={loading}>
+        <Component {...pageProps} />
+      </div>
     </div>
   );
 }

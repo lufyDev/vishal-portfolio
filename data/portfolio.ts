@@ -2,13 +2,13 @@ export const personalInfo = {
   name: "Vishal",
   fullName: "Vishal Pundhir",
   title: "Full-Stack Software Engineer",
-  tagline: "Crafting digital experiences from 0 → 1",
+  tagline: "Building AI, 3D, and full-stack products",
   description:
-    "I'm a Full-Stack Software Engineer who thrives on building products from scratch — from interactive 3D Gaussian Splat viewers and AI-powered video pipelines to agentic trip planners. I turn ambitious ideas into clean, performant applications.",
+    "I'm a Full-Stack Software Engineer building AI-powered products, interactive 3D experiences, and high-performance web apps. From event-driven video pipelines to browser-based car viewers and agentic trip planners, I turn complex ideas into polished, scalable systems.",
   email: "vishalpundhirofficial@gmail.com",
   phone: "+91 8193809760",
   location: "India",
-  resumeUrl: "#",
+  resumeUrl: "https://drive.google.com/uc?export=download&id=1yyBaMewscmhBwuHNPbSI6cQEskwDvTAB",
   socials: {
     github: "https://github.com/lufyDev",
     linkedin: "https://www.linkedin.com/in/vishal-pundhir-31059b197",
@@ -17,9 +17,9 @@ export const personalInfo = {
 };
 
 export const aboutParagraphs = [
-  "I'm a Full-Stack Software Engineer with a B.E. from BITS Pilani and hands-on experience building production systems at scale. From crafting interactive 3D Gaussian Splat viewers with Three.js and WebGL to designing event-driven microservices with Kafka, SQS, and AWS Lambda — I genuinely enjoy every layer of the stack.",
-  "Currently at Spyne (AI-Powered Automotive Solutions), I build products that blend AI with web — automated feature videos with ChatGPT-generated voiceover scripts and After Effects template injection, browser-based 3D car viewers from 360° video, and high-performance embeddable platforms. I've optimized data fetching by 300x and re-architected systems to cut CPU usage.",
-  "Beyond work, I'm passionate about AI agents (LangGraph, RAG pipelines) and creative tooling. I also have a design background — After Effects, Premiere Pro, Illustrator, and Figma are in my toolkit. I love building things that sit at the intersection of engineering and creativity.",
+  "I'm a Full-Stack Software Engineer with a B.E. from BITS Pilani, building production systems across frontend, backend, cloud, and creative tooling. I enjoy taking products from 0 to 1 and owning the details from user experience to infrastructure.",
+  "At Spyne, I build AI-powered automotive products including automated feature videos, After Effects data-injection workflows, browser-based 3D car viewers, and serverless processing pipelines on AWS. My work has helped ship systems handling 1000+ videos monthly, processing 500+ videos daily, and improving embed performance from seconds to milliseconds.",
+  "I also enjoy building agentic AI products such as ItineraryAI using LangGraph, OpenAI, Tavily, and ChromaDB. Alongside engineering, I bring a strong creative edge with After Effects, Premiere Pro, Illustrator, and Figma, which helps me build products that feel polished end to end.",
 ];
 
 export const skillCategories = [
@@ -58,12 +58,12 @@ export const experiences = [
     period: "June 2024 — Present",
     current: true,
     highlights: [
-      "Built Automated Feature Video product creating car videos from client inputs. Architected event-driven microservices using Kafka, SQS, Lambda for async processing across video lifecycle",
-      "Developed service injecting car data into After Effects templates. Created extended script (JavaScript + AE scripting) via Windows PowerShell to replace template media with client assets",
-      "Integrated ChatGPT for voiceover script generation and Google TTS for audio synthesis. Configured AWS Deadline Cloud as rendering farm for parallel processing, built pipeline from upload to S3 delivery",
-      "Led 3D Gaussian Splat Viewer using Three.js WebGL, converting 360° videos into interactive browser 3D car models, significantly improving engagement and conversion",
-      "Designed serverless AI pipeline using AWS Step Functions, Batch for frame extraction, stabilization, and point-cloud generation",
-      "Enhanced SmartView embed platform. Optimized VIN-based fetching by 300x (3-4s → 2-10ms), improved DOM observation, reduced CPU usage",
+      "Built the Automated Feature Video product for generating car videos from client inputs and architected event-driven microservices with Kafka, SQS, and AWS Lambda, processing 1000+ videos monthly with 99.9% uptime.",
+      "Developed a data-injection service for After Effects templates using JavaScript, AE scripting, and Windows PowerShell, reducing manual video creation time from 2 hours to 5 minutes.",
+      "Integrated ChatGPT for script generation, Google TTS for voiceover synthesis, and AWS Deadline Cloud for rendering, building the pipeline from upload to S3 delivery.",
+      "Led the interactive 3D car viewer using Three.js and WebGL, transforming 360 degree videos into browser-based 3D models that increased engagement by 45% and conversion by 30%.",
+      "Designed a serverless AI processing pipeline with AWS Step Functions and Batch to handle 500+ videos daily for frame extraction, stabilization, and 3D point-cloud generation.",
+      "Optimized the SmartView embed solution, reducing load time by 99.9% (3-4s to 2-10ms), improving DOM rendering, and cutting CPU usage by 60% across 200+ dealer websites.",
     ],
   },
 ];
@@ -74,9 +74,8 @@ export const education = [
     degree: "Bachelor of Engineering",
     period: "2020 — 2024",
     highlights: [
-      "Birla Institute of Technology and Science, Pilani, Rajasthan",
-      "Hands-on experience with creative tools — After Effects, Premiere Pro, Illustrator, Figma",
-      "Created UI designs, logos, ad creatives, videos, and product promos",
+      "Birla Institute of Technology and Science, Pilani, Rajasthan, India",
+      "Graduated in May 2024",
     ],
   },
 ];
@@ -85,7 +84,7 @@ export const projects = [
   {
     title: "ItineraryAI — Agentic Trip Planner",
     description:
-      "AI trip planner using LangGraph with an agentic workflow — LLM accesses destination, accommodation, and transport research tools via Tavily web search. Features real-time SSE streaming and a RAG pipeline with ChromaDB to cache embeddings and reduce API costs. Deployed full-stack (Next.js, Express, FastAPI) on AWS EC2 with Nginx reverse proxy, PM2, systemd, and SSL via Let's Encrypt.",
+      "AI trip planner built with LangGraph, OpenAI, Tavily, and ChromaDB. Designed an agentic workflow with real-time SSE progress streaming, added a RAG layer for cached embeddings to reduce API cost, and deployed the full-stack system on AWS EC2 with Nginx, PM2, systemd, and SSL.",
     tech: ["LangGraph", "OpenAI", "Tavily", "ChromaDB", "Next.js", "Express", "FastAPI", "AWS EC2", "Nginx"],
     category: "ai",
     github: "#",
@@ -94,7 +93,7 @@ export const projects = [
   {
     title: "Urban Update — CMS & News Platform",
     description:
-      "Full-stack news platform with role-based CMS supporting admin, editor, and reporter workflows. Features an admin dashboard with analytics, user management, and article assignment with category-based CRUD and editor-only publishing rights.",
+      "Production-grade news publishing platform with a role-based CMS for admin, editor, and reporter workflows. Includes analytics, user management, article approvals, and category-based content organization with hierarchical permissions.",
     tech: ["Next.js", "Tailwind", "NestJS", "MongoDB"],
     category: "web",
     github: "#",
@@ -103,7 +102,7 @@ export const projects = [
   {
     title: "3D Gaussian Splat Viewer",
     description:
-      "Interactive browser-based 3D car experience using Three.js WebGL, converting 360° videos into explorable Gaussian Splat 3D models. Designed a serverless AI pipeline using AWS Step Functions and Batch for frame extraction, stabilization, and point-cloud generation.",
+      "Interactive browser-based 3D car experience using Three.js and WebGL, converting 360 degree videos into explorable 3D vehicle models. Supported by a serverless AI pipeline using AWS Step Functions and Batch for frame extraction, stabilization, and point-cloud generation.",
     tech: ["Three.js", "WebGL", "AWS", "Step Functions", "Batch", "TypeScript"],
     category: "web",
     github: "#",
@@ -112,7 +111,7 @@ export const projects = [
   {
     title: "Automated Feature Videos",
     description:
-      "AI-powered system generating car presentation videos from client inputs. Event-driven microservices using Kafka, SQS, Lambda across video lifecycle. Includes After Effects template injection, ChatGPT voiceover scripts, Google TTS audio synthesis, and AWS Deadline Cloud as rendering farm.",
+      "AI-powered system for generating car presentation videos from client inputs. Built on event-driven microservices with Kafka, SQS, and Lambda, plus After Effects template injection, ChatGPT script generation, Google TTS voiceovers, and AWS Deadline Cloud rendering.",
     tech: ["Kafka", "SQS", "Lambda", "OpenAI", "After Effects", "AWS Deadline Cloud"],
     category: "ai",
     github: "#",
@@ -121,7 +120,7 @@ export const projects = [
   {
     title: "SmartView Embed Platform",
     description:
-      "Embeddable widget displaying images, videos, and 3D assets in a single window on client websites. Optimized VIN-based data fetching by 300x (3-4s to 2-10ms), improved DOM observation logic, and significantly reduced CPU usage.",
+      "Embeddable widget for images, videos, and 3D assets on dealer websites. Reduced load time from 3-4 seconds to 2-10 milliseconds, improved DOM rendering logic, and significantly lowered CPU usage across 200+ client sites.",
     tech: ["React", "TypeScript", "Node.js"],
     category: "web",
     github: "#",
