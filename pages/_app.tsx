@@ -1,37 +1,31 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
-import { useState, useCallback } from "react";
-import { Geist, Geist_Mono } from "next/font/google";
-import CustomCursor from "@/components/CustomCursor";
-import Preloader from "@/components/Preloader";
+import { Instrument_Serif, Archivo, JetBrains_Mono } from "next/font/google";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const display = Instrument_Serif({
+  variable: "--font-instrument-serif",
   subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const sans = Archivo({
+  variable: "--font-archivo",
   subsets: ["latin"],
+  display: "swap",
+});
+
+const mono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
+  subsets: ["latin"],
+  display: "swap",
 });
 
 export default function App({ Component, pageProps }: AppProps) {
-  const [loading, setLoading] = useState(true);
-
-  const handlePreloaderComplete = useCallback(() => {
-    setLoading(false);
-  }, []);
-
   return (
-    <div
-      className={`${geistSans.variable} ${geistMono.variable} noise-overlay`}
-      style={{ cursor: "none" }}
-    >
-      <Preloader onComplete={handlePreloaderComplete} />
-      <CustomCursor />
-      <div aria-hidden={loading}>
-        <Component {...pageProps} />
-      </div>
+    <div className={`${display.variable} ${sans.variable} ${mono.variable}`}>
+      <Component {...pageProps} />
     </div>
   );
 }
