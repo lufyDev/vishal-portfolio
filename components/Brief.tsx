@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { personalInfo, masthead, ledger, resolutions, experience } from "@/data/portfolio";
 import { FiGithub, FiLinkedin, FiMail, FiArrowDown } from "react-icons/fi";
 import { useMediaQuery } from "@/components/externalState";
+import Portrait from "@/components/Portrait";
 
 /* ------------------------------------------------------------------ *
  * The one idea on the front page: a vague ask turning into a real
@@ -97,19 +98,27 @@ export default function Brief() {
           {masthead.eyebrow} · {personalInfo.locus}
         </p>
 
-        <h1 className="display rise max-w-[15ch] text-[clamp(2.7rem,7.6vw,5.4rem)]">
-          {masthead.headline}
-        </h1>
+        <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,0.75fr)] lg:gap-16">
+          <div>
+            <h1 className="display rise max-w-[14ch] text-[clamp(2.7rem,6.6vw,4.7rem)]">
+              {masthead.headline}
+            </h1>
 
-        <p className="mt-8 max-w-[52ch] text-[clamp(1.05rem,2vw,1.3rem)] leading-relaxed text-soft">
-          {masthead.lede}
-        </p>
+            <p className="mt-8 max-w-[50ch] text-[clamp(1.05rem,2vw,1.25rem)] leading-relaxed text-soft">
+              {masthead.lede}
+            </p>
 
-        <p className="display mt-6 max-w-[40ch] text-[clamp(1.2rem,2.4vw,1.6rem)] text-vermilion">
-          {masthead.kicker}
-        </p>
+            <p className="display mt-6 max-w-[38ch] text-[clamp(1.2rem,2.3vw,1.55rem)] text-vermilion">
+              {masthead.kicker}
+            </p>
+          </div>
 
-        <div className="mt-10 flex flex-wrap items-center gap-2">
+          <div className="lg:pt-3">
+            <Portrait />
+          </div>
+        </div>
+
+        <div className="mt-12 flex flex-wrap items-center gap-2">
           <a
             href="#work"
             className="stamp flex items-center gap-2 border border-ink bg-ink px-5 py-3 text-paper transition-colors hover:border-vermilion hover:bg-vermilion"
