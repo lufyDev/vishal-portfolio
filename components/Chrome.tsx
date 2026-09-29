@@ -3,11 +3,10 @@ import { personalInfo } from "@/data/portfolio";
 import { useTheme, setTheme } from "@/components/externalState";
 
 const nav = [
-  { href: "#brief", label: "Brief" },
-  { href: "#notes", label: "Notes" },
-  { href: "#cases", label: "Case files" },
-  { href: "#leverage", label: "Leverage" },
-  { href: "#instruments", label: "Instruments" },
+  { href: "#how", label: "How I work" },
+  { href: "#work", label: "Work" },
+  { href: "#ai", label: "On AI" },
+  { href: "#about", label: "About" },
   { href: "#contact", label: "Contact" },
 ];
 
@@ -40,8 +39,8 @@ export function Masthead() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-rule bg-paper/92 backdrop-blur-sm">
-      <div className="mx-auto flex max-w-[1180px] items-center gap-6 px-5 py-3 md:px-8">
-        <a href="#brief" className="group flex items-baseline gap-2.5 shrink-0">
+      <div className="mx-auto flex max-w-[1120px] items-center gap-6 px-5 py-3.5 md:px-10">
+        <a href="#top" className="group flex items-baseline gap-2.5 shrink-0">
           <span className="display text-[19px] leading-none">{personalInfo.name}</span>
           <span className="stamp hidden text-faint sm:inline">Engineer</span>
         </a>
@@ -90,18 +89,14 @@ export function Masthead() {
 export function Footer() {
   return (
     <footer className="border-t border-rule">
-      <div className="mx-auto max-w-[1180px] px-5 py-10 md:px-8">
+      <div className="mx-auto max-w-[1120px] px-5 py-12 md:px-10">
         <div className="flex flex-wrap items-baseline justify-between gap-4">
-          <p className="stamp text-faint">
-            {personalInfo.name} · Engineering dossier · built and measured by hand
-          </p>
-          <p className="stamp text-faint">
-            Next.js · no template · {new Date().getFullYear()}
-          </p>
+          <p className="stamp text-faint">{personalInfo.name}</p>
+          <p className="stamp text-faint">Built by hand · {new Date().getFullYear()}</p>
         </div>
-        <p className="marginalia mt-5 max-w-2xl text-[15px] leading-relaxed">
-          Every figure on this page carries how it was measured. Where something is unmeasured or
-          unshipped, it says so.
+        <p className="marginalia mt-5 max-w-[56ch] text-[16px]">
+          Every number here comes with how I measured it. Where I haven&apos;t measured something,
+          I say so.
         </p>
       </div>
     </footer>
@@ -111,26 +106,20 @@ export function Footer() {
 /* Shared section furniture -------------------------------------------- */
 
 export function SectionHead({
-  fig,
   stamp,
   title,
   lede,
 }: {
-  fig: string;
   stamp: string;
   title: string;
   lede?: string;
 }) {
   return (
-    <div className="mb-10 md:mb-14">
-      <div className="mb-5 flex items-center gap-3">
-        <span className="stamp text-vermilion">{fig}</span>
-        <span className="h-px flex-1 bg-rule" />
-        <span className="stamp text-faint">{stamp}</span>
-      </div>
-      <h2 className="display max-w-4xl text-[clamp(1.9rem,4.6vw,3.1rem)]">{title}</h2>
+    <div className="mb-12 md:mb-16">
+      <p className="stamp mb-5 text-vermilion">{stamp}</p>
+      <h2 className="display max-w-[20ch] text-[clamp(1.9rem,4.4vw,3rem)]">{title}</h2>
       {lede && (
-        <p className="mt-4 max-w-2xl text-[17px] leading-relaxed text-soft">{lede}</p>
+        <p className="mt-5 max-w-[58ch] text-[16.5px] leading-relaxed text-soft">{lede}</p>
       )}
     </div>
   );
@@ -149,9 +138,9 @@ export function Section({
     <section
       id={id}
       className={`border-b border-rule ${sunk ? "bg-sunk" : ""}`}
-      style={{ scrollMarginTop: "4rem" }}
+      style={{ scrollMarginTop: "5rem" }}
     >
-      <div className="mx-auto max-w-[1180px] px-5 py-16 md:px-8 md:py-24">{children}</div>
+      <div className="mx-auto max-w-[1120px] px-5 py-20 md:px-10 md:py-28">{children}</div>
     </section>
   );
 }

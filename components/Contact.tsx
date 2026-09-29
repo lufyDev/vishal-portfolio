@@ -16,21 +16,17 @@ const lines = [
 
 export default function Contact() {
   return (
-    <section id="contact" className="border-b border-rule" style={{ scrollMarginTop: "4rem" }}>
-      <div className="mx-auto max-w-[1180px] px-5 py-16 md:px-8 md:py-24">
-        <div className="mb-10 flex items-center gap-3">
-          <span className="stamp text-vermilion">Fig. 07</span>
-          <span className="h-px flex-1 bg-rule" />
-          <span className="stamp text-faint">Contact</span>
-        </div>
+    <section id="contact" className="border-b border-rule" style={{ scrollMarginTop: "5rem" }}>
+      <div className="mx-auto max-w-[1120px] px-5 py-20 md:px-10 md:py-28">
+        <p className="stamp mb-10 text-vermilion">Contact</p>
 
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:gap-16">
           <div>
             <h2 className="display text-[clamp(2.4rem,7vw,4.6rem)]">{contact.title}</h2>
-            <p className="mt-5 max-w-xl text-[17px] leading-relaxed text-soft">{contact.lede}</p>
-            <p className="marginalia mt-6 max-w-xl text-[16px] leading-relaxed">
-              I&apos;ll also happily argue the other side of anything on this page — most of what I
-              know came from being wrong out loud.
+            <p className="mt-6 max-w-[50ch] text-[clamp(1.05rem,2vw,1.25rem)] leading-relaxed text-soft">{contact.lede}</p>
+            <p className="marginalia mt-6 max-w-[44ch] text-[17px]">
+              I&apos;ll happily argue the other side of anything on this page. Most of what I know
+              came from being wrong out loud.
             </p>
           </div>
 
@@ -57,7 +53,7 @@ export default function Contact() {
               href={personalInfo.resumeUrl}
               className="stamp mt-6 flex items-center justify-between gap-3 border border-ink bg-ink px-4 py-3.5 text-paper transition-colors hover:border-vermilion hover:bg-vermilion"
             >
-              <span>Download résumé</span>
+              <span>Download my résumé</span>
               <FiArrowUpRight size={14} />
             </a>
           </div>

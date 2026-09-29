@@ -189,7 +189,7 @@ function Frame({
 function DispatchBeforeWrite() {
   return (
     <Frame h={286}>
-      <Note x={0} y={12}>BEFORE — the guard reads a status that has not been written yet</Note>
+      <Note x={0} y={12}>BEFORE — the check reads a status nothing has written yet</Note>
 
       <Box x={0} y={38} w={112} lines={["SAVE #1", "t = 0"]} />
       <Box x={0} y={150} w={112} lines={["SAVE #2", "t = +40s"]} />
@@ -197,14 +197,14 @@ function DispatchBeforeWrite() {
       <Arrow from={[112, 61]} to={[168, 88]} />
       <Arrow from={[112, 173]} to={[168, 122]} />
 
-      <Box x={170} y={82} w={124} h={46} lines={["GUARD", "status ≠ in_progress"]} />
+      <Box x={170} y={82} w={124} h={46} lines={["IS IT FREE?", "check the status"]} />
       <Arrow from={[294, 105]} to={[344, 105]} label="passes twice" labelDy={-8} tone="verm" />
-      <Box x={346} y={82} w={124} h={46} lines={["DISPATCH", "→ render queue"]} tone="verm" />
+      <Box x={346} y={82} w={124} h={46} lines={["SEND IT", "to the queue"]} tone="verm" />
       <Arrow from={[470, 105]} to={[520, 105]} />
-      <Box x={522} y={82} w={130} h={46} lines={["WRITE status", "= in_progress"]} />
+      <Box x={522} y={82} w={130} h={46} lines={["MARK IT", "busy"]} />
 
       <Arrow from={[652, 105]} to={[700, 105]} />
-      <Box x={702} y={82} w={96} h={46} lines={["2 RENDERS", "1 delivered"]} tone="verm" />
+      <Box x={702} y={82} w={96} h={46} lines={["2 RENDERS", "1 video"]} tone="verm" />
 
       {/* the window bracket */}
       <path
@@ -214,18 +214,18 @@ function DispatchBeforeWrite() {
         strokeWidth={1}
       />
       <Note x={499} y={174} tone="verm" anchor="middle">
-        the window — both copies already enqueued before either write lands
+        the gap — both jobs are sent before either one is marked busy
       </Note>
 
       <path d="M 0 202 L 800 202" stroke={RULE} strokeDasharray="3 4" strokeWidth={1} fill="none" />
 
-      <Note x={0} y={224} tone="blue">AFTER — one conditional update, so there is no window at all</Note>
-      <Box x={0} y={234} w={188} h={44} lines={["CLAIM", "compare-and-set status"]} tone="blue" />
+      <Note x={0} y={224} tone="blue">AFTER — mark and send in one step, so there is no gap</Note>
+      <Box x={0} y={234} w={188} h={44} lines={["CLAIM IT", "mark busy + send, together"]} tone="blue" />
       <Arrow from={[188, 256]} to={[238, 256]} tone="blue" />
-      <Box x={240} y={234} w={124} h={44} lines={["DISPATCH"]} tone="blue" />
-      <Note x={380} y={252} tone="blue">#2 loses the claim and never dispatches.</Note>
+      <Box x={240} y={234} w={124} h={44} lines={["SEND IT"]} tone="blue" />
+      <Note x={380} y={252} tone="blue">#2 finds it busy and stops.</Note>
       <Note x={380} y={266}>
-        Consumer dedup cannot help — both copies were already enqueued.
+        Checking at the other end can&apos;t help — both were already queued.
       </Note>
     </Frame>
   );
@@ -240,30 +240,30 @@ function FitLoop() {
 
       {/* the deleted estimator */}
       <g>
-        <Box x={0} y={112} w={188} h={44} lines={["ESTIMATE from tokens", "5 tokens ≠ 9 spoken words"]} dashed />
+        <Box x={0} y={112} w={188} h={44} lines={["GUESS from word count", "5 written ≠ 9 spoken"]} dashed />
         <path d="M 4 116 L 184 152 M 184 116 L 4 152" stroke={VERM} strokeWidth={1.2} />
-        <Note x={0} y={172} tone="verm">deleted — a proxy the constraint never cared about</Note>
+        <Note x={0} y={172} tone="verm">removed — it measured the wrong thing</Note>
       </g>
 
       <Arrow from={[120, 48]} to={[214, 48]} label="budget" />
-      <Box x={216} y={26} w={134} h={44} lines={["LLM SCRIPT", "“at most N” + escape"]} />
+      <Box x={216} y={26} w={134} h={44} lines={["AI WRITES IT", "“at most N words”"]} />
       <Arrow from={[350, 48]} to={[400, 48]} />
-      <Box x={402} y={26} w={110} h={44} lines={["TTS", "natural pace"]} />
+      <Box x={402} y={26} w={110} h={44} lines={["READ ALOUD", "normal speed"]} />
       <Arrow from={[512, 48]} to={[562, 48]} />
-      <Box x={564} y={26} w={110} h={44} lines={["MP3 BYTES"]} />
+      <Box x={564} y={26} w={110} h={44} lines={["AUDIO FILE"]} />
       <Arrow from={[674, 48]} to={[712, 48]} />
-      <Box x={714} y={26} w={86} h={44} lines={["MEASURE", "frame walk"]} tone="verm" />
+      <Box x={714} y={26} w={86} h={44} lines={["MEASURE IT", "real length"]} tone="verm" />
 
       {/* compare + loop back */}
       <Arrow from={[757, 70]} to={[757, 100]} tone="verm" />
-      <Box x={648} y={102} w={152} h={44} lines={["COMPARE vs SLOT", "tolerance ±0.06s"]} tone="verm" />
+      <Box x={648} y={102} w={152} h={44} lines={["DOES IT FIT?", "within 0.06s"]} tone="verm" />
       <Arrow
         from={[648, 124]}
         to={[283, 72]}
         tone="verm"
         dashed
         bend={78}
-        label="shorten above 1.15× rate  ·  lengthen below 0.7×"
+        label="too long → shorten  ·  too short → lengthen"
         labelAt={0.5}
         labelDy={16}
       />
@@ -273,9 +273,9 @@ function FitLoop() {
 
       <path d="M 0 238 L 800 238" stroke={RULE} strokeDasharray="3 4" strokeWidth={1} fill="none" />
       <Note x={0} y={258}>
-        A safety factor is a guess about your proxy&apos;s error. A measurement deletes the proxy.
+        A safety margin is just a guess about your guess. Measuring removes it.
       </Note>
-      <Note x={800} y={258} anchor="end">0.06s = one MP3 frame</Note>
+      <Note x={800} y={258} anchor="end">0.06s = the smallest chunk an MP3 has</Note>
     </Frame>
   );
 }
@@ -286,11 +286,11 @@ function EventCarried() {
   return (
     <Frame h={316}>
       <Note x={0} y={12}>
-        Trigger at render-complete, not at price-change: the new video does not exist yet at
-        price-change time.
+        Trigger when the video finishes, not when the price changes — at price-change
+        time the new video does not exist yet.
       </Note>
 
-      <Box x={0} y={30} w={130} h={46} lines={["RENDER COMPLETE", "the only trigger"]} tone="blue" />
+      <Box x={0} y={30} w={130} h={46} lines={["VIDEO FINISHES", "the only trigger"]} tone="blue" />
       <Arrow from={[130, 53]} to={[186, 53]} label="full payload" />
 
       {/* stateless region */}
@@ -304,35 +304,35 @@ function EventCarried() {
         strokeWidth={1}
         strokeDasharray="4 3"
       />
-      <Note x={286} y={34} tone="verm" anchor="middle">no db · no vpc · no creds</Note>
-      <Box x={202} y={44} w={168} h={46} lines={["STATELESS CONSUMER", "upsert one listing"]} tone="verm" />
+      <Note x={286} y={34} tone="verm" anchor="middle">no database, no passwords</Note>
+      <Box x={202} y={44} w={168} h={46} lines={["RECEIVER", "updates one car"]} tone="verm" />
       <Note x={286} y={122} anchor="middle" tone="verm">
-        the event carries the state
+        the message carries everything
       </Note>
 
       <Arrow from={[384, 67]} to={[434, 67]} />
-      <Box x={436} y={44} w={140} h={46} lines={["KEYED STORE", "one object per listing"]} />
-      <Arrow from={[576, 67]} to={[626, 67]} label="all keys" />
-      <Box x={628} y={44} w={172} h={46} lines={["DETERMINISTIC RENDER", "never patched in place"]} tone="blue" />
+      <Box x={436} y={44} w={140} h={46} lines={["STORE", "one file per car"]} />
+      <Arrow from={[576, 67]} to={[626, 67]} label="all cars" />
+      <Box x={628} y={44} w={172} h={46} lines={["REBUILD WHOLE FILE", "never edited in place"]} tone="blue" />
 
       <Arrow from={[714, 90]} to={[714, 132]} />
       <Box x={628} y={134} w={172} h={44} lines={["CDN"]} />
-      <Arrow from={[714, 178]} to={[714, 214]} label="polls on its own clock" labelDy={-4} />
-      <Box x={628} y={216} w={172} h={44} lines={["EXTERNAL CRAWLER", "caches on the URL string"]} dashed />
+      <Arrow from={[714, 178]} to={[714, 214]} label="checks on its own schedule" labelDy={-4} />
+      <Box x={628} y={216} w={172} h={44} lines={["AD PLATFORM", "remembers files by address"]} dashed />
       <Note x={800} y={280} anchor="end" tone="verm">
-        a re-render at a stable URL is invisible to it — silently
+        a new video at the same address is invisible to it
       </Note>
 
       {/* replay */}
-      <Box x={0} y={216} w={182} h={44} lines={["REBUILD API", "bootstrap · loss · stale"]} tone="blue" />
-      <Arrow from={[91, 216]} to={[91, 80]} tone="blue" label="replay = the same path" labelDy={-4} labelAt={0.6} />
+      <Box x={0} y={216} w={182} h={44} lines={["REBUILD", "first run · lost · stale"]} tone="blue" />
+      <Arrow from={[91, 216]} to={[91, 80]} tone="blue" label="re-run uses the same path" labelDy={-4} labelAt={0.6} />
       <Arrow from={[182, 238]} to={[236, 238]} tone="blue" />
-      <Note x={244} y={235} tone="blue">no special recovery mode, so it cannot rot</Note>
+      <Note x={244} y={235} tone="blue">no special repair mode, so it cannot rot</Note>
       <Note x={244} y={250}>
-        Patching in place would race; one bad write
+        Editing in place would clash, and one bad write
       </Note>
       <Note x={244} y={263}>
-        corrupts every listing in the file at once.
+        would ruin every car in the file at once.
       </Note>
 
     </Frame>
@@ -343,14 +343,14 @@ function EventCarried() {
 
 function Ratchet() {
   const rows = [
-    { label: "SESSION 1", ok: 8, note: "9th font locked → raises → 8 leaked" },
-    { label: "SESSION 2", ok: 5, note: "fails earlier → 5 more leaked" },
-    { label: "SESSION 3", ok: 2, note: "worker effectively dead" },
+    { label: "SESSION 1", ok: 8, note: "9th font locked → stops → 8 left stuck" },
+    { label: "SESSION 2", ok: 5, note: "fails earlier → 5 more stuck" },
+    { label: "SESSION 3", ok: 2, note: "machine basically unusable" },
   ];
   return (
     <Frame h={296}>
       <Note x={0} y={12} tone="verm">
-        BEFORE — a failure that makes the next failure more likely
+        BEFORE — every failure makes the next one worse
       </Note>
 
       {rows.map((r, i) => {
@@ -388,25 +388,25 @@ function Ratchet() {
 
       <Arrow from={[40, 32]} to={[40, 160]} tone="verm" />
       <Note x={0} y={186} tone="verm">
-        onEnter raised, so onExit never ran, so nothing was ever cleaned up.
+        It stopped before it started, so the cleanup step never ran.
       </Note>
       <Note x={0} y={200}>
-        Install order comes from set iteration under randomised hashing, so a different font
+        The install order changes every run, so a different font fails each time —
       </Note>
       <Note x={0} y={213}>
-        fails each run — which is exactly what made it look like flaky infrastructure.
+        which is exactly why people thought the machines were just flaky.
       </Note>
 
       <path d="M 0 224 L 800 224" stroke={RULE} strokeDasharray="3 4" strokeWidth={1} fill="none" />
 
-      <Note x={0} y={244} tone="blue">AFTER — the leak is made harmless rather than absent</Note>
-      <Box x={0} y={254} w={150} h={38} lines={["SORTED + DEDUPED", "deterministic order"]} tone="blue" />
+      <Note x={0} y={244} tone="blue">AFTER — the leftovers are made harmless</Note>
+      <Box x={0} y={254} w={150} h={38} lines={["SAME ORDER", "every single run"]} tone="blue" />
       <Arrow from={[150, 273]} to={[186, 273]} tone="blue" />
-      <Box x={188} y={254} w={162} h={38} lines={["IDEMPOTENT INSTALL", "tolerates present + locked"]} tone="blue" />
+      <Box x={188} y={254} w={162} h={38} lines={["SAFE TO RE-RUN", "skips ones already there"]} tone="blue" />
       <Arrow from={[350, 273]} to={[386, 273]} tone="blue" />
-      <Box x={388} y={254} w={158} h={38} lines={["MANIFEST CLEANUP", "only what I installed"]} tone="blue" />
+      <Box x={388} y={254} w={158} h={38} lines={["CLEANS UP AFTER", "only what it installed"]} tone="blue" />
       <Arrow from={[546, 273]} to={[582, 273]} tone="blue" />
-      <Box x={584} y={254} w={216} h={38} lines={["FLEET SELF-HEALS", "as workers cycle"]} tone="blue" />
+      <Box x={584} y={254} w={216} h={38} lines={["MACHINES FIX", "themselves over time"]} tone="blue" />
     </Frame>
   );
 }
@@ -415,21 +415,21 @@ function Ratchet() {
 
 function VoiceCascade() {
   const chain: { lines: string[]; tone?: Tone }[] = [
-    { lines: ["VAD", "silero ~1ms"] },
-    { lines: ["ASR", "streaming"] },
-    { lines: ["TURN DETECT", "semantic"] },
-    { lines: ["LLM + TOOLS", "idempotent"], tone: "blue" },
-    { lines: ["TTS", "~100ms ttfb"] },
+    { lines: ["HEARS SPEECH", "~1ms"] },
+    { lines: ["SPEECH→TEXT", "as they talk"] },
+    { lines: ["ARE THEY DONE?", "not just silence"] },
+    { lines: ["AI + ACTIONS", "safe to retry"], tone: "blue" },
+    { lines: ["TEXT→SPEECH", "starts in ~100ms"] },
   ];
   return (
     <Frame h={292}>
       <Note x={0} y={12}>
-        Cascaded on purpose: every stage leaves a transcript or a tool-call record.
+        Separate steps on purpose: each one leaves a record you can read later.
       </Note>
 
       <Box x={0} y={40} w={82} h={48} lines={["CALLER"]} />
       <Arrow from={[82, 64]} to={[94, 64]} />
-      <Box x={96} y={40} w={92} h={48} lines={["TRANSPORT", "telephony |", "browser mic"]} tone="verm" />
+      <Box x={96} y={40} w={92} h={48} lines={["CONNECTION", "phone |", "browser mic"]} tone="verm" />
       <Arrow from={[188, 64]} to={[200, 64]} />
 
       {chain.map((c, i) => {
@@ -447,7 +447,7 @@ function VoiceCascade() {
         from={[745, 88]}
         to={[143, 88]}
         bend={58}
-        label="audio back to the caller"
+        label="speech back to the caller"
         labelDy={-6}
       />
 
@@ -458,22 +458,22 @@ function VoiceCascade() {
         w={594}
         h={46}
         lines={[
-          "BARGE-IN: stop tts · flush buffer · cancel llm · truncate history",
-          "to what the caller actually heard — not to what was generated",
+          "IF THEY INTERRUPT: stop talking · drop the audio · cancel the AI",
+          "and only remember what they actually heard, not what was said",
         ]}
         tone="verm"
       />
       <Arrow from={[41, 90]} to={[200, 186]} tone="verm" bend={26} label="interrupt" labelAt={0.42} labelDy={-6} />
 
-      <Note x={0} y={236} tone="verm">one interface, two implementations —</Note>
-      <Note x={0} y={249}>the pipeline never knows it is on a phone.</Note>
+      <Note x={0} y={236} tone="verm">one connection layer, two versions —</Note>
+      <Note x={0} y={249}>the rest of it never knows it is a phone.</Note>
 
       <path d="M 0 262 L 800 262" stroke={RULE} strokeDasharray="3 4" strokeWidth={1} fill="none" />
       <Note x={0} y={282} tone="blue">
-        budget: p50 &lt; 800ms · p95 &lt; 1.5s · endpointing wait is the largest line item
+        target: under 0.8s usually, 1.5s at worst
       </Note>
       <Note x={800} y={282} anchor="end" tone="verm">
-        emergency detection: recall, not accuracy
+        emergencies: never miss one
       </Note>
     </Frame>
   );
@@ -484,18 +484,18 @@ function VoiceCascade() {
 function EvalTiers() {
   return (
     <Frame h={302}>
-      <Note x={0} y={12} tone="blue">LIVE PATH — latency-bound, cost-indifferent (3s budget)</Note>
-      <Box x={0} y={24} w={112} h={44} lines={["MIC", "one take"]} />
+      <Note x={0} y={12} tone="blue">LIVE — must be fast, cost does not matter (3 seconds)</Note>
+      <Box x={0} y={24} w={112} h={44} lines={["HE TALKS", "one take"]} />
       <Arrow from={[112, 46]} to={[150, 46]} />
-      <Box x={152} y={24} w={150} h={44} lines={["STREAMING STT", "~200ms to finalise"]} tone="blue" />
+      <Box x={152} y={24} w={150} h={44} lines={["SPEECH→TEXT", "as he talks"]} tone="blue" />
       <Arrow from={[302, 46]} to={[340, 46]} />
-      <Box x={342} y={24} w={186} h={44} lines={["ONE STRUCTURED CALL", "draft OR questions — never both"]} tone="blue" />
+      <Box x={342} y={24} w={186} h={44} lines={["ONE AI CALL", "write-up OR a question"]} tone="blue" />
       <Arrow from={[528, 46]} to={[566, 46]} />
-      <Box x={568} y={24} w={112} h={44} lines={["REVIEW", "editable"]} />
+      <Box x={568} y={24} w={112} h={44} lines={["HE CHECKS IT"]} />
       <Arrow from={[680, 46]} to={[718, 46]} />
       <Box x={720} y={24} w={80} h={44} lines={["SAVE"]} />
       <Note x={435} y={84} anchor="middle">
-        a second question round is impossible by construction, not by instruction
+        there is no screen for a second question, so it simply cannot happen
       </Note>
 
       {/* shared spine */}
@@ -505,22 +505,22 @@ function EvalTiers() {
       <Note x={0} y={130}>the only two things</Note>
       <Note x={0} y={143}>the paths share</Note>
 
-      <Note x={0} y={180} tone="verm">OFFLINE EVAL — cost-bound, latency-indifferent</Note>
-      <Box x={0} y={192} w={150} h={44} lines={["TIER 1", "deterministic checks"]} />
+      <Note x={0} y={180} tone="verm">SCORING — must be cheap, can be slow</Note>
+      <Box x={0} y={192} w={150} h={44} lines={["STEP 1", "simple code checks"]} />
       <Arrow from={[150, 214]} to={[186, 214]} />
-      <Box x={188} y={192} w={168} h={44} lines={["TIER 2", "reference-free judge"]} tone="verm" />
+      <Box x={188} y={192} w={168} h={44} lines={["STEP 2", "an AI grades it"]} tone="verm" />
       <Arrow from={[356, 214]} to={[392, 214]} />
-      <Box x={394} y={192} w={150} h={44} lines={["TIER 3", "gold comparison"]} />
+      <Box x={394} y={192} w={150} h={44} lines={["STEP 3", "compare to known answers"]} />
       <Arrow from={[544, 214]} to={[580, 214]} />
-      <Box x={582} y={192} w={218} h={44} lines={["THE GATE", "promote / reject — model and me"]} tone="blue" />
+      <Box x={582} y={192} w={218} h={44} lines={["THE GATE", "keep or reject — AI and me alike"]} tone="blue" />
       <Note x={272} y={252} tone="verm">
-        tier 2 is 83% of the bill, so it runs last and cheapest-first
+        step 2 is 83% of the bill, so the cheap checks run first
       </Note>
 
       <path d="M 0 268 L 800 268" stroke={RULE} strokeDasharray="3 4" strokeWidth={1} fill="none" />
       <Note x={0} y={288}>
-        Noise floor measured before any delta was trusted — the accept threshold had been 5×
-        smaller than the measurement error.
+        I measured my own error bar first. My cut-off for calling something better
+        had been 5 times smaller than that error.
       </Note>
     </Frame>
   );

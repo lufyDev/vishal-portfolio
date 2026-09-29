@@ -1,17 +1,20 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
-import { Instrument_Serif, Archivo, JetBrains_Mono } from "next/font/google";
+import { Newsreader, Inter, JetBrains_Mono } from "next/font/google";
 
-const display = Instrument_Serif({
-  variable: "--font-instrument-serif",
+/* Newsreader and Inter are both noticeably wider and more open than the
+ * fonts they replaced, which is most of the fix for text feeling cramped. */
+
+const display = Newsreader({
+  variable: "--font-serif",
   subsets: ["latin"],
-  weight: "400",
+  weight: ["300", "400"],
   style: ["normal", "italic"],
   display: "swap",
 });
 
-const sans = Archivo({
-  variable: "--font-archivo",
+const sans = Inter({
+  variable: "--font-grotesk",
   subsets: ["latin"],
   display: "swap",
 });

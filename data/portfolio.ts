@@ -1,18 +1,21 @@
 /* ------------------------------------------------------------------ *
  * All site copy lives here.
  *
- * Redaction policy: percentages, ratios and multipliers stay — they are
- * the point and they carry no secrets. Absolute currency figures tied to
- * an employer, client names, vendor names, colleague names and internal
- * service names are genericised.
+ * Two rules for this file:
+ *   1. Plain, short, everyday English. If a simpler word exists, use it.
+ *   2. Very little on the surface. Detail goes behind a click.
+ *
+ * Redaction: percentages and ratios stay — they are the point and carry
+ * no secrets. Client names, vendor names, colleague names, internal
+ * service names and company money figures are kept out.
  * ------------------------------------------------------------------ */
 
 export const personalInfo = {
   name: "Vishal Pundhir",
   short: "Vishal",
   role: "Software Engineer",
-  locus: "India · remote-friendly",
-  school: "BITS Pilani '24",
+  locus: "India",
+  school: "BITS Pilani, 2024",
   email: "vishalpundhirofficial@gmail.com",
   phone: "+91 8193809760",
   resumeUrl:
@@ -25,141 +28,78 @@ export const personalInfo = {
 };
 
 export const masthead = {
-  eyebrow: "Engineering dossier · rev. 2026.09",
-  headline: "Writing the code was never the job.",
-  lede: [
-    "Engineering was always about solving the problem with the best tools the domain hands you. One of those tools now writes code. So the job stands where it always stood — understand what the customer actually needs, break it into parts that can be wrong on their own, find the edge that breaks it, design the system, and prove the number moved.",
-    "AI is the multiplier. The judgment is the load-bearing part.",
-  ],
-  // deliberately not "Full-Stack Engineer" — the claim is the differentiator
-  standfirst: "I turn business problems into systems that hold up in production — and then I prove they did.",
+  eyebrow: "Software engineer",
+  headline: "Writing code was never the job.",
+  lede: "The job is to understand the real problem, break it into parts, find what will break it, build it, and then check that the number actually moved.",
+  kicker: "Tools change. That part doesn't. I use AI to do more — not to think less.",
 };
 
 export const ledger = [
-  { value: "2 yrs", label: "production ownership, inherited systems included" },
+  { value: "2 yrs", label: "running systems in production" },
   { value: "1000+", label: "videos a month through a pipeline I own" },
-  { value: "43%", label: "waste found in spend nobody was measuring" },
-  { value: "125", label: "pages of engineering notes, written from my own sessions" },
+  { value: "43%", label: "waste I found in a cost nobody was checking" },
 ];
 
+export const experience = {
+  stamp: "Right now",
+  line: "Software engineer at an AI automotive company · since June 2024",
+  note: "I own two services end to end. Both were handed to me. Both still run.",
+};
+
 /* ------------------------------ the hero resolve ------------------- */
-/* A vague business ask visibly resolving into a spec. Real cases. */
+/* A vague ask turning into a real answer. Three lines, nothing more. */
 
 export type Resolution = {
   ask: string;
-  steps: { stamp: string; text: string }[];
+  real: string;
+  proof: string;
+  caseId: string;
 };
 
 export const resolutions: Resolution[] = [
   {
-    ask: "The videos are costing us too much.",
-    steps: [
-      {
-        stamp: "What they meant",
-        text: "Not “buy fewer servers.” Four people were arguing about fleet size. Nobody owned the cost per unit — and the unit itself was wrong.",
-      },
-      {
-        stamp: "The edge",
-        text: "Cost per render is not cost per delivered video. We were billing 1.8 renders for every video that shipped.",
-      },
-      {
-        stamp: "The design",
-        text: "Write the idempotency guard before the dispatch, not after. A consumer cannot dedupe what the producer already enqueued twice.",
-      },
-      {
-        stamp: "The number",
-        text: "43% duplicate render rate, about 40% of the render bill — found in two hours of production logs, not in the spreadsheet everyone was quoting.",
-      },
-    ],
+    ask: "The videos cost us too much.",
+    real: "We were paying to make the same video more than once.",
+    proof: "43% of renders were duplicates. Found in two hours of logs.",
+    caseId: "01",
   },
   {
-    ask: "The voiceover gets cut off mid-word.",
-    steps: [
-      {
-        stamp: "What they meant",
-        text: "The guard meant to keep scripts inside their slot was passing while the audio overran. So the guard was measuring the wrong thing.",
-      },
-      {
-        stamp: "The edge",
-        text: "“2025 BMW i7” is 5 text tokens and about 9 spoken words. A budget denominated in tokens cannot guard a constraint denominated in seconds.",
-      },
-      {
-        stamp: "The design",
-        text: "Stop estimating. Measure the rendered audio before upload and close the loop on the real number. A safety factor is a guess about your proxy's error; a measurement deletes the proxy.",
-      },
-      {
-        stamp: "The number",
-        text: "Segment fill 51% → 73%, at natural speaking pace. Cutoffs: zero.",
-      },
-    ],
+    ask: "The voice-over gets cut off mid-word.",
+    real: "The check counted words. The problem was seconds.",
+    proof: "Measured the real audio instead. Cut-offs went to zero.",
+    caseId: "02",
   },
   {
-    ask: "Stop paying a vendor to put our videos in front of buyers.",
-    steps: [
-      {
-        stamp: "What they meant",
-        text: "Own the whole path — from a render finishing, to valid XML on a CDN that somebody else's crawler polls on its own schedule.",
-      },
-      {
-        stamp: "The edge",
-        text: "Instinct says hook the price-change event. But at price-change time the new video does not exist yet. The hook belongs at render completion.",
-      },
-      {
-        stamp: "The design",
-        text: "The event carries the whole payload, so the consumer needs no database and no network into our data stores. Then render the document deterministically — never patch the artifact in place.",
-      },
-      {
-        stamp: "The number",
-        text: "Vendor dependency removed, feed freshness hourly → per-event, and recovery runs the same code path as normal operation — so replay cannot rot.",
-      },
-    ],
+    ask: "Stop paying a vendor to show our videos.",
+    real: "The hook everyone wanted was too early — the video didn't exist yet.",
+    proof: "Built it ourselves. Hourly updates became instant ones.",
+    caseId: "03",
   },
 ];
 
-/* ------------------------------ operating notes -------------------- */
+/* ------------------------------ what I do -------------------------- */
+/* Four lines. No evidence panels, no sub-copy. Skim-readable. */
 
-export const principles = [
+export const approach = [
   {
     n: "01",
-    title: "Start at the customer, not the ticket.",
-    body: "A ticket tells you what somebody typed. The job is what they needed. Some of my best work has been refusing the framing in the request and going to the data instead.",
-    evidence:
-      "Four people argued fleet sizing for a week. The answer was in two hours of logs, and it was not fleet sizing.",
+    title: "I start with the real problem.",
+    body: "A ticket tells you what someone typed. I go and find out what they actually needed.",
   },
   {
     n: "02",
-    title: "Break it down until each piece can be wrong on its own.",
-    body: "Decomposition is how you end up with a system you can debug. If a failure can only be described as “it broke”, it was never decomposed.",
-    evidence:
-      "One “flaky infrastructure” failure was really three: a missing flag, a leak that ratcheted, and randomised iteration order faking intermittency.",
+    title: "I look for what will break it.",
+    body: "The empty field, the message that arrives twice, the ninth file. That is what decides if it survives.",
   },
   {
     n: "03",
-    title: "The edge case is the product.",
-    body: "Happy paths ship themselves. What decides whether a system survives is the null field, the redelivered event, the ninth font, the retry that was already enqueued.",
-    evidence:
-      "One image with a null URL failed all 34 images of a job. The blast radius of a batch is a design decision, not an accident.",
+    title: "I check the number, not the feeling.",
+    body: "Every number I claim comes with how I measured it. If I haven't measured it, I say so.",
   },
   {
     n: "04",
-    title: "Measure in the unit the constraint cares about.",
-    body: "A guard expressed in the wrong unit is not a guard. A number without provenance becomes a quoted fact. Which is why every result on this page ships with a “how measured” column.",
-    evidence:
-      "A hardcoded 15-minute constant was really 37 seconds — a 24× error that had already reached a customer-facing ETA and a cost model.",
-  },
-  {
-    n: "05",
-    title: "Design for the person reading the log at 2am.",
-    body: "Errors that get swallowed, success logged unconditionally, a fallback chain that can never fail — these are the same bug wearing different clothes. Degrade to a visible failure, never a plausible one.",
-    evidence:
-      "Shipping the wrong dealer's logo is worse than shipping no logo. So the chain ends in a counted skip, and a fixture proves it still skips.",
-  },
-  {
-    n: "06",
-    title: "AI is leverage on the judgment, not a substitute for it.",
-    body: "It reads more logs than I can, drafts three architectures so I argue with all three instead of defending the first, and forgets nothing. What it cannot do is decide which number is load-bearing, or say “my hypothesis was wrong.”",
-    evidence:
-      "My first pass at the cost analysis reached the wrong conclusion — by trusting the stale constant. The second pass challenged it. That difference is the entire job.",
+    title: "I use AI to get more done.",
+    body: "It reads more than I can and drafts more options than I'd have time for. Deciding what matters is still my job.",
   },
 ];
 
@@ -170,6 +110,7 @@ export type CaseFile = {
   badge: "work" | "personal";
   domain: string;
   ask: string;
+  headline: string;
   span: string;
   status: string;
   brief: string;
@@ -186,822 +127,587 @@ export const caseFiles: CaseFile[] = [
   {
     id: "01",
     badge: "work",
-    domain: "Cost · measurement · influence",
-    ask: "The videos are costing us too much.",
-    span: "2026-08",
-    status: "Findings landed · fix scoped",
+    domain: "Cost",
+    ask: "The videos cost us too much.",
+    headline: "43% of renders were duplicates",
+    span: "2026",
+    status: "Found · fix scoped",
     brief:
-      "Two large dealer accounts pushed a video pipeline into turnaround trouble. A thread formed around it: my manager wanted priority for a customer, infrastructure quoted +40% to raise the render fleet ceiling, the CTO asked whether we were breaching SLA and whether the concurrency could be serverless. Four people, four framings — and the whole debate was about fleet size and cost. Neither original author of the pipeline was on the team any more, and nobody owned the number everyone was arguing about.",
+      "Two big customers pushed our video pipeline into trouble. Four people were in the thread and each had a different answer. My manager wanted priority for a customer. The infra team quoted 40% more cost to add machines. The CTO asked if we were missing our promise to customers. Everyone was arguing about how many machines to run. Nobody had checked what one video actually cost.",
     decomposition: [
       {
-        label: "Refused the framing",
-        text: "Went to a 2h06m window of production render logs — 95 submits, 97 render jobs — rather than arguing from the cost sheet everyone was quoting.",
+        label: "I stopped arguing and pulled the logs",
+        text: "Two hours of real production logs: 95 jobs sent, 97 jobs run. That is a small window, but it is real, which the cost sheet everyone was quoting was not.",
       },
       {
-        label: "Killed the load-bearing assumption first",
-        text: "The code carried a 10-minute per-message constant and the cost sheet said 15 minutes. Real submit time was 37 seconds. A 24× error that had already reached a customer-facing ETA, a cost model, and this argument.",
+        label: "The number everyone trusted was wrong",
+        text: "The code said each video took 10 minutes. The cost sheet said 15. The real time was 37 seconds. That wrong number had already gone into what we told customers and into the cost plan.",
       },
       {
-        label: "Built a stage-capacity table",
-        text: "Every stage expressed in one shared unit, so the debate had a basis. It showed the render farm was not the constraint for fresh work: the submitter box was 46.5% idle with 565 empty queue polls.",
-      },
-      {
-        label: "Counted distinct ids — and found what nobody had",
-        text: "95 submits resolved to 54 distinct videos; 97 render jobs to 55. 31 videos rendered more than once. One rendered five times.",
-      },
-      {
-        label: "Spacing was the tell",
+        label: "I counted the video IDs",
         edge: true,
-        text: "Nine duplicate pairs fired 35–71 seconds apart against a measured 37-second submit cycle. One cycle apart means both copies were already enqueued — so the producer is at fault, and no amount of consumer retry logic explains it.",
+        text: "95 jobs were only 54 different videos. 31 videos had been made more than once. One had been made five times.",
       },
       {
-        label: "Disproved my own hypothesis",
+        label: "The gaps between them gave it away",
         edge: true,
-        text: "I expected price-change retriggers. Transition counts by source queue came back 30, 11, and a zero exactly where retriggers would have had to appear. Every repeat came from the quality-check path instead. My proposed action was right; my mechanism was wrong, and the zero is what settled it.",
+        text: "The repeats came 35 to 71 seconds apart, and one cycle takes 37 seconds. So both copies were already in the queue before either one started. That means the sender is at fault, not the retry logic.",
       },
       {
-        label: "Then found the defect",
-        text: "The save path dispatches to the queue before writing the in-progress status, so a second save passes the same guard. The block had been copied from a handler that carried implicit idempotency the copy never inherited.",
+        label: "I was wrong about the cause, and said so",
+        edge: true,
+        text: "I expected price-change triggers. The counts showed a zero exactly where those would have appeared. The repeats were all coming from the review step instead. Right thing to fix, wrong reason — and the zero is what proved it.",
+      },
+      {
+        label: "Then the actual bug",
+        text: "The save step puts the job in the queue before it marks the video as busy. So a second save sees a video that still looks free and sends it again.",
       },
     ],
     diagram: "dispatch-before-write",
     diagramCaption:
-      "The window: two saves, one guard, both already enqueued before either status write lands.",
+      "Two saves, one check, and a gap where both jobs are already queued before either one is marked busy.",
     decisions: [
       {
-        chose:
-          "Write the status guard before the dispatch — ideally as one conditional update, so there is no window at all.",
-        insteadOf: "A status check on the consumer.",
+        chose: "Mark it busy first, in the same step that sends it.",
+        insteadOf: "Checking for duplicates on the receiving side.",
         because:
-          "Both copies were already enqueued, so consumer dedup cannot help. And a plain status guard would have broken two legitimate re-render paths.",
+          "Both copies were already in the queue, so the receiver can't help. A simple status check would also have blocked two re-runs we actually want.",
       },
       {
-        chose: "Report cost per delivered video.",
+        chose: "Report the cost per video we deliver.",
         insteadOf: "Cost per render.",
         because:
-          "The unit you quote becomes the unit the organisation plans against. Per render it looked fine; per delivered video it was 1.8× that.",
+          "Whatever number you say out loud is the number people plan with. Per render it looked fine. Per delivered video it was 1.8 times that.",
       },
       {
-        chose: "A standing weekly cost-per-delivered-unit metric.",
-        insteadOf: "A one-off analysis with a nice conclusion.",
+        chose: "Track that cost every week from now on.",
+        insteadOf: "A one-off report with a nice conclusion.",
         because:
-          "The two-line code defect was not the real bug. The absence of the measurement was.",
+          "The two-line bug wasn't the real problem. Nobody counting was the real problem.",
       },
     ],
     metrics: [
       {
-        metric: "duplicate render rate",
+        metric: "duplicate renders",
         before: "43%",
-        after: "fix scoped — a 2-line reorder",
-        how: "distinct render-job ids vs distinct video ids, 2h06m production window",
+        after: "fix scoped — two lines",
+        how: "counted job IDs against video IDs over two hours of live logs",
       },
       {
-        metric: "renders billed per delivered video",
+        metric: "renders paid for per video delivered",
         before: "1.8",
         after: "target 1.0",
-        how: "same window",
+        how: "same logs",
       },
+      { metric: "share of render bill wasted", before: "~40%", after: "—", how: "duplicates × cost per render" },
       {
-        metric: "share of render spend wasted",
-        before: "~40%",
-        after: "—",
-        how: "duplicate count × per-render cost",
-      },
-      {
-        metric: "assumed vs real submit time",
+        metric: "assumed time per video",
         before: "15 min",
-        after: "37 s",
-        how: "95 submits, timestamps paired across two log lines",
+        after: "37 sec",
+        how: "95 real jobs, timed from the logs",
       },
       {
-        metric: "submitter utilisation",
-        before: "assumed saturated",
-        after: "46.5%, 565 empty polls",
-        how: "same window",
-      },
-      {
-        metric: "videos needing a quality fix",
-        before: "untracked",
-        after: "57% — surfaced as an upstream signal",
-        how: "queue-transition attribution",
+        metric: "how busy the machine was",
+        before: "assumed full",
+        after: "46.5%, with 565 empty checks",
+        how: "same logs",
       },
     ],
     reflection:
-      "The duplicate rate had been running for months. No metric emitted it, and no log line ever named a video's render count — you cannot notice what you do not count. I would instrument cost per delivered unit before anyone asks for it. Two things I will say plainly: the first pass at this analysis reached the wrong conclusion by trusting the stale constant, and two of my own recommendations were withdrawn on contact with the data, in front of the same thread.",
-    stack: ["Production log analysis", "SQS", "Node.js", "MongoDB", "ClickHouse / Metabase"],
+      "This had been going on for months. No alert showed it, and no log line ever said how many times a video had been made. You can't notice what nobody counts. Next time I'd track the cost per delivered thing before anyone asks. Also worth saying: my first pass at this got the wrong answer because I trusted the old number, and two of my own suggestions were dropped once the data came in.",
+    stack: ["Log analysis", "SQS", "Node.js", "MongoDB"],
   },
 
   {
     id: "02",
     badge: "work",
-    domain: "LLMs in production · quality",
-    ask: "The voiceover gets cut off mid-word.",
-    span: "2026-07",
+    domain: "AI in production",
+    ask: "The voice-over gets cut off mid-word.",
+    headline: "Cut-offs to zero, 51% → 73% fill",
+    span: "2026",
     status: "Shipped",
     brief:
-      "Generated voiceovers on the video templates were being cut off mid-word. Each video segment has a fixed duration, an LLM writes the script, and text-to-speech renders it. The guard that was supposed to keep scripts inside their slot was passing while the audio overran — across templates and across vehicle makes, with no human reviewing every script.",
+      "Our videos have fixed-length slots. An AI writes a short script for each one, and a text-to-speech service reads it out. The check that was supposed to keep scripts short enough kept passing, while the audio kept getting cut off mid-word.",
     decomposition: [
       {
-        label: "The unit mismatch was the whole bug",
+        label: "The check was counting the wrong thing",
         edge: true,
-        text: "“2025 BMW i7 looks stunning.” is 5 text tokens and about 9 spoken words: “twenty twenty-five” is three, “B-M-W” is three, “i-seven” is two. The budget was computed in tokens against a 2.8-second slot, so the guard passed while the speech overran.",
+        text: "“2025 BMW i7 looks stunning” is five words on the page but about nine when spoken: “twenty twenty-five” is three, “B-M-W” is three, “i-seven” is two. The check counted written words against a slot measured in seconds.",
       },
       {
-        label: "Three stacked failures, not one",
-        text: "Token counting blind to speech expansion; budgets that were arithmetically impossible (“exactly N words” for a slot that could not hold N); and a retry loop that shipped over-length copy anyway after three attempts.",
+        label: "Three problems, not one",
+        text: "The count ignored how speech expands. Some slots asked for more words than could physically fit. And after three tries the code gave up and shipped the long version anyway.",
       },
       {
-        label: "An impossible constraint returns a confident answer, not an error",
+        label: "Never ask an AI for an exact count",
         edge: true,
-        text: "So all 12 script prompts were rewritten to use at-most ceilings with explicit counting rules, a drop-the-year directive, and an escape hatch. Never ask a model for an exact count — it cannot count, and it will not tell you so.",
+        text: "Give it an impossible target and it returns a confident wrong answer, not an error. I rewrote all 12 prompts to say “at most” instead of “exactly”, with a way out if it still can't fit.",
       },
       {
-        label: "Found stale constants while in there",
-        text: "Words-per-minute was configured at 150/165 while the code assumed 130. Another number nobody had re-derived since it was written.",
+        label: "Found old settings nobody had rechecked",
+        text: "The speaking-speed setting said 150 in config while the code assumed 130. Another number that had quietly gone stale.",
       },
       {
-        label: "Anchored “good” to a real reference",
-        text: "A hand-made benchmark video hit 97% fill. That is what made 51% legible as bad and 73% as genuine progress, rather than inventing a threshold and defending it.",
-      },
-      {
-        label: "Made the next occurrence diagnosable from data",
-        text: "Required duration, actual measured duration and the exact prompt sent to the model, written per layer into a per-render log. No repro required.",
+        label: "Picked a real target instead of inventing one",
+        text: "A hand-made video filled 97% of its slots. That is what made 51% look bad and 73% look like real progress.",
       },
     ],
     diagram: "fit-loop",
     diagramCaption:
-      "Estimate deleted. The loop closes on a measured duration, one MP3 frame of tolerance.",
+      "The guess is gone. The loop now checks the real audio length and adjusts until it fits.",
     decisions: [
       {
-        chose:
-          "Measure the rendered audio's real duration before upload — a frame-walking parser, validated against ffprobe.",
-        insteadOf: "A better estimator with a safety factor on top.",
+        chose: "Measure the real length of the audio file before uploading it.",
+        insteadOf: "A better guess with some safety margin.",
         because:
-          "A safety factor is a guess about your proxy's error. A measurement deletes the proxy. When you find yourself tuning a safety factor, that is the signal to stop tuning and go measure.",
+          "A safety margin is just a guess about how wrong your guess is. Measuring removes the guess. If you find yourself tuning a margin, stop and go measure.",
       },
       {
-        chose: "Close the fit loop at 0.06s tolerance.",
-        insteadOf: "Closing tighter.",
-        because:
-          "That is MP3 frame granularity. Closing tighter chases precision the format does not have.",
+        chose: "Accept anything within 0.06 seconds.",
+        insteadOf: "Trying to be more exact.",
+        because: "That is the smallest chunk an MP3 has. Chasing tighter is chasing precision that doesn't exist.",
       },
       {
-        chose: "Leave the shared legacy audio function completely untouched.",
-        insteadOf: "Fixing duration measurement at the shared layer where it 'belongs'.",
+        chose: "Leave the shared audio service alone completely.",
+        insteadOf: "Fixing it where it arguably belonged.",
         because:
-          "Other flows depend on it. Measuring on my side of the boundary kept the blast radius at zero — recorded as a decision with its reasoning, not left implicit for the next person to guess at.",
+          "Other teams depend on it. Doing the work on my side meant I couldn't break anyone. I wrote that down as a decision instead of leaving it unexplained.",
       },
       {
-        chose:
-          "A quality pass on top of fit: shorten above a 1.15 required rate, lengthen below 0.7, with lengthen targets self-calibrating from measured pace.",
-        because:
-          "Fitting the slot is not the same as sounding right. And calibrating from measurement rather than from a constant is how the constant stops going stale.",
+        chose: "Log the needed length, the real length and the exact prompt, for every slot.",
+        because: "So next time someone can find the problem from the data instead of trying to reproduce it.",
       },
     ],
     metrics: [
+      { metric: "how much of the slot was used", before: "51%", after: "73%", how: "test renders, one template" },
+      { metric: "cut-offs", before: "happened every time", after: "zero", how: "same renders" },
+      { metric: "speaking speed", before: "sped up to fit", after: "all normal speed", how: "same renders" },
       {
-        metric: "voiceover segment fill",
-        before: "51%",
-        after: "73%",
-        how: "test renders, one template family",
+        metric: "where the length came from",
+        before: "guessed from word count",
+        after: "measured from the audio file",
+        how: "checked against a known-good tool before trusting it",
       },
-      { metric: "cutoffs", before: "reproducible", after: "zero", how: "same renders" },
-      {
-        metric: "speaking pace",
-        before: "rate-boosted to fit",
-        after: "all natural pace",
-        how: "same renders",
-      },
-      {
-        metric: "duration source",
-        before: "estimated from token count",
-        after: "measured from MP3 bytes, ±0.06s",
-        how: "frame-walking parser, validated against ffprobe",
-      },
-      {
-        metric: "reference point",
-        before: "none",
-        after: "97% fill (hand-made ideal)",
-        how: "manual analysis of a benchmark video",
-      },
-      {
-        metric: "per-layer observability",
-        before: "none",
-        after: "required vs actual duration + exact prompt",
-        how: "per-render log",
-      },
+      { metric: "target to aim at", before: "none", after: "97% (a hand-made video)", how: "measured by hand" },
     ],
     reflection:
-      "I shipped an improved estimator first and the measurement second. The prompt work genuinely needed doing, but had I asked “can I just measure this?” on day one, the intermediate step would have been unnecessary. And 73% against a 97% reference is not finished — the remaining gap is script quality, not fit, which is different work. I would rather say that than present 73% as the destination.",
-    stack: ["OpenAI structured outputs", "Google TTS", "Node.js", "Prompt design", "MongoDB"],
+      "I built a better guess first and only measured second. The prompt work did need doing, but if I had asked “can I just measure this?” on day one, the middle step would have been unnecessary. And 73% against a 97% target is not finished — what's left is script quality, not fitting, which is a different job. I'd rather say that than present 73% as done.",
+    stack: ["OpenAI", "Text-to-speech", "Node.js", "Prompt design"],
   },
 
   {
     id: "03",
     badge: "work",
-    domain: "System design · build vs buy",
-    ask: "Stop paying a vendor to put our videos in front of buyers.",
-    span: "2026-07",
-    status: "Code complete · infra pending",
+    domain: "Design",
+    ask: "Stop paying a vendor to show our videos.",
+    headline: "Vendor replaced, hourly → instant",
+    span: "2026",
+    status: "Built · not live yet",
     brief:
-      "A large dealer group was paying a third party to supply vehicle videos into an ad platform's inventory ads. The platform polls a catalog XML — vehicle id, price, landing page, image, video — and our own vertical ad videos needed to appear there instead. Replacing the vendor meant owning the path end to end: architecture, code, and the open product questions. The requirements were incomplete in the way that actually matters — nobody could tell me the shape of the upstream inventory data.",
+      "A big customer was paying another company to put their car videos into an ad platform. The platform reads a file listing every car — price, link, photo, video — and refreshes from it. Our own videos needed to be in that file instead. So I had to own the whole path, from a video finishing to a valid file sitting on a CDN. Nobody could tell me what the car data actually looked like, which turned out to be the hard part.",
     decomposition: [
       {
-        label: "Wrote down all three architectures, with rejection reasons",
-        text: "(1) An hourly job inside an existing service — couples the feed to a service I do not own. (2) An hourly full-regeneration function — no coupling, but an hour stale and wasteful. (3) Event-carried payloads into a stateless consumer — shipped. Recording the two rejections is the part that survives me leaving.",
+        label: "I wrote down all three designs, including the two I threw away",
+        text: "First: a job inside a service another team owns — too tangled. Second: rebuild the whole file every hour — no tangle, but always up to an hour out of date. Third: send the data with the event — that's the one I built. Writing down why the first two failed is what survives me leaving.",
       },
       {
-        label: "The natural trigger point is wrong",
+        label: "The obvious trigger was the wrong one",
         edge: true,
-        text: "Instinct says hook the price-change event. But at price-change time the new video does not exist yet. The hook belongs at render completion — which covers new and re-rendered videos with one code path instead of two.",
+        text: "You'd naturally hook this to the price change. But when the price changes, the new video doesn't exist yet. The right hook is when the video finishes — which covers new videos and updated ones with the same bit of code.",
       },
       {
-        label: "Reverse-engineered the platform's cache behaviour",
+        label: "The platform caches by web address",
         edge: true,
-        text: "It re-hosts assets and keys its cache on the URL string, so a re-render at a stable URL is invisible to it: no error, nothing in a log, the ad simply never updates. I worked that out from noticing the incumbent vendor appended a redundant-looking timestamp parameter. Redundant-looking details in a working system are usually load-bearing.",
+        text: "It copies our files and remembers them by their address. So a new video at the same address is invisible to it. No error, nothing in a log — the ad just never changes. I worked this out because the old vendor was adding a pointless-looking timestamp to every link. Odd details in a working system are usually there for a reason.",
       },
       {
-        label: "Took a correction and rewrote against reality",
-        text: "I had assumed one inventory endpoint. The correct one unwraps to a narrower object — price, sold, deleted and media metadata are siblings of the node it returns, so that endpoint never returns them. I dropped a short-circuit I had written on the false assumption.",
+        label: "I was wrong about the data source, and rebuilt against the real one",
+        text: "I had assumed one endpoint. The right one returns less than I thought — price and sold status aren't in it at all.",
       },
       {
-        label: "Rebuilt fixtures from the real response shape",
+        label: "Real test data found the real bugs",
         edge: true,
-        text: "Which is what found the actual bugs: price needed a third fallback to the only price field that endpoint has, or every listing would have skipped; and vehicle condition needed a fallback because the field I was reading is always empty on the live path, so new vehicles resolved to used. Found by running fixtures, not by inspection.",
+        text: "Once I built test data from the actual response, two bugs showed up straight away: every car would have been skipped for a missing price, and every new car was being marked as used. Neither was visible by just reading the code.",
       },
       {
-        label: "Surfaced a blocking gap instead of defaulting past it",
-        text: "There was no confirmed image source on the live path — every listing would have skipped. I documented it as an open blocking decision rather than quietly filling it with something plausible.",
-      },
-      {
-        label: "Marked the stopgap in three places",
-        text: "Code, design doc and wiki, each with the removal trigger — so a temporary rung could not silently become the design.",
+        label: "I flagged the blocker instead of guessing past it",
+        text: "There was no confirmed photo source on the live path, which would have skipped every car. I wrote it up as an open question rather than quietly filling it with something plausible.",
       },
     ],
     diagram: "event-carried",
     diagramCaption:
-      "The consumer holds no state: no database, no private network, no data-store credentials. Replay is the normal path.",
+      "The message carries everything, so the receiver needs no database and no access to our systems.",
     decisions: [
       {
-        chose: "Render the whole document deterministically, every time.",
-        insteadOf: "Patching the XML in place.",
+        chose: "Rebuild the whole file from scratch, the same way, every time.",
+        insteadOf: "Editing the existing file in place.",
         because:
-          "Object storage has no append, read-modify-write races under concurrent events, and one bad write corrupts every listing in the file. A keyed store plus a deterministic full render gives incremental behaviour with none of those properties. This is the one I would defend hardest.",
+          "You can't append to a file in cloud storage. Two updates at once fight each other, and one bad write ruins every car in the file. Rebuilding gives the same result with none of that risk. This is the one I'd defend hardest.",
       },
       {
-        chose:
-          "A consumer with no database, no private network and no data-store credentials — the event carries the full payload.",
+        chose: "A receiver with no database and no access to our systems.",
         because:
-          "It runs on somebody else's polling schedule. That removes an entire class of operational dependency from the component I have the least control over.",
+          "It runs on someone else's schedule, and it's the part I control least. Giving it nothing to depend on removes a whole category of 3am problem.",
       },
       {
-        chose: "Recovery as the same code path as normal operation — rebuild is replay.",
-        insteadOf: "A separate recovery mode.",
-        because:
-          "A special mode rots, because it only runs when something is already on fire. This one covers bootstrap, lost events and stale sold entries.",
+        chose: "Recovery uses the exact same code as normal running.",
+        insteadOf: "A separate repair mode.",
+        because: "A repair mode only runs when something is already on fire, so it quietly rots. This one can't.",
       },
       {
-        chose:
-          "An image fallback chain ending in an explicit counted skip, with the dealer logo defaulting to empty.",
-        insteadOf: "A final default that always produces something.",
+        chose: "If there's no photo, skip the car and count it.",
+        insteadOf: "Falling back to something generic.",
         because:
-          "Shipping the wrong dealer's logo is worse than a clean skip. Two fixtures: one proving the fallback fires, one proving it still skips when there is genuinely nothing — because the usual bug is a chain that can never fail.",
+          "Showing the wrong dealer's logo is worse than showing nothing. I wrote two tests: one proving the fallback works, one proving it still skips when there's genuinely nothing. The usual bug is a fallback that can never fail.",
       },
     ],
     metrics: [
+      { metric: "who supplies the videos", before: "outside vendor", after: "us", how: "—" },
+      { metric: "how fresh the file is", before: "up to an hour old", after: "updates as it happens", how: "design" },
       {
-        metric: "video source for the feed",
-        before: "third-party vendor",
-        after: "in-house, code complete",
-        how: "—",
+        metric: "things the receiver depends on",
+        before: "a database, in the first design",
+        after: "none",
+        how: "it has no access to any of our systems",
       },
+      { metric: "designs considered", before: "—", after: "3, with reasons for dropping two", how: "written down" },
       {
-        metric: "feed freshness",
-        before: "hourly (designs 1–2)",
-        after: "per event",
-        how: "architecture",
-      },
-      {
-        metric: "consumer data-store dependencies",
-        before: "required in design 1",
-        after: "zero",
-        how: "the function has no database or private-network access",
-      },
-      {
-        metric: "architectures evaluated",
+        metric: "paths tested locally",
         before: "—",
-        after: "3, all recorded with rejection reasons",
-        how: "design record",
+        after: "add, remove, skip, and re-run safely",
+        how: "test runs",
       },
-      {
-        metric: "paths verified locally",
-        before: "—",
-        after: "upsert · sold-removal · no-image skip · idempotent replay",
-        how: "fixture runs",
-      },
-      {
-        metric: "bugs caught by real-shaped fixtures",
-        before: "—",
-        after: "2 (all-listings-skip on price; new resolving to used)",
-        how: "local runs",
-      },
-      {
-        metric: "live",
-        before: "—",
-        after: "no — infrastructure and account items pending",
-        how: "stated, not rounded up",
-      },
+      { metric: "bugs caught by real test data", before: "—", after: "2", how: "local runs" },
+      { metric: "live", before: "—", after: "not yet — waiting on setup outside my control", how: "said plainly" },
     ],
     reflection:
-      "Honest status: code complete, not live. The remaining items were outside my control and I would rather say so than round it up. The part I would do differently is building fixtures from the real response shape on day one instead of from my assumption about it — every real bug in this project was found the moment I did. Also worth saying: I found live credentials committed in two repositories while working through config. Unrelated to my task, reported anyway.",
-    stack: ["AWS Lambda", "SQS FIFO", "S3", "CloudFront", "Node.js", "XML feeds"],
+      "Honest status: built and tested, not live. The rest was out of my hands and I'd rather say that than round it up. What I'd do differently is build test data from the real response on day one instead of from what I assumed it looked like — every real bug showed up the moment I did. One more thing: I found live passwords committed in two repos while going through the config. Nothing to do with my task. I reported them anyway.",
+    stack: ["AWS Lambda", "SQS", "S3", "CloudFront", "Node.js"],
   },
 
   {
     id: "04",
     badge: "work",
-    domain: "Debugging · inherited systems",
-    ask: "Renders fail at random. It's probably flaky infra.",
-    span: "2026-08",
-    status: "Rewritten · self-healing",
+    domain: "Debugging",
+    ask: "Renders fail at random. Probably just flaky.",
+    span: "2026",
+    headline: "Not random — it got worse every run",
+    status: "Rewritten · fixes itself now",
     brief:
-      "Videos were failing on a managed render farm with a permission error during a font-install step — inside vendor-supplied code, on pooled Windows workers. Neither original author of the pipeline was on the team. Some failures did not reproduce on retry, so it was being treated as flaky infrastructure and retried. Python on Windows against GDI font APIs: not my language, not my operating system, not a system I built.",
+      "Videos were failing on our render machines during a font install step, inside code written by the vendor, not us. Nobody who built this pipeline was still on the team. Some failures didn't happen again on retry, so people had written it off as flaky machines. Python on Windows — not my language, not my operating system, not my code.",
     decomposition: [
       {
-        label: "Corrected the location first",
-        text: "Every path in the traceback was a Windows drive, which made it look like our submitter box. It was a render worker — different machine, different user, session directory somewhere else entirely. Getting that wrong would have wasted the whole investigation.",
+        label: "I checked which machine it was first",
+        text: "Every path in the error looked like our own machine. It was actually a render worker — different machine, different user, different folder. Getting this wrong would have wasted the whole investigation.",
       },
       {
-        label: "The diagnostic hinge: eight fonts copied, the ninth failed",
+        label: "Eight fonts worked. The ninth failed.",
         edge: true,
-        text: "Into that exact directory. A directory-permissions or token problem fails the first one. So it was a per-file lock, not access control — and that single observation redirected everything away from IAM and Windows permissions, which is where this class of error normally leads.",
+        text: "Into the same folder. If it were a permissions problem, the first one would have failed. So it was one locked file, not a locked folder — and that single fact pointed away from where this kind of error normally leads.",
       },
       {
-        label: "Read the vendor source",
-        text: "The font registration call was made without the private-scope flag, so every font entered the system font table and stayed write-locked after the Python process exited. Workers are pooled across sessions — same instance, same user profile — so a font left behind by an earlier session makes the next session's unconditional copy fail.",
+        label: "I read the vendor's code",
+        text: "It installs each font system-wide instead of just for itself, so the file stays locked after the program exits. These machines get reused between jobs, so a font left behind by an earlier job blocks the next one.",
       },
       {
-        label: "Found the ratchet",
+        label: "It got worse every time — that's what made it serious",
         edge: true,
-        text: "Which is what made this a production problem rather than a one-off. The install raises on first failure with no rollback, and because it runs on environment-enter, the environment never entered, so its exit cleanup never ran. Every font installed before the failing one leaked permanently. Each failure poisons the worker further for the next job, and a worker never recovers on its own.",
+        text: "When the install fails it stops and cleans up nothing. So every font it had already installed stays stuck, forever. Each failure leaves the machine in worse shape for the next job, and it never recovers on its own.",
       },
       {
-        label: "Explained the “flakiness” instead of accepting it",
+        label: "The randomness had a reason",
         edge: true,
-        text: "The installer iterates a set. String hashing is randomised per process, so install order differs every run — different failure point, different leaked set, and a retry can pass purely on a lucky order. The observation that “the reprocess didn't show the error” was fully explained by this, not by any real difference in the job.",
+        text: "The code installs fonts in whatever order the computer happens to pick, and that order changes every run. Different font fails, different mess left behind — and sometimes it gets lucky and passes. That fully explains the “it worked on retry” reports.",
       },
       {
-        label: "Found two more leak paths by reading, not reproducing",
-        text: "Both make even a clean exit leak: teardown deletes the registry value first with no try/finally, so a name mismatch skips the unload and the file delete; and cleanup re-derives its list by rescanning a temp directory, so it silently no-ops whenever the attachments are already gone.",
-      },
-      {
-        label: "Explained why this service was hit hardest",
-        text: "Our template family carries pre-built font states per brand, and the submitter walks every layer of every composition — so all nine fonts ship and install on every render of that family, regardless of which brand state is actually active. Maximum collision surface.",
+        label: "Two more leaks, found by reading",
+        text: "Even a clean finish leaked, in two separate ways. I found both by reading the code rather than trying to reproduce them.",
       },
     ],
     diagram: "ratchet",
     diagramCaption:
-      "A failure that makes the next failure more likely. The fix makes leaks harmless rather than absent, so the fleet self-heals as workers cycle.",
+      "Each failure leaves more stuck behind. The fix makes the leftovers harmless, so machines clean themselves up over time.",
     decisions: [
       {
-        chose: "Make existing leaks harmless.",
-        insteadOf: "Cleaning up every already-poisoned worker.",
-        because:
-          "The fleet then self-heals as workers cycle — cheaper than a migration, and lower risk than touching live workers.",
+        chose: "Make the leftovers harmless.",
+        insteadOf: "Going and cleaning every affected machine.",
+        because: "Machines get replaced over time, so the fleet fixes itself. Cheaper, and nothing to break.",
       },
       {
-        chose: "Leave alone any font this session did not install.",
-        because:
-          "A 32-vCPU worker may be running concurrent sessions. A cleanup that reaches outside its own manifest becomes the next bug.",
+        chose: "Never touch a font this job didn't install.",
+        because: "These machines can run several jobs at once. A cleanup that reaches too far becomes the next bug.",
       },
       {
-        chose:
-          "Deterministic install order, idempotent install, rollback on partial failure, manifest-driven cleanup carrying the exact registry name written at install.",
-        insteadOf: "Rescanning a directory to work out what to remove.",
-        because:
-          "Idempotent setup or do not run on pooled machines. And a cleanup that re-derives its own input can silently no-op.",
+        chose: "Same order every time, safe to re-run, and it records exactly what it installed.",
+        insteadOf: "Scanning a folder afterwards to guess what to remove.",
+        because: "A cleanup that works out its own input can quietly do nothing at all.",
       },
       {
-        chose: "State the verification limit out loud.",
+        chose: "Say out loud what I couldn't test.",
         because:
-          "I checked by parsing only — the registry and native-library calls are Windows-only. Saying that is better than letting “fixed” imply “tested”.",
+          "I could only check that the code parses — the rest is Windows-only. Better to say that than let “fixed” sound like “tested”.",
       },
     ],
     metrics: [
       {
-        metric: "failure mode",
-        before: "fatal and ratcheting — each failure poisoned the worker further",
-        after: "leaks harmless; install tolerates present-and-locked",
-        how: "source rewrite",
+        metric: "how it failed",
+        before: "fatal, and worse every time",
+        after: "leftovers are harmless now",
+        how: "rewrote the code",
       },
+      { metric: "install order", before: "different every run", after: "always the same", how: "source" },
+      { metric: "ways it leaked on a clean finish", before: "2", after: "0", how: "read the source" },
+      { metric: "undo on partial failure", before: "none", after: "yes", how: "source" },
       {
-        metric: "install order",
-        before: "nondeterministic (set iteration + hash randomisation)",
-        after: "deterministic (sorted + basename dedupe)",
-        how: "source",
-      },
-      { metric: "clean-exit leak paths", before: "2", after: "0", how: "source read" },
-      { metric: "partial-failure rollback", before: "none", after: "present", how: "source" },
-      {
-        metric: "cleanup",
-        before: "rescan-based, silently no-ops",
-        after: "manifest-driven, exact registry name recorded",
-        how: "source",
-      },
-      {
-        metric: "worker failure rate",
-        before: "unmeasured",
+        metric: "failure rate before vs after",
+        before: "never measured",
         after: "—",
-        how: "the settling measurement I would still want: install failures per 100 jobs, before vs after. The job history has it.",
+        how: "still the measurement I'd want. The job history has it.",
       },
     ],
     reflection:
-      "I will flag my own gap: the before/after failure rate is unmeasured, and it is obtainable. Also, the vendor's script directory is not in version control — the submitter copies it from an install path — so this patch is machine-local and reverts on a reinstall or a new host. I recorded that landmine and offered to vendor the directory into the repo; it did not get done. The generalisable lesson is the one I keep reaching for: a failure that makes the next failure more likely is a different category of problem from a failure that repeats.",
-    stack: ["Python", "Windows / GDI", "AWS managed render farm", "Vendor source", "Node.js"],
+      "Two gaps I'll point out myself. I never measured the before-and-after failure rate, and I could have. And the vendor's folder isn't in version control — it gets copied from an install path — so my fix is stuck on one machine and disappears if that machine is rebuilt. I wrote that down and offered to fix it properly. It didn't happen. The lesson I keep coming back to: a failure that makes the next failure worse is a completely different kind of problem from one that just repeats.",
+    stack: ["Python", "Windows", "AWS render farm", "Node.js"],
   },
 
   {
     id: "05",
     badge: "personal",
-    domain: "Voice AI · real-time systems",
+    domain: "Voice AI",
     ask: "Who answers the phone at 2am?",
-    span: "2026-09 → ongoing",
-    status: "M0 complete · M1 next",
+    headline: "Building it from the raw phone line up",
+    span: "2026 · ongoing",
+    status: "Design done · building",
     brief:
-      "A home-services contractor — HVAC, plumbing — is on a roof at 2pm and asleep at 2am. The missed call goes to a competitor. I am building an inbound voice receptionist that triages, books, or escalates, deliberately on raw telephony media streams rather than a hosted agent platform, because the point is to own the pipeline instead of configuring one. Built in numbered checkpoints, each forcing one specific piece of the real-time stack.",
+      "A plumber or AC repair company is on a roof at 2pm and asleep at 2am. The missed call goes to a competitor. I'm building a phone assistant that picks up, works out what's wrong, and either books it or passes it on. I'm doing it on the raw phone connection instead of a ready-made platform, because I want to actually own the thing rather than configure someone else's.",
     decomposition: [
       {
-        label: "Named the business metric before the technical one",
-        text: "Latency is an input, not an output. The outputs are after-hours capture — the actual wedge — booking conversion at roughly 40% against a voicemail's zero, containment rate, emergency-detection recall, and cost per call against a human answering service.",
+        label: "I picked the business numbers first",
+        text: "Speed is an input, not a result. The results are calls caught after hours, bookings made, how many calls it handles without a human, and cost per call compared to an answering service.",
       },
       {
-        label: "Emergency detection is a recall problem, not an accuracy problem",
+        label: "For emergencies, missing one is far worse than over-reacting",
         edge: true,
-        text: "A gas smell classified as routine is the catastrophic failure mode. So accept false positives to drive false negatives toward zero — which is the opposite of what an accuracy metric would have optimised.",
+        text: "A gas smell treated as routine is the disaster case. So it should flag too many emergencies rather than miss one — which is the opposite of what a normal accuracy score would push you towards.",
       },
       {
-        label: "The failure modes that cost real money are correctness, not prosody",
+        label: "The expensive mistakes are facts, not tone",
         edge: true,
-        text: "Hallucinated availability. A double-booking from a race between two concurrent calls. A wrong address. A price quote that may be legally binding.",
+        text: "Making up a time slot. Double-booking because two people called at once. Wrong address. A price quote that might legally count.",
       },
       {
-        label: "Most of the engineering lives in the integration surface",
-        text: "Idempotent tool calls, because a network retry must not double-create a job — and every field-service platform has its own API, data model and quirks.",
-      },
-      {
-        label: "The acoustics are the real adversary",
+        label: "Real calls are messy",
         edge: true,
-        text: "Job-site noise, speakerphone echo, poor cell signal, English/Spanish code-switching, callers who turn hostile once they clock it is not human, kids answering the phone, and emotional callers — no heat, winter, baby at home.",
+        text: "Noisy job sites, speakerphone echo, bad signal, people switching between English and Spanish, people who get rude once they realise it isn't human, and people who are genuinely upset — no heat, winter, baby at home.",
       },
       {
-        label: "Evaluation is the part I already know is hard",
-        text: "Non-deterministic system, no ground truth, and “was that a good call?” is subjective. Regression testing means simulated callers, which is its own checkpoint rather than an afterthought.",
+        label: "Most of the work is in the connections",
+        text: "Every booking system has its own quirks, and a retry over a flaky network must not create the job twice.",
       },
     ],
     diagram: "voice-cascade",
     diagramCaption:
-      "Cascaded on purpose: every stage leaves a transcript or a tool-call record, which is what makes a double-booking debuggable.",
+      "Separate steps on purpose: each one leaves a record, which is what makes a double-booking findable later.",
     decisions: [
       {
-        chose:
-          "A cascaded pipeline — voice activity detection, speech recognition, turn detection, model with tools, speech synthesis.",
-        insteadOf: "Speech-to-speech.",
+        chose: "Speech to text, then the AI, then text to speech — as separate steps.",
+        insteadOf: "One model that takes audio in and gives audio out.",
         because:
-          "The fatal failure mode is a double-booked slot, not awkward prosody, and debugging that needs a transcript and a tool-call log. Speech-to-speech buys lower latency and gives up the audit trail. A companion product would choose the other way.",
+          "The worst thing that can happen is a double-booked slot, not an awkward-sounding voice. Finding that needs a written record of what was said and done. The all-in-one option is faster but leaves no trail.",
       },
       {
-        chose:
-          "A transport interface with two implementations: telephony, and browser microphone.",
+        chose: "One connection layer with two versions — real phone, and browser microphone.",
         because:
-          "The pipeline must not know it is on a phone. I develop 95% of the time against the browser — free, fast, no international call charges — and flip to telephony to validate.",
+          "The rest of the system shouldn't know it's on a phone. I build against the browser most of the time because it's free and fast, and switch to a real call to check.",
       },
       {
-        chose: "Measure the model's time-to-first-token myself.",
-        insteadOf: "Trusting vendor latency numbers.",
-        because:
-          "The budget is p50 under 800ms, and the endpointing wait is the single largest line item in it. A number I did not measure is a number I cannot spend.",
+        chose: "Time the AI myself.",
+        insteadOf: "Trusting the numbers on the vendor's website.",
+        because: "The whole thing has to answer in under a second. A number I didn't measure isn't a number I can spend.",
       },
       {
-        chose:
-          "On barge-in, truncate history to what the caller actually heard.",
-        insteadOf: "Writing the full generated sentence to history.",
+        chose: "If the caller interrupts, only remember what they actually heard.",
+        insteadOf: "Saving the whole sentence the AI generated.",
         because:
-          "Otherwise the agent believes it said something the caller never heard, and every later turn reasons from a false transcript.",
+          "Otherwise the assistant thinks it said something the caller never heard, and every reply after that is built on a lie.",
       },
     ],
     metrics: [
       {
-        metric: "status",
+        metric: "where it is",
         before: "—",
-        after: "M0 complete: architecture, component choices and a per-stage latency budget",
-        how: "checkpoint log",
+        after: "design and component choices done",
+        how: "built in numbered stages",
       },
-      {
-        metric: "latency target",
-        before: "—",
-        after: "p50 < 800ms, p95 < 1.5s, broken down per stage",
-        how: "design, with 8 named levers",
-      },
-      {
-        metric: "emergency detection target",
-        before: "—",
-        after: "~100% recall, false positives accepted",
-        how: "design",
-      },
-      {
-        metric: "prior art",
-        before: "two working hosted prototypes",
-        after: "going one layer lower on purpose",
-        how: "earlier repo",
-      },
-      {
-        metric: "running end to end",
-        before: "—",
-        after: "not yet — M1 is the live audio loop",
-        how: "stated plainly",
-      },
+      { metric: "speed target", before: "—", after: "under 0.8s usually, 1.5s worst case", how: "broken down per step" },
+      { metric: "emergency detection", before: "—", after: "catch all of them, accept false alarms", how: "design" },
+      { metric: "running end to end", before: "—", after: "not yet", how: "said plainly" },
     ],
     reflection:
-      "Built in checkpoints because “build a voice agent” is not a plan. Honest status: the design and the foundations are done, the pipeline is not running yet, and I am not going to describe a design as a product. The decision I am most confident about is the transport interface — the first version of anything like this gets built against whatever is cheapest to iterate on, and that should be a choice rather than an accident.",
-    stack: [
-      "Twilio Media Streams",
-      "Deepgram",
-      "Silero VAD",
-      "Cartesia / ElevenLabs",
-      "Node.js",
-      "Next.js",
-      "MongoDB",
-    ],
+      "I'm building it in numbered stages because “build a voice assistant” is not a plan. Where it honestly stands: design done, nothing running yet, and I'm not going to call a design a product. The choice I'm most sure about is the connection layer — the first version of something like this always gets built against whatever is cheapest to test with, and that should be a decision rather than an accident.",
+    stack: ["Twilio", "Deepgram", "Cartesia", "Node.js", "Next.js", "MongoDB"],
   },
 
   {
     id: "06",
     badge: "personal",
-    domain: "Evaluation · trusting a model",
-    ask: "Fine — but do you trust the model's output?",
-    span: "2026-08",
+    domain: "Testing AI",
+    ask: "Fine — but do you trust what the AI wrote?",
+    headline: "My own error bar was 5× my threshold",
+    span: "2026",
     status: "Delivered",
     brief:
-      "A take-home: a voice-to-written-record flow for auto repair shops. A technician dictates what he found and what he did in one take; the system writes the formal cause and correction, under three seconds from record-done to draft on screen. Plus an evaluation engine that scores every generated record and improves the prompt over time with versioned snapshots. The framing that made it click: this is an evaluation problem wearing a web-app costume. The app took a day. The interesting work was all in trusting the scores.",
+      "A take-home task. A mechanic talks through what he found and what he fixed, and the system writes it up properly — in under three seconds. Plus a scoring system that grades every write-up and improves the instructions over time. The thing that made it click: this is a testing problem dressed up as a web app. The app took a day. The real work was learning to trust the scores.",
     decomposition: [
       {
-        label: "Measured my own noise floor first, and it changed everything",
+        label: "I measured my own error bar first, and it changed everything",
         edge: true,
-        text: "How much does the metric move when nothing changes? My accept threshold was five times smaller than my own measurement error. Every improvement I would have celebrated was inside the noise. The single most valuable thing in the project.",
+        text: "How much does the score move when nothing changes? My cut-off for calling something an improvement was five times smaller than my own margin of error. Every win I would have celebrated was just noise. The most useful thing in the whole project.",
       },
       {
-        label: "Sealed a holdout and scored it once",
+        label: "I locked away a test set and only scored it once",
         edge: true,
-        text: "It caught me overfitting by hand: the best dev score of the whole project fell apart on unseen data, and I reverted it. Stratify, do not shuffle — and small holdouts are noisy by construction, which is itself a number you should know.",
+        text: "It caught me fooling myself. My best score of the project fell apart on data it hadn't seen, so I threw that version away.",
       },
       {
-        label: "The evaluator debugged itself",
-        text: "Ran the deterministic checks against the twenty known-correct answers first. Anything they failed had to be my bug, not the model's. Found three.",
+        label: "The scorer checked itself",
+        text: "I ran my checks against twenty answers I already knew were correct. Anything they marked wrong had to be my bug. Found three.",
       },
       {
-        label: "Automated prompt improvement plateaus — the gate is the real product",
+        label: "Letting the AI improve its own instructions runs out fast",
         edge: true,
-        text: "The improver only ever appended rules; the prompt grew 30% and latency followed, and it ignored an explicit length ceiling when told. Proposals from the model and from me pass through identical gates: the gate caught the model bloating three times, and caught me overfitting once.",
+        text: "It only ever added rules. The instructions grew 30% and got slower, and it ignored a length limit when I gave it one. Its suggestions and mine went through the same gate — which caught it three times and caught me once. The gate turned out to be the actual product.",
       },
       {
-        label: "Using the app found a defect the metrics did not",
+        label: "Using the app found a problem the scores missed",
         edge: true,
-        text: "It asked a technician a bundled, all-caps question, unreadable on a phone in a workshop. The composite score barely penalised it. I fixed it and promoted the fix while stating openly that the composite could not justify the promotion — the targeted metric then moved 16 points on holdout, and the output is plainly better for the person using it.",
+        text: "It asked a mechanic a long question in all capitals, unreadable on a phone in a workshop. The overall score barely cared. I fixed it and said openly that the score couldn't justify it. The specific measure then jumped 16 points.",
       },
       {
-        label: "I instrumented for latency and not for cost",
+        label: "I tracked speed and forgot to track money",
         edge: true,
-        text: "There was a latency column and no token column, so spend was invisible while it accumulated — I found out from the provider's dashboard, not my own tooling. Fixed with per-run token accounting, a cheap-judge default, deterministic subsampling, a free re-score path against stored outputs, and a confirm-before-spending prompt.",
+        text: "No column for cost, so the spend was invisible while it added up. I found out from the billing page, not my own tools.",
       },
     ],
     diagram: "eval-tiers",
     diagramCaption:
-      "Two paths with opposite constraints, sharing only the prompt store and the records table. That is why the judge can be slow.",
+      "Two paths with opposite needs, sharing almost nothing. That's why the slow scorer never makes anyone wait.",
     decisions: [
       {
-        chose:
-          "Two paths with opposite constraints, kept apart: the live path is latency-bound and cost-indifferent, the offline eval path is cost-bound and latency-indifferent.",
+        chose: "Keep the live path and the scoring path completely separate.",
         because:
-          "That separation is the reason the judge can be a slow, expensive model without a technician ever waiting for it. They share only the prompt store and the records table.",
+          "The live path must be fast and can cost whatever it costs. The scoring path can be slow but must be cheap. Keeping them apart is why the scorer can use a slow model without a mechanic ever waiting.",
       },
       {
-        chose:
-          "One structured-output call returning either the finished draft or the clarifying questions.",
-        insteadOf: "A gate call to decide whether to ask, then a draft call.",
+        chose: "One AI call that returns either the write-up or a question.",
+        insteadOf: "One call to decide, then another to write.",
         because:
-          "Two calls double latency inside a three-second budget, and they can contradict each other — the gate says there is enough information, then the writer discovers there is not.",
+          "Two calls double the wait inside a three-second budget, and they can disagree — the first says there's enough information, the second finds there isn't.",
       },
       {
-        chose: "Make a second question round impossible by construction.",
-        insteadOf: "Instructing the model not to ask again.",
+        chose: "Make a second round of questions impossible to reach.",
+        insteadOf: "Telling the AI not to ask again.",
         because:
-          "“What if the model ignores your instruction?” needs an answer that is not hope. When a Q&A round is present in the input the prompt must draft, and the client never renders a second question screen. There is nowhere for it to go.",
+          "“What if it ignores you?” needs a better answer than hope. The screen for a second question doesn't exist, so there's nowhere for it to go.",
       },
       {
-        chose:
-          "Tier the checks cheapest-first: deterministic code, then a reference-free judge, then gold comparison.",
-        because: "The judge was 83% of the bill.",
+        chose: "Run the cheap checks first, the expensive one last.",
+        because: "The AI scorer was 83% of the bill.",
       },
       {
-        chose: "Move the rules from gating input to judging output.",
-        insteadOf: "Regex deciding when to ask a clarifying question.",
+        chose: "Use the rules to grade the output, not to filter the input.",
+        insteadOf: "Pattern-matching the mechanic's words to decide when to ask.",
         because:
-          "Real dictations are far too garbled for that — one transcript read “I suggest to play two electric pocket brake”, meaning replace two electric parking brake actuators. The rules did not die; they became the deterministic tier, where they work fine.",
-      },
-      {
-        chose: "Streaming transcription.",
-        insteadOf: "Upload-then-wait.",
-        because:
-          "Transcription overlaps with speech, so tapping stop costs about 200ms to finalise and the whole budget belongs to the model. Batch would have eaten 1–2 seconds before the model started.",
+          "Real speech is far too messy. One transcript read “I suggest to play two electric pocket brake”, meaning replace two electric parking brake parts. The rules still had a job — just a different one.",
       },
     ],
     metrics: [
-      {
-        metric: "best prompt, dev → sealed holdout",
-        before: "84.6 → —",
-        after: "88.0 → 86.3",
-        how: "holdout scored once, after the decision",
-      },
-      {
-        metric: "prompts rejected by the gate",
-        before: "—",
-        after: "3 model proposals + 1 of my own",
-        how: "no real gain / longer / slower; mine did not transfer",
-      },
-      {
-        metric: "targeted metric on the usability fix",
-        before: "72",
-        after: "88",
-        how: "holdout",
-      },
-      {
-        metric: "live latency",
-        before: "—",
-        after: "p50 ~1.7s warm, inside a 3s budget",
-        how: "instrumented per request",
-      },
-      {
-        metric: "judge share of eval spend",
-        before: "unmeasured",
-        after: "83%",
-        how: "per-run token accounting, added after I noticed it was missing",
-      },
-      {
-        metric: "my own eval spend",
-        before: "$5.16",
-        after: "~$1 for the same runs, done right",
-        how: "provider dashboard, then my own tooling",
-      },
-      {
-        metric: "ask-behaviour agreement",
-        before: "—",
-        after: "~40–50% — and the judge's self-noise on that dimension is 20 points",
-        how: "the metric was broken before the behaviour was",
-      },
+      { metric: "best version, practice → locked test", before: "84.6", after: "88.0 → 86.3", how: "scored once, after deciding" },
+      { metric: "versions the gate rejected", before: "—", after: "3 from the AI, 1 of mine", how: "compared on unseen data" },
+      { metric: "score on the readability fix", before: "72", after: "88", how: "locked test set" },
+      { metric: "time to write-up", before: "—", after: "about 1.7s", how: "measured per request" },
+      { metric: "share of cost from the AI scorer", before: "never tracked", after: "83%", how: "added cost tracking after noticing" },
+      { metric: "what I spent testing", before: "$5.16", after: "about $1 for the same work", how: "billing page, then my own tools" },
     ],
     reflection:
-      "Three gaps I would state in any interview before being asked. The judge has never been validated against a human labeller — twenty gold rows are a proxy, not a truth. Ask-behaviour agreement sits around 40–50%, and since the judge's own self-noise there is twenty points, the metric was broken before the behaviour was. And the real fix in production is mining technician edits: every correction to a draft is a free human label, and that is the first thing I would build next.",
-    stack: [
-      "Next.js",
-      "Deepgram streaming STT",
-      "LLM-as-judge",
-      "Structured outputs",
-      "Prompt versioning",
-      "Vercel",
-    ],
+      "Three gaps I'd raise before being asked. No human has ever checked whether my scorer agrees with a human — twenty known answers is a stand-in, not proof. On deciding when to ask a question, it agrees with me only about half the time, and the scorer disagrees with itself almost that much, so the measure was broken before the behaviour was. And the real fix in a live product is to learn from the mechanic's own edits: every correction is a free, honest example. That's the first thing I'd build next.",
+    stack: ["Next.js", "Deepgram", "AI scoring", "Prompt versioning"],
   },
 ];
 
-/* ------------------------------ the leverage thesis ---------------- */
+/* ------------------------------ the AI bit ------------------------- */
 
 export const leverage = {
-  title: "AI is the multiplier. The judgment is the load-bearing part.",
-  lede: [
-    "Engineering was always about solving the problem with the best tools your domain hands you. A slide rule, a compiler, a profiler — and now a model that reads more logs in a minute than I read in a day. I would be a worse engineer for refusing it, and a replaceable one for outsourcing the thinking to it.",
-    "So here is the split, plainly, because I would rather you read it than infer it.",
-  ],
+  title: "AI is a multiplier. The thinking is still mine.",
+  lede: "Engineering was always about solving problems with the best tools you have. One of those tools now writes code. Refusing it would make me worse at my job. Handing it the thinking would make me replaceable.",
   handOver: {
-    stamp: "What I hand over",
+    stamp: "What I hand to it",
     items: [
-      "Reading two hours of production logs and counting distinct ids across every line of them",
-      "Drafting three architectures, so I argue with all three instead of defending the first one I thought of",
-      "Building fixtures from a real response shape, then exercising every fallback rung including the skip",
-      "Turning each working session into a written page, so a finding survives the week it was found in",
-      "Boilerplate, migrations, and the fourth implementation of a pattern I already chose",
+      "Reading two hours of logs and counting things across every line",
+      "Drafting three designs, so I argue with all three instead of defending my first idea",
+      "Building test data from a real response and trying every path through it",
+      "Writing up each working session, so what I learn survives the week",
+      "Boilerplate, and the fourth copy of a pattern I already chose",
     ],
   },
   staysMine: {
     stamp: "What stays mine",
     items: [
-      "Deciding which number is load-bearing — and refusing the framing when the question itself is wrong",
-      "Noticing that the constant everybody quotes has no provenance",
-      "Choosing what not to fix, and what to make harmless instead of correct",
-      "Saying “my hypothesis was wrong” out loud, in the thread, when the data says so",
+      "Deciding which number actually matters — and pushing back when the question is wrong",
+      "Noticing that the number everyone quotes has no source",
+      "Choosing what not to fix, and what to make harmless instead of perfect",
+      "Saying “I was wrong” in the thread when the data says so",
       "Being the one who owns it at 2am",
     ],
   },
   guardrail: {
-    stamp: "On the record",
-    text: "The analysis that found a 43% duplicate-render rate was done with tooling assistance, and the first pass at it reached the wrong conclusion — by trusting a stale constant. What is genuinely mine: refusing the cost-sheet framing, supplying the production evidence, challenging the assumption that inverted the answer, the attribution call, and the plan. The judgment is the contribution, and it survives the follow-up question. Claiming the mechanics would not, so I don't.",
+    stamp: "Being straight about it",
+    text: "The work that found 43% duplicate renders used AI tooling, and the first pass got the wrong answer because it trusted an old number. What's mine: refusing the framing, pulling the real evidence, questioning the number that flipped the answer, and the plan. The judgment is the part that holds up when you ask a follow-up question. Claiming I did the mechanics wouldn't, so I don't.",
   },
   system: {
-    stamp: "The system I built for myself",
-    text: "A knowledge base that every working session writes into — 125 pages across two wikis. Bugs with root causes, decisions with the alternatives I rejected and why, concepts with where I hit them and what they cost, stories with a measured-impact table and an honesty guardrail on what not to overclaim. Forty-two sessions filed so far. It is the reason this page can show a “how measured” column instead of adjectives.",
+    stamp: "Something I built for myself",
+    text: "A set of notes every working session writes into — 125 pages now. Bugs with their real cause, decisions with the options I turned down, and what each one cost. It's the reason this site can show how I measured things instead of just adjectives.",
   },
 };
 
-/* ------------------------------ instruments ------------------------ */
+/* ------------------------------ tools ------------------------------ */
 
 export const instruments = [
+  { stamp: "Backend", items: ["Node.js", "Python", "Express", "NestJS", "FastAPI", "MongoDB", "SQL"] },
   {
-    stamp: "Systems & backend",
-    items: ["Node.js", "Python", "Express", "NestJS", "FastAPI", "MongoDB", "SQL"],
+    stamp: "Cloud & queues",
+    items: ["AWS", "Kafka", "SQS", "Lambda", "Step Functions", "ECS", "S3", "CloudFront"],
   },
   {
-    stamp: "Event-driven & cloud",
-    items: [
-      "Kafka",
-      "SQS / SQS FIFO",
-      "AWS Lambda",
-      "Step Functions",
-      "ECS",
-      "S3",
-      "EC2",
-      "CloudFront",
-      "Managed render farm",
-    ],
+    stamp: "AI",
+    items: ["Structured outputs", "LangGraph", "RAG", "Tool calling", "MCP", "AI scoring", "Speech in / out"],
   },
-  {
-    stamp: "AI in production",
-    items: [
-      "Structured outputs",
-      "LangGraph",
-      "RAG / ChromaDB",
-      "Tool calling",
-      "MCP",
-      "LLM-as-judge harnesses",
-      "STT / TTS pipelines",
-    ],
-  },
-  {
-    stamp: "Interfaces",
-    items: ["React", "Next.js", "TypeScript", "Tailwind", "Three.js / WebGL", "React Native"],
-  },
-  {
-    stamp: "Measurement",
-    items: [
-      "Production log analysis",
-      "ClickHouse / Metabase",
-      "Stage-capacity tables",
-      "Cost per delivered unit",
-      "Eval noise floors",
-    ],
-  },
-  {
-    stamp: "Craft",
-    items: ["After Effects + scripting", "Premiere Pro", "Illustrator", "Figma"],
-  },
+  { stamp: "Frontend", items: ["React", "Next.js", "TypeScript", "Tailwind", "Three.js", "React Native"] },
+  { stamp: "Measuring", items: ["Log analysis", "ClickHouse", "Metabase", "Cost per delivered thing"] },
+  { stamp: "Design", items: ["After Effects", "Premiere Pro", "Illustrator", "Figma"] },
 ];
 
 export const instrumentsNote =
-  "The list is the cheap part. Which one, and why not the other, is the expensive part — and that is what the case files above are actually about.";
+  "The list is the easy part. Picking one, and knowing why not the other, is the hard part.";
 
-/* ------------------------------ off the clock ---------------------- */
+/* ------------------------------ about ------------------------------ */
+
+export const about = {
+  stamp: "About",
+  text: "I studied at BITS Pilani and finished in 2024. Since then I've been building AI products end to end — the pipeline, the backend, the frontend, and keeping it running once it's live. Outside work I build things on my own to learn properly: a phone assistant, a trip planner, and whatever else I get curious about.",
+};
 
 export const offTheClock = [
   {
     stamp: "Music",
-    text: "Guitar, singing, and a growing amount of producing. Enough theory to know what I am doing wrong, which turns out to be the same feeling as debugging.",
+    text: "Guitar, singing, and slowly learning to produce. Just enough theory to know what I'm doing wrong.",
   },
-  {
-    stamp: "Football",
-    text: "Playing, not watching. A Sunday match beats a Sunday fixture list.",
-  },
-  {
-    stamp: "A folder of ideas",
-    text: "A gamified algorithm visualiser that draws the recursion tree, the call stack and the memory at once. Game-like 3D property tours from splats. A chai-only delivery app I keep designing and have not built. A device you could leave a mind on.",
-  },
-  {
-    stamp: "Writing things down",
-    text: "The wiki habit started as interview prep and became the most useful engineering tool I own. Most of what is on this page came out of it.",
-  },
+  { stamp: "Football", text: "Playing, not watching." },
 ];
 
 /* ------------------------------ contact --------------------------- */
 
 export const contact = {
-  title: "Open to talk.",
-  lede: "Engineering problems, business problems, music, or football — playing, not watching. If you are hiring: what I want is ownership of a system that has real users and a number attached to it.",
-};
-
-export const experience = {
-  stamp: "Currently",
-  role: "Software Engineer",
-  company: "AI-powered automotive SaaS",
-  period: "Jun 2024 — present",
-  note: "Owning two services end to end, both inherited, both carrying a deprecating legacy flow. Pipelines, LLM workflows, render infrastructure, and the measurements that decide what gets built next.",
-  education: {
-    stamp: "Before that",
-    line: "B.E., BITS Pilani — 2020 to 2024",
-  },
+  title: "Say hello.",
+  lede: "Happy to talk about engineering, business problems, music, or football. If you're hiring: I want to own something real, with users and a number attached to it.",
 };
