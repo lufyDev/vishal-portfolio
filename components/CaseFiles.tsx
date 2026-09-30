@@ -116,23 +116,17 @@ function MetricTable({ metrics }: { metrics: CaseFile["metrics"] }) {
 function StageBody({ c, stage }: { c: CaseFile; stage: StageKey }) {
   if (stage === "brief") {
     return (
-      <div className="grid gap-9 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:gap-14">
+      <div className="grid gap-9 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)] lg:gap-14">
         <p className="max-w-[62ch] text-[16.5px] leading-relaxed text-soft">{c.brief}</p>
-        <div className="space-y-5 border-t border-rule pt-6 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
-          <div>
-            <p className="stamp mb-1.5 text-faint">Where it stands</p>
-            <p className="text-[15px] text-vermilion">{c.status}</p>
-          </div>
-          <div>
-            <p className="stamp mb-2 text-faint">Built with</p>
-            <ul className="flex flex-wrap gap-1.5">
-              {c.stack.map((s) => (
-                <li key={s} className="mono border border-rule px-2.5 py-1.5 text-[12px] text-soft">
-                  {s}
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div className="border-t border-rule pt-6 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
+          <p className="stamp mb-2.5 text-faint">Built with</p>
+          <ul className="flex flex-wrap gap-1.5">
+            {c.stack.map((s) => (
+              <li key={s} className="mono border border-rule px-2.5 py-1.5 text-[12px] text-soft">
+                {s}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     );
@@ -307,7 +301,7 @@ export default function CaseFiles() {
       <SectionHead
         stamp="Recent work"
         title="Problems I worked on."
-        lede="Four from work, one from my own time. Open any to see what was asked, what it turned out to be, how I built it and what changed. This is the short version — the rest is what interviews are for."
+        lede="Four from work, one from my own time. Open any to see what was asked, what it turned out to be, how I built it, and what changed."
       />
 
       <div className="border-t border-rule">

@@ -76,16 +76,35 @@ export const approach = [
 
 /* ------------------------------ skills ----------------------------- */
 
-export const skills = [
+export type SkillGroup = { core?: boolean; stamp: string; lead: string; items: string[] };
+
+export const skills: SkillGroup[] = [
   {
+    core: true,
     stamp: "Backend & APIs",
     lead: "Where most of my work lives.",
     items: ["Node.js", "Python", "Express", "NestJS", "FastAPI", "REST", "MongoDB", "MySQL"],
   },
   {
+    core: true,
     stamp: "Queues & event-driven",
     lead: "Kafka, SQS, FIFO ordering, idempotency, retries, dead-letter queues.",
     items: ["Kafka", "SQS / FIFO", "SNS", "CDC events", "Round-robin dispatch", "Idempotent consumers"],
+  },
+  {
+    core: true,
+    stamp: "Monitoring",
+    lead: "The one I care about most. A system you can't see into is a system you're guessing about \u2014 and every number on this page came from having built the thing that reports it.",
+    items: [
+      "Grafana",
+      "CloudWatch",
+      "ClickHouse",
+      "Metabase",
+      "Loki",
+      "Structured logging",
+      "Alerting",
+      "Production log analysis",
+    ],
   },
   {
     stamp: "Cloud & infra",
@@ -110,11 +129,6 @@ export const skills = [
     stamp: "Frontend",
     lead: "Enough to own a product end to end.",
     items: ["React", "Next.js", "TypeScript", "Tailwind", "Three.js / WebGL", "React Native"],
-  },
-  {
-    stamp: "Measuring",
-    lead: "The habit that makes the rest of it worth something.",
-    items: ["Production log analysis", "ClickHouse", "Metabase", "Cost per delivered thing", "Load profiling"],
   },
   {
     stamp: "Design",
@@ -177,7 +191,7 @@ export const caseFiles: CaseFile[] = [
       {
         label: "The video that caused the complaint skipped the queue we were about to fix",
         edge: true,
-        text: "It was a template that needs no AI step, so it went straight to rendering. Every fix aimed at the AI queue would have done nothing for it. I only found that by tracing the actual blocked video.",
+        text: "Videos take one of two routes, and this one skipped the AI step entirely \u2014 so every fix aimed at that queue would have done nothing for it. I only found that by tracing the actual blocked video instead of reasoning about the general case.",
       },
       {
         label: "You can't reorder a queue you've already filled \u2014 so don't fill it",
@@ -193,13 +207,13 @@ export const caseFiles: CaseFile[] = [
         chose: "Hold the work on our side and release a few at a time, taking turns between dealers.",
         insteadOf: "Sorting the queue, or using the render service's priority number.",
         because:
-          "Once jobs are queued you cannot reorder them. And the priority number only gives you two buckets, which the review path already uses.",
+          "Once jobs are queued you cannot reorder them. And that priority number only has two settings, both already spoken for.",
       },
       {
         chose: "Fix the render queue first.",
         insteadOf: "The AI queue, which everyone assumed was the problem.",
         because:
-          "The blocked video never touches AI. And rendering is about four times slower than AI feeds it, so that's the only place a lasting pile-up forms.",
+          "The blocked video never touches the AI step. And rendering is about four times slower than work arrives, so that is the only place a lasting pile-up forms.",
       },
       {
         chose: "Leave the video's status changes exactly as they are.",
@@ -220,9 +234,9 @@ export const caseFiles: CaseFile[] = [
         how: "worked out from measured speeds at both stages",
       },
       {
-        metric: "AI throughput",
-        before: "quoted as ~60 cars/hour",
-        after: "~360\u2013480 cars/hour",
+        metric: "speed of the AI step",
+        before: "quoted as ~60 an hour",
+        after: "~360\u2013480 an hour",
         how: "corrected \u2014 the old figure was one worker's rate read as the total",
       },
       {
@@ -286,7 +300,7 @@ export const caseFiles: CaseFile[] = [
       {
         chose: "Leave the shared audio service alone completely.",
         because:
-          "Other flows depend on it. Doing the work on my side meant I couldn't break anyone \u2014 recorded as a decision, not left unexplained.",
+          "Other teams depend on it. Doing the work on my side of the line meant I could not break anyone else.",
       },
     ],
     metrics: [
@@ -334,7 +348,7 @@ export const caseFiles: CaseFile[] = [
       {
         label: "Don't wake the rest of the pipeline",
         edge: true,
-        text: "The obvious way to re-render is to set the video's status back \u2014 but that fires a database-change event and restarts everything. I call the render step directly instead.",
+        text: "The obvious way to rebuild it is to reset the video's status \u2014 but something watches that column and restarts the entire pipeline when it changes. I call the render step directly instead.",
       },
     ],
     diagram: "price-retrigger",
@@ -405,7 +419,7 @@ export const caseFiles: CaseFile[] = [
       {
         label: "The two halves of the render don't share memory",
         edge: true,
-        text: "Prep runs on one box; the real render finishes minutes later on another, and the step that picks up the output knows nothing but the video's id. So the chosen frame time is handed over through a small file in storage, keyed on that id.",
+        text: "Setup runs on one machine; the real render finishes minutes later on another, and the step that collects the finished file knows nothing except the video's id. So the chosen frame time is handed over through a small file in storage, filed under that id.",
       },
       {
         label: "ffmpeg exits 0 having written nothing",
@@ -436,7 +450,7 @@ export const caseFiles: CaseFile[] = [
         chose: "Hand the frame time between passes through its own small file.",
         insteadOf: "Reading it back out of the render config that's already uploaded.",
         because:
-          "The value is sitting right there in that config, which is exactly why it's tempting. A dedicated object keyed on the video id can't be reshaped by whatever else writes that config.",
+          "The value is sitting right there in that file, which is exactly why it is tempting. Its own file, filed under the video id, cannot be reshaped by whatever else writes to the other one.",
       },
       {
         chose: "Seek after loading the file, not before.",
@@ -581,15 +595,14 @@ export const leverage = {
 
 export const about = {
   stamp: "About",
-  text: "I build AI products end to end — the pipeline, the backend, the frontend, and being the one who keeps it running afterwards. Outside work I build things properly to learn them: a phone assistant on raw telephony, a trip planner, and whatever else I get curious about.",
+  text: "I build AI products end to end — pipeline, backend, frontend, and keeping them running once they are live. Outside work I build things properly to learn them: a phone assistant, a trip planner, whatever I get curious about.",
 };
 
 export const offTheClock = [
   {
-    stamp: "Music",
-    text: "Guitar, singing, and slowly learning to produce. Just enough theory to know what I'm doing wrong.",
+    stamp: "Off the clock",
+    text: "Guitar, singing, slowly learning to produce. Football \u2014 playing, not watching.",
   },
-  { stamp: "Football", text: "Playing, not watching." },
 ];
 
 /* ------------------------------ contact --------------------------- */

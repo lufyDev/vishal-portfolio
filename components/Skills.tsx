@@ -11,12 +11,12 @@ export default function Skills() {
       <SectionHead
         stamp="Skills"
         title="What I work with."
-        lede="Grouped by what I actually reach for. The first two are where most of my time goes."
+        lede="Grouped by what I actually reach for. The three marked core are where most of my time goes — and monitoring is the one I would defend hardest."
       />
 
       <div className="grid gap-4 md:grid-cols-2">
-        {skills.map((g, i) => {
-          const core = i < 2;
+        {skills.map((g) => {
+          const core = Boolean(g.core);
           return (
             <article
               key={g.stamp}
