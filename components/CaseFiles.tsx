@@ -307,7 +307,7 @@ export default function CaseFiles() {
       <SectionHead
         stamp="Recent work"
         title="Problems I worked on."
-        lede="Open any one to see the whole thing: what was asked, what it turned out to be, how I built it, and what changed. Where something isn't finished or isn't measured, it says so."
+        lede="Four recent ones. Open any to see what was asked, what it turned out to be, how I built it and what changed. This is the short version — the rest is what interviews are for."
       />
 
       <div className="border-t border-rule">

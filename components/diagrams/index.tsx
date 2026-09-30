@@ -193,6 +193,9 @@ function RoundRobin() {
       <Note x={0} y={12} tone="verm">
         BEFORE — one long line, first come first served
       </Note>
+      <Note x={800} y={12} anchor="end">
+        one video normally takes about 3 minutes end to end
+      </Note>
 
       <Box x={0} y={26} w={130} h={44} lines={["BIG DEALER", "sends 100 at once"]} />
       <Arrow from={[130, 48]} to={[166, 48]} />

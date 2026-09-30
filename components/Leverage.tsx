@@ -1,6 +1,7 @@
-import { useState } from "react";
 import { leverage } from "@/data/portfolio";
-import { Section, SectionHead } from "@/components/Chrome";
+
+/* The claim the whole page rests on, so it gets its own section, sits
+ * right under the hero, and carries no furniture. */
 
 function Column({
   stamp,
@@ -14,12 +15,12 @@ function Column({
   const colour = accent ? "var(--vermilion)" : "var(--ink-faint)";
   return (
     <div>
-      <p className="stamp mb-4" style={{ color: colour }}>
+      <p className="stamp mb-5" style={{ color: colour }}>
         {stamp}
       </p>
       <ul className="border-t border-rule">
         {items.map((it, i) => (
-          <li key={i} className="flex gap-3 border-b border-rule py-3.5">
+          <li key={i} className="flex gap-3.5 border-b border-rule py-4">
             <span className="stamp mt-1 shrink-0" style={{ color: colour }}>
               {accent ? "◆" : "→"}
             </span>
@@ -37,51 +38,26 @@ function Column({
 }
 
 export default function Leverage() {
-  const [open, setOpen] = useState(false);
-
   return (
-    <Section id="ai">
-      <SectionHead stamp="On AI" title={leverage.title} />
-
-      <p className="max-w-[56ch] text-[clamp(1.05rem,2vw,1.25rem)] leading-relaxed text-soft">
-        {leverage.lede}
-      </p>
-
-      <div className="mt-10 plate ticked p-6 md:p-9">
-        <p className="stamp mb-4 text-vermilion">{leverage.guardrail.stamp}</p>
-        <p className="display max-w-[58ch] text-[clamp(1.1rem,2.1vw,1.4rem)]">
-          {leverage.guardrail.text}
+    <section id="ai" className="border-b border-rule bg-sunk" style={{ scrollMarginTop: "5rem" }}>
+      <div className="mx-auto max-w-[1120px] px-5 py-20 md:px-10 md:py-28">
+        <p className="display max-w-[24ch] text-[clamp(1.4rem,2.8vw,1.95rem)] text-faint">
+          {leverage.kicker}
         </p>
-      </div>
 
-      {/* the full split is detail — folded until someone wants it */}
-      <button
-        onClick={() => setOpen(!open)}
-        aria-expanded={open}
-        className="stamp mt-8 flex w-full cursor-pointer items-center justify-between gap-4 border-y border-rule py-4 text-left transition-colors hover:text-vermilion"
-      >
-        <span>What I hand over, and what I don&apos;t</span>
-        <span
-          className="text-faint transition-transform duration-300"
-          style={{ transform: open ? "rotate(45deg)" : "none" }}
-          aria-hidden
-        >
-          ✛
-        </span>
-      </button>
+        <h2 className="display mt-4 max-w-[18ch] text-[clamp(2.5rem,6.4vw,4.6rem)] text-vermilion">
+          {leverage.title}
+        </h2>
 
-      {open && (
-        <div className="rise grid gap-10 pt-9 md:grid-cols-2 md:gap-16">
+        <p className="mt-8 max-w-[58ch] text-[clamp(1.02rem,1.9vw,1.2rem)] leading-relaxed text-soft">
+          {leverage.lede}
+        </p>
+
+        <div className="mt-14 grid gap-10 md:grid-cols-2 md:gap-16">
           <Column stamp={leverage.handOver.stamp} items={leverage.handOver.items} accent={false} />
           <Column stamp={leverage.staysMine.stamp} items={leverage.staysMine.items} accent />
-          <div className="border-l-2 border-rule pl-5 md:col-span-2">
-            <p className="stamp mb-2.5 text-faint">{leverage.system.stamp}</p>
-            <p className="max-w-[62ch] text-[15.5px] leading-relaxed text-soft">
-              {leverage.system.text}
-            </p>
-          </div>
         </div>
-      )}
-    </Section>
+      </div>
+    </section>
   );
 }

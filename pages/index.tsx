@@ -11,7 +11,7 @@ import Contact from "@/components/Contact";
 import { personalInfo, masthead } from "@/data/portfolio";
 
 const description =
-  "Vishal Pundhir — software engineer. I build backends that hold up: queues, pipelines and event-driven systems. BITS Pilani, 2024. Recent problems with how I solved and measured each one.";
+  "Vishal Pundhir — software engineer. I turn business problems into working systems, and then make sure they keep working. Backends, queues and event-driven pipelines. BITS Pilani, 2024.";
 
 export default function Home() {
   return (
@@ -30,11 +30,11 @@ export default function Home() {
       <Masthead />
       <main>
         <Brief />
-        <Approach />
-        <Skills />
-        <CaseFiles />
         <Leverage />
         <Education />
+        <Skills />
+        <Approach />
+        <CaseFiles />
         <Contact />
       </main>
       <Footer />
