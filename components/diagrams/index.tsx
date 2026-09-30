@@ -452,11 +452,70 @@ function Thumbnail() {
   );
 }
 
+/* ---------------------------- 05 · critic loop --------------------- */
+
+function CriticLoop() {
+  return (
+    <Frame h={296}>
+      <Note x={0} y={12}>
+        Writing is hard, checking is easy — so something with fresh eyes does the checking.
+      </Note>
+
+      <Box x={0} y={30} w={150} h={50} lines={["SIX PEOPLE,", "six different wants"]} tone="verm" />
+      <Arrow from={[150, 55]} to={[194, 55]} />
+
+      <Box x={196} y={30} w={162} h={50} lines={["PLANNER", "pulls what it needs"]} tone="blue" />
+      <Arrow from={[277, 80]} to={[277, 114]} />
+      <Note x={268} y={97} anchor="end">a draft plan</Note>
+
+      {/* the cheap checks first */}
+      <Box x={196} y={116} w={162} h={50} lines={["PLAIN CODE CHECKS", "days \u00b7 fields \u00b7 budget"]} />
+      <Note x={186} y={136} anchor="end">free, so</Note>
+      <Note x={186} y={150} anchor="end">they run first</Note>
+
+      <Arrow from={[358, 141]} to={[402, 141]} />
+      <Box x={404} y={116} w={172} h={50} lines={["THE CRITIC", "fresh eyes, no ego"]} tone="verm" />
+      <Note x={490} y={182} anchor="middle" tone="verm">
+        only asked what rules cannot express
+      </Note>
+      <Note x={490} y={196} anchor="middle">
+        pacing · is day two overpacked · right season
+      </Note>
+
+      {/* pass */}
+      <Arrow from={[576, 141]} to={[624, 141]} label="passes" labelDy={-6} />
+      <Box x={626} y={116} w={174} h={50} lines={["THE ITINERARY"]} tone="blue" />
+
+      {/* fail, bounded — routed around the boxes rather than through them */}
+      <path
+        d="M 490 114 L 490 104 L 277 104 L 277 84"
+        fill="none"
+        stroke={VERM}
+        strokeWidth={1}
+        strokeDasharray="4 3"
+        markerEnd="url(#head-verm)"
+      />
+      <Note x={383} y={97} anchor="middle" tone="verm">
+        fails — rewrite, at most 3 times
+      </Note>
+
+      <path d="M 0 224 L 800 224" stroke={RULE} strokeDasharray="3 4" strokeWidth={1} fill="none" />
+
+      <Note x={0} y={244} tone="blue">Two kinds of data, two shelf lives</Note>
+      <Box x={0} y={254} w={230} h={40} lines={["WHAT A CITY IS LIKE", "barely changes \u2014 cached"]} tone="blue" />
+      <Box x={244} y={254} w={230} h={40} lines={["WHAT A ROOM COSTS", "changes hourly \u2014 always live"]} tone="verm" />
+      <Note x={492} y={270}>One cache setting cannot be right for both,</Note>
+      <Note x={492} y={284}>and a real booking service slots into the second.</Note>
+    </Frame>
+  );
+}
+
 const registry: Record<string, () => ReactNode> = {
   "round-robin": RoundRobin,
   "fit-loop": FitLoop,
   "price-retrigger": PriceRetrigger,
   thumbnail: Thumbnail,
+  "critic-loop": CriticLoop,
 };
 
 export default function Diagram({ name }: { name: string }) {

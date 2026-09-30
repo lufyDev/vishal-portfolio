@@ -31,18 +31,17 @@ export const masthead = {
   role: "Software Engineer",
   headline: "I turn business problems into working systems.",
   sub: "And then I make sure they keep working.",
-  lede: "Queues, pipelines, event-driven systems — the hard, unglamorous parts that decide whether a product survives its own traffic. I like the problems where the obvious fix is the wrong one.",
+  lede: "Event-driven backends, queues and pipelines — the parts that decide whether a product survives its own traffic.",
   kicker: "I move fast. I also care about getting it right.",
 };
 
 export const ledger = [
-  { value: "3 min", label: "from request to a finished video. Start to end, no human touches it." },
+  { value: "2.3 yrs", label: "building and running systems in production" },
+  { value: "3 min", label: "request to a finished video. Start to end, nobody touches it." },
   { value: "1000+", label: "videos a month through the pipeline I own" },
-  { value: "2 yrs", label: "running it in production" },
   {
     value: "62 → 3",
-    label:
-      "minutes. A recent fix: processing time when bulk uploads piled up behind each other in a FIFO queue.",
+    label: "minutes. A recent fix: processing time when bulk uploads piled up in a FIFO queue.",
   },
 ];
 
@@ -133,8 +132,8 @@ export const education = {
   stamp: "Education",
   school: "BITS Pilani",
   degree: "Bachelor of Engineering",
-  period: "2020 — 2024",
-  note: "Pilani campus. Four years of being surrounded by people who were better than me at something, which turned out to be the useful part.",
+  period: "Class of 2024",
+  note: "Pilani campus. Years of being surrounded by people who were better than me at something, which turned out to be the useful part.",
 };
 
 /* ------------------------------ case files ------------------------- */
@@ -485,30 +484,100 @@ export const caseFiles: CaseFile[] = [
       "Shipped and running with no incidents, but I never measured the success rate \u2014 how many configured renders actually produce a preview. I know the method to get it, which makes not having it worse rather than better. The fallbacks that were covering for the missing previews should also come out now; a stand-in that's never removed becomes the design.",
     stack: ["Node.js", "ffmpeg", "S3", "AWS render farm"],
   },
+
+  {
+    id: "05",
+    badge: "personal",
+    domain: "Agentic AI",
+    ask: "Planning a group trip is all friction.",
+    headline: "A planner that checks its own work",
+    span: "2026",
+    status: "Single-trip planner built \u00b7 group side designed, not built",
+    brief:
+      "Six people want six different things. One wants museums, one wants to sleep in, one is counting money, and somebody has to turn all of that into a day-by-day plan nobody hates. It's the kind of problem that looks like a chat prompt and isn't \u2014 so I built it as an agent with tools and a critic that checks the plan before you ever see it.",
+    decomposition: [
+      {
+        label: "One big prompt can't do this",
+        edge: true,
+        text: "Three reasons, in order. It can't know today's prices or what's actually open. You can't fit the research for every destination into one prompt. And one call is one shot at getting the structure right \u2014 there's no second chance to catch its own mistake.",
+      },
+      {
+        label: "So: an agent that fetches, then a critic that judges",
+        text: "The planner pulls only what it needs, when it needs it. Then a separate pass reads the finished plan with fresh eyes and no attachment to it \u2014 which is the whole point. Checking is far easier than writing.",
+      },
+      {
+        label: "Cheap checks first, expensive ones after",
+        edge: true,
+        text: "Day count, required fields, whether the budget actually adds up \u2014 those are plain code and cost nothing. The model only gets asked the things rules can't express: is day two overpacked, does the pace match what they asked for, is this even the right season for it.",
+      },
+      {
+        label: "A disagreeing critic can't run up the bill",
+        edge: true,
+        text: "The loop stops after three attempts. Without a bound, a critic that keeps rejecting and a planner that keeps rewriting will happily burn tokens all night.",
+      },
+      {
+        label: "Two kinds of data, two different shelf lives",
+        text: "What a city is like barely changes and can be cached. What a room costs tonight changes constantly and has to be live. Keeping them apart means a real booking service can slot in later without a rewrite.",
+      },
+      {
+        label: "My best anecdote was really a bug",
+        edge: true,
+        text: "The critic once caught a three-day request that came back with two days \u2014 a great story until I realised counting days is something a plain rule does for free. That's exactly why the cheap checks now run first.",
+      },
+    ],
+    diagram: "critic-loop",
+    diagramCaption:
+      "Generate, then verify with fresh eyes. The free checks run before the expensive one, and the loop is bounded.",
+    decisions: [
+      {
+        chose: "An agent with tools, looping.",
+        insteadOf: "One large prompt that returns the whole itinerary.",
+        because:
+          "Live data, context limits, and the fact that a single call has no way to catch its own mistake. All three point the same direction.",
+      },
+      {
+        chose: "A critic with no memory of writing the plan.",
+        insteadOf: "Asking the planner to check itself.",
+        because:
+          "Something that just wrote an answer is the worst judge of it. A fresh reader has no stake in defending it.",
+      },
+      {
+        chose: "Split cacheable knowledge from live inventory at the design stage.",
+        because:
+          "Not all data goes stale at the same rate, so one cache setting can't be right for both. It also leaves a clean slot for a real booking API later.",
+      },
+    ],
+    metrics: [
+      {
+        metric: "what's actually built",
+        before: "\u2014",
+        after: "the single-trip planner, with the critic loop",
+        how: "said plainly",
+      },
+      {
+        metric: "the group side",
+        before: "\u2014",
+        after: "designed, not built",
+        how: "it's the reason the project exists, and it isn't done",
+      },
+      { metric: "retry ceiling", before: "unbounded by default", after: "3", how: "so a stuck loop can't run up a bill" },
+      {
+        metric: "does the critic earn its cost?",
+        before: "\u2014",
+        after: "not measured here",
+        how: "I built that measurement on a later project instead: how often the first draft fails, whether attempt two actually passes, and how often the critic rejects something that was fine.",
+      },
+    ],
+    reflection:
+      "The honest line: the group-preference part is the reason I started this, and it's the part I haven't built. What exists is the single-trip planner underneath it. I also never measured whether the critic loop pays for itself here \u2014 I only worked out how to measure that on a later project, which makes it a gap I can name precisely rather than one I can wave at.",
+    stack: ["LangGraph", "OpenAI", "RAG", "Tavily", "Next.js", "FastAPI", "AWS EC2"],
+  },
 ];
 
 export const leverage = {
   kicker: "Writing code was never the job.",
   title: "I use AI to multiply what I can do.",
-  lede: "Engineering was always about solving the problem with the best tools your domain hands you. One of those tools now writes code. So I use it every day — and I'm precise about where it helps and where it doesn't.",
-  handOver: {
-    stamp: "What I hand to it",
-    items: [
-      "Reading two hours of logs and counting things across every line",
-      "Drafting three designs, so I argue with all three instead of defending my first idea",
-      "Building test data from a real response and trying every path through it",
-      "Boilerplate, and the fourth copy of a pattern I already chose",
-    ],
-  },
-  staysMine: {
-    stamp: "What stays mine",
-    items: [
-      "Deciding which number actually matters — and pushing back when the question is wrong",
-      "Noticing that the number everyone quotes has no source",
-      "Choosing what not to fix, and what to make harmless instead of perfect",
-      "Being the one who owns it at 2am",
-    ],
-  },
+  lede: "Engineering was always about solving the problem with the best tools your domain hands you. One of those tools now writes code. So I use it every day — to read more logs than I could, to draft three designs instead of defending my first idea, to try every path through a piece of test data. What it doesn't do is decide which number matters, or notice that the number everyone quotes has no source, or own it at 2am. That part is still the job.",
 };
 
 /* ------------------------------ about ------------------------------ */

@@ -58,7 +58,7 @@ export default function Education() {
               <span className="stamp" style={{ color: OVER }}>
                 {education.degree}
               </span>
-              <span className="value text-[14px]" style={{ color: OVER_ACCENT }}>
+              <span className="stamp" style={{ color: OVER_ACCENT }}>
                 {education.period}
               </span>
             </div>
