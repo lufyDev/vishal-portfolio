@@ -75,7 +75,7 @@ export default function Brief() {
               ))}
             </div>
 
-            <div className="mt-7 border-t border-rule pt-5">
+            {/* <div className="mt-7 border-t border-rule pt-5">
               <p className="stamp mb-2 text-faint">{experience.stamp}</p>
               <p className="text-[14.5px] leading-snug text-ink">{experience.line}</p>
               <p className="mt-2 text-[14.5px] leading-relaxed text-soft">
@@ -83,7 +83,7 @@ export default function Brief() {
                 <span className="text-vermilion">{experience.highlight}</span>
                 {experience.noteAfter}
               </p>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

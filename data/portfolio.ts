@@ -92,21 +92,6 @@ export const skills: SkillGroup[] = [
     items: ["Kafka", "SQS / FIFO", "SNS", "CDC events", "Round-robin dispatch", "Idempotent consumers"],
   },
   {
-    core: true,
-    stamp: "Monitoring",
-    lead: "The one I care about most. A system you can't see into is a system you're guessing about \u2014 and every number on this page came from having built the thing that reports it.",
-    items: [
-      "Grafana",
-      "CloudWatch",
-      "ClickHouse",
-      "Metabase",
-      "Loki",
-      "Structured logging",
-      "Alerting",
-      "Production log analysis",
-    ],
-  },
-  {
     stamp: "Cloud & infra",
     lead: "Deploying it, running it, and being the one paged for it.",
     items: ["AWS", "Lambda", "Step Functions", "ECS", "EC2", "S3", "CloudFront", "Nginx", "PM2"],
@@ -129,6 +114,19 @@ export const skills: SkillGroup[] = [
     stamp: "Frontend",
     lead: "Enough to own a product end to end.",
     items: ["React", "Next.js", "TypeScript", "Tailwind", "Three.js / WebGL", "React Native"],
+  },
+  {
+    stamp: "Monitoring",
+    lead: "The one I care about most. A system you can't see into is a system you're guessing about \u2014 and every number on this page came from having built the thing that reports it.",
+    items: [
+      "Grafana",
+      "CloudWatch",
+      "ClickHouse",
+      "Metabase",
+      "Loki",
+      "Structured logging",
+      "Alerting",
+    ],
   },
   {
     stamp: "Design",
@@ -595,13 +593,13 @@ export const leverage = {
 
 export const about = {
   stamp: "About",
-  text: "I build AI products end to end — pipeline, backend, frontend, and keeping them running once they are live. Outside work I build things properly to learn them: a phone assistant, a trip planner, whatever I get curious about.",
+  text: "I build AI products end to end — pipeline, backend, frontend, and keeping them running once they are live. Outside work I build tech for the everyday problems I notice around me. Learning by doing is what keeps making me better at the part that matters: working out what the real problem is.",
 };
 
 export const offTheClock = [
   {
     stamp: "Off the clock",
-    text: "Guitar, singing, slowly learning to produce. Football \u2014 playing, not watching.",
+    text: "Guitar and singing. Filmmaking. Football — playing, not watching.",
   },
 ];
 
