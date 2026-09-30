@@ -16,7 +16,7 @@ export default function Brief() {
               </span>
             </div>
 
-            <h1 className="display rise max-w-[15ch] text-[clamp(2.3rem,4.8vw,3.3rem)] text-vermilion">
+            <h1 className="display rise max-w-[15ch] text-[clamp(2.5rem,5.4vw,3.8rem)] text-vermilion">
               {masthead.headline}
             </h1>
 
@@ -65,12 +65,8 @@ export default function Brief() {
             <Portrait />
 
             <div className="mt-7 grid grid-cols-2 gap-px border border-rule bg-rule">
-              {ledger.map((l, i) => (
-                <div
-                  key={l.value}
-                  className="bg-raised px-4 py-4"
-                  style={i === 1 ? { background: "var(--vermilion-wash)" } : undefined}
-                >
+              {ledger.map((l) => (
+                <div key={l.value} className="bg-raised px-4 py-4">
                   <p className="value text-[clamp(1.3rem,2.6vw,1.75rem)] leading-none text-vermilion">
                     {l.value}
                   </p>
@@ -78,16 +74,16 @@ export default function Brief() {
                 </div>
               ))}
             </div>
-          </div>
-        </div>
 
-        <div className="mt-10 flex flex-col gap-1.5 border-t border-rule pt-6 sm:flex-row sm:gap-6">
-          <p className="stamp shrink-0 pt-1 text-faint">{experience.stamp}</p>
-          <div>
-            <p className="text-[15.5px] text-ink">{experience.line}</p>
-            <p className="mt-1 max-w-[70ch] text-[15px] leading-relaxed text-soft">
-              {experience.note}
-            </p>
+            <div className="mt-7 border-t border-rule pt-5">
+              <p className="stamp mb-2 text-faint">{experience.stamp}</p>
+              <p className="text-[14.5px] leading-snug text-ink">{experience.line}</p>
+              <p className="mt-2 text-[14.5px] leading-relaxed text-soft">
+                {experience.noteBefore}
+                <span className="text-vermilion">{experience.highlight}</span>
+                {experience.noteAfter}
+              </p>
+            </div>
           </div>
         </div>
       </div>

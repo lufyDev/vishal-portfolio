@@ -37,18 +37,15 @@ export const masthead = {
 
 export const ledger = [
   { value: "2.3 yrs", label: "building and running systems in production" },
-  { value: "3 min", label: "request to a finished video. Start to end, nobody touches it." },
   { value: "1000+", label: "videos a month through the pipeline I own" },
-  {
-    value: "62 → 3",
-    label: "minutes. A recent fix: processing time when bulk uploads piled up in a FIFO queue.",
-  },
 ];
 
 export const experience = {
   stamp: "Right now",
-  line: "Software engineer at an AI automotive company · since June 2024",
-  note: "I own the feature video presentation pipeline end to end. It was handed to me. It still runs — and it turns a request into a finished, narrated video in about three minutes without anyone touching it.",
+  line: "Software engineer at an AI automotive company \u00b7 since June 2024",
+  noteBefore: "I own the feature video presentation pipeline end to end. It turns a request into a finished, narrated video in ",
+  highlight: "about three minutes",
+  noteAfter: " \u2014 with nobody touching it.",
 };
 
 /* ------------------------------ how I work ------------------------- */
