@@ -184,48 +184,93 @@ function Frame({
   );
 }
 
-/* ---------------------------- 01 · the window ---------------------- */
+/* ---------------------------- 01 · round robin --------------------- */
 
-function DispatchBeforeWrite() {
+function RoundRobin() {
+  const big = Array.from({ length: 11 });
   return (
-    <Frame h={286}>
-      <Note x={0} y={12}>BEFORE — the check reads a status nothing has written yet</Note>
-
-      <Box x={0} y={38} w={112} lines={["SAVE #1", "t = 0"]} />
-      <Box x={0} y={150} w={112} lines={["SAVE #2", "t = +40s"]} />
-
-      <Arrow from={[112, 61]} to={[168, 88]} />
-      <Arrow from={[112, 173]} to={[168, 122]} />
-
-      <Box x={170} y={82} w={124} h={46} lines={["IS IT FREE?", "check the status"]} />
-      <Arrow from={[294, 105]} to={[344, 105]} label="passes twice" labelDy={-8} tone="verm" />
-      <Box x={346} y={82} w={124} h={46} lines={["SEND IT", "to the queue"]} tone="verm" />
-      <Arrow from={[470, 105]} to={[520, 105]} />
-      <Box x={522} y={82} w={130} h={46} lines={["MARK IT", "busy"]} />
-
-      <Arrow from={[652, 105]} to={[700, 105]} />
-      <Box x={702} y={82} w={96} h={46} lines={["2 RENDERS", "1 video"]} tone="verm" />
-
-      {/* the window bracket */}
-      <path
-        d="M 346 148 L 346 158 L 652 158 L 652 148"
-        fill="none"
-        stroke={VERM}
-        strokeWidth={1}
-      />
-      <Note x={499} y={174} tone="verm" anchor="middle">
-        the gap — both jobs are sent before either one is marked busy
+    <Frame h={300}>
+      <Note x={0} y={12} tone="verm">
+        BEFORE — one long line, first come first served
       </Note>
 
-      <path d="M 0 202 L 800 202" stroke={RULE} strokeDasharray="3 4" strokeWidth={1} fill="none" />
+      <Box x={0} y={26} w={130} h={44} lines={["BIG DEALER", "sends 100 at once"]} />
+      <Arrow from={[130, 48]} to={[166, 48]} />
+      {big.map((_, i) => (
+        <rect
+          key={i}
+          x={170 + i * 21}
+          y={34}
+          width={17}
+          height={28}
+          fill="var(--vermilion-wash)"
+          stroke={VERM}
+          strokeWidth={1}
+        />
+      ))}
+      <Note x={404} y={52}>… 100 …</Note>
+      <rect
+        x={452}
+        y={34}
+        width={17}
+        height={28}
+        fill="var(--blueprint-wash)"
+        stroke={BLUE}
+        strokeWidth={1}
+      />
+      <Note x={476} y={52} tone="blue">small dealer — 101st</Note>
 
-      <Note x={0} y={224} tone="blue">AFTER — mark and send in one step, so there is no gap</Note>
-      <Box x={0} y={234} w={188} h={44} lines={["CLAIM IT", "mark busy + send, together"]} tone="blue" />
-      <Arrow from={[188, 256]} to={[238, 256]} tone="blue" />
-      <Box x={240} y={234} w={124} h={44} lines={["SEND IT"]} tone="blue" />
-      <Note x={380} y={252} tone="blue">#2 finds it busy and stops.</Note>
-      <Note x={380} y={266}>
-        Checking at the other end can&apos;t help — both were already queued.
+      <Arrow from={[620, 48]} to={[664, 48]} />
+      <Box x={666} y={26} w={134} h={44} lines={["ONE MACHINE", "37s each"]} />
+      <Note x={800} y={84} anchor="end" tone="verm">
+        the small dealer waits about 62 minutes
+      </Note>
+
+      <path d="M 0 106 L 800 106" stroke={RULE} strokeDasharray="3 4" strokeWidth={1} fill="none" />
+
+      <Note x={0} y={126} tone="blue">
+        AFTER — we keep the work and hand it over a few at a time
+      </Note>
+
+      <Box
+        x={0}
+        y={142}
+        w={214}
+        h={56}
+        lines={["OUR WAITING LIST", "big dealer ×95  ·  small ×1"]}
+        tone="blue"
+      />
+      <Arrow from={[214, 170]} to={[262, 170]} label="take turns" labelDy={40} tone="blue" />
+
+      <Box x={264} y={148} w={228} h={44} lines={["QUEUE, KEPT SHORT", "about 5 at a time"]} tone="blue" />
+      {[0, 1, 2, 3, 4].map((i) => (
+        <rect
+          key={i}
+          x={266 + i * 42}
+          y={206}
+          width={30}
+          height={22}
+          fill={i === 1 ? "var(--blueprint-wash)" : "var(--vermilion-wash)"}
+          stroke={i === 1 ? BLUE : VERM}
+          strokeWidth={1}
+        />
+      ))}
+      <Note x={266} y={248} tone="blue">
+        big, small, big, big, big — then round again
+      </Note>
+
+      <Arrow from={[492, 170]} to={[540, 170]} tone="blue" />
+      <Box x={542} y={148} w={134} h={44} lines={["ONE MACHINE", "same 37s each"]} />
+      <Note x={800} y={216} anchor="end" tone="blue">
+        the small dealer now waits about 3 minutes
+      </Note>
+      <Note x={800} y={232} anchor="end">
+        same machine, same speed — only the order changed
+      </Note>
+
+      <path d="M 0 266 L 800 266" stroke={RULE} strokeDasharray="3 4" strokeWidth={1} fill="none" />
+      <Note x={0} y={286}>
+        You cannot reorder a queue you have already filled. So do not fill it.
       </Note>
     </Frame>
   );
@@ -280,259 +325,135 @@ function FitLoop() {
   );
 }
 
-/* ---------------------------- 03 · event-carried ------------------- */
 
-function EventCarried() {
-  return (
-    <Frame h={316}>
-      <Note x={0} y={12}>
-        Trigger when the video finishes, not when the price changes — at price-change
-        time the new video does not exist yet.
-      </Note>
+/* ---------------------------- 03 · price retrigger ----------------- */
 
-      <Box x={0} y={30} w={130} h={46} lines={["VIDEO FINISHES", "the only trigger"]} tone="blue" />
-      <Arrow from={[130, 53]} to={[186, 53]} label="full payload" />
-
-      {/* stateless region */}
-      <rect
-        x={188}
-        y={20}
-        width={196}
-        height={112}
-        fill="none"
-        stroke={VERM}
-        strokeWidth={1}
-        strokeDasharray="4 3"
-      />
-      <Note x={286} y={34} tone="verm" anchor="middle">no database, no passwords</Note>
-      <Box x={202} y={44} w={168} h={46} lines={["RECEIVER", "updates one car"]} tone="verm" />
-      <Note x={286} y={122} anchor="middle" tone="verm">
-        the message carries everything
-      </Note>
-
-      <Arrow from={[384, 67]} to={[434, 67]} />
-      <Box x={436} y={44} w={140} h={46} lines={["STORE", "one file per car"]} />
-      <Arrow from={[576, 67]} to={[626, 67]} label="all cars" />
-      <Box x={628} y={44} w={172} h={46} lines={["REBUILD WHOLE FILE", "never edited in place"]} tone="blue" />
-
-      <Arrow from={[714, 90]} to={[714, 132]} />
-      <Box x={628} y={134} w={172} h={44} lines={["CDN"]} />
-      <Arrow from={[714, 178]} to={[714, 214]} label="checks on its own schedule" labelDy={-4} />
-      <Box x={628} y={216} w={172} h={44} lines={["AD PLATFORM", "remembers files by address"]} dashed />
-      <Note x={800} y={280} anchor="end" tone="verm">
-        a new video at the same address is invisible to it
-      </Note>
-
-      {/* replay */}
-      <Box x={0} y={216} w={182} h={44} lines={["REBUILD", "first run · lost · stale"]} tone="blue" />
-      <Arrow from={[91, 216]} to={[91, 80]} tone="blue" label="re-run uses the same path" labelDy={-4} labelAt={0.6} />
-      <Arrow from={[182, 238]} to={[236, 238]} tone="blue" />
-      <Note x={244} y={235} tone="blue">no special repair mode, so it cannot rot</Note>
-      <Note x={244} y={250}>
-        Editing in place would clash, and one bad write
-      </Note>
-      <Note x={244} y={263}>
-        would ruin every car in the file at once.
-      </Note>
-
-    </Frame>
-  );
-}
-
-/* ---------------------------- 04 · the ratchet --------------------- */
-
-function Ratchet() {
-  const rows = [
-    { label: "SESSION 1", ok: 8, note: "9th font locked → stops → 8 left stuck" },
-    { label: "SESSION 2", ok: 5, note: "fails earlier → 5 more stuck" },
-    { label: "SESSION 3", ok: 2, note: "machine basically unusable" },
+function PriceRetrigger() {
+  const guards = [
+    { t: "1", label: "SAME MESSAGE", sub: "within 5 min", free: true },
+    { t: "2", label: "ONE CAR AT A TIME", sub: "across servers", free: true },
+    { t: "3", label: "ALREADY SOLD?", sub: "skip", free: false },
+    { t: "4", label: "SAME PRICE?", sub: "skip", free: false },
   ];
   return (
-    <Frame h={296}>
-      <Note x={0} y={12} tone="verm">
-        BEFORE — every failure makes the next one worse
+    <Frame h={300}>
+      <Note x={0} y={12}>
+        Guards run cheapest first. The first two cost no code at all.
       </Note>
 
-      {rows.map((r, i) => {
-        const y = 30 + i * 46;
+      <Box x={0} y={28} w={128} h={46} lines={["PRICE CHANGES", "one event"]} tone="verm" />
+      <Arrow from={[128, 51]} to={[164, 51]} />
+
+      {guards.map((g, i) => {
+        const x = 166 + i * 160;
         return (
-          <g key={r.label}>
-            <text
-              x={0}
-              y={y + 20}
-              fontSize={10}
-              fill={INK}
-              fontFamily="var(--font-jetbrains-mono), monospace"
-              letterSpacing="0.08em"
-            >
-              {r.label}
-            </text>
-            {Array.from({ length: 9 }).map((_, k) => (
-              <rect
-                key={k}
-                x={84 + k * 22}
-                y={y + 4}
-                width={18}
-                height={20}
-                fill={k < r.ok ? "var(--blueprint-wash)" : "var(--vermilion-wash)"}
-                stroke={k < r.ok ? BLUE : VERM}
-                strokeWidth={1}
-              />
-            ))}
-            <Note x={298} y={y + 19} tone="verm">
-              {r.note}
+          <g key={g.t}>
+            <Box
+              x={x}
+              y={28}
+              w={144}
+              h={46}
+              lines={[g.label, g.sub]}
+              tone={g.free ? "blue" : "plain"}
+              dashed={g.free}
+            />
+            {i < guards.length - 1 && <Arrow from={[x + 144, 51]} to={[x + 158, 51]} />}
+            <Note x={x + 72} y={90} anchor="middle" tone={g.free ? "blue" : "faint"}>
+              {g.free ? "free — from the queue" : "our check"}
             </Note>
           </g>
         );
       })}
 
-      <Arrow from={[40, 32]} to={[40, 160]} tone="verm" />
-      <Note x={0} y={186} tone="verm">
-        It stopped before it started, so the cleanup step never ran.
+      <Arrow from={[738, 74]} to={[738, 118]} />
+      <Note x={800} y={112} anchor="end">survives all four</Note>
+
+      <Box x={620} y={120} w={180} h={46} lines={["FIND THAT ONE AD", "read price from the video"]} />
+      <Note x={800} y={184} anchor="end" tone="verm">
+        not from inventory — the question is
       </Note>
-      <Note x={0} y={200}>
-        The install order changes every run, so a different font fails each time —
-      </Note>
-      <Note x={0} y={213}>
-        which is exactly why people thought the machines were just flaky.
-      </Note>
-
-      <path d="M 0 224 L 800 224" stroke={RULE} strokeDasharray="3 4" strokeWidth={1} fill="none" />
-
-      <Note x={0} y={244} tone="blue">AFTER — the leftovers are made harmless</Note>
-      <Box x={0} y={254} w={150} h={38} lines={["SAME ORDER", "every single run"]} tone="blue" />
-      <Arrow from={[150, 273]} to={[186, 273]} tone="blue" />
-      <Box x={188} y={254} w={162} h={38} lines={["SAFE TO RE-RUN", "skips ones already there"]} tone="blue" />
-      <Arrow from={[350, 273]} to={[386, 273]} tone="blue" />
-      <Box x={388} y={254} w={158} h={38} lines={["CLEANS UP AFTER", "only what it installed"]} tone="blue" />
-      <Arrow from={[546, 273]} to={[582, 273]} tone="blue" />
-      <Box x={584} y={254} w={216} h={38} lines={["MACHINES FIX", "themselves over time"]} tone="blue" />
-    </Frame>
-  );
-}
-
-/* ---------------------------- 05 · voice cascade ------------------- */
-
-function VoiceCascade() {
-  const chain: { lines: string[]; tone?: Tone }[] = [
-    { lines: ["HEARS SPEECH", "~1ms"] },
-    { lines: ["SPEECH→TEXT", "as they talk"] },
-    { lines: ["ARE THEY DONE?", "not just silence"] },
-    { lines: ["AI + ACTIONS", "safe to retry"], tone: "blue" },
-    { lines: ["TEXT→SPEECH", "starts in ~100ms"] },
-  ];
-  return (
-    <Frame h={292}>
-      <Note x={0} y={12}>
-        Separate steps on purpose: each one leaves a record you can read later.
+      <Note x={800} y={198} anchor="end" tone="verm">
+        &quot;what price is this video showing?&quot;
       </Note>
 
-      <Box x={0} y={40} w={82} h={48} lines={["CALLER"]} />
-      <Arrow from={[82, 64]} to={[94, 64]} />
-      <Box x={96} y={40} w={92} h={48} lines={["CONNECTION", "phone |", "browser mic"]} tone="verm" />
-      <Arrow from={[188, 64]} to={[200, 64]} />
-
-      {chain.map((c, i) => {
-        const bx = 204 + i * 122;
-        return (
-          <g key={c.lines[0]}>
-            <Box x={bx} y={40} w={106} h={48} lines={c.lines} tone={c.tone} />
-            {i < chain.length - 1 && <Arrow from={[bx + 106, 64]} to={[bx + 120, 64]} />}
-          </g>
-        );
-      })}
-
-      {/* audio returns to the caller */}
-      <Arrow
-        from={[745, 88]}
-        to={[143, 88]}
-        bend={58}
-        label="speech back to the caller"
-        labelDy={-6}
-      />
-
-      {/* barge-in */}
-      <Box
-        x={204}
-        y={168}
-        w={594}
-        h={46}
-        lines={[
-          "IF THEY INTERRUPT: stop talking · drop the audio · cancel the AI",
-          "and only remember what they actually heard, not what was said",
-        ]}
-        tone="verm"
-      />
-      <Arrow from={[41, 90]} to={[200, 186]} tone="verm" bend={26} label="interrupt" labelAt={0.42} labelDy={-6} />
-
-      <Note x={0} y={236} tone="verm">one connection layer, two versions —</Note>
-      <Note x={0} y={249}>the rest of it never knows it is a phone.</Note>
-
-      <path d="M 0 262 L 800 262" stroke={RULE} strokeDasharray="3 4" strokeWidth={1} fill="none" />
-      <Note x={0} y={282} tone="blue">
-        target: under 0.8s usually, 1.5s at worst
+      <Arrow from={[620, 143]} to={[520, 143]} />
+      <Box x={340} y={120} w={178} h={46} lines={["RE-RENDER JUST IT", "call render directly"]} tone="verm" />
+      <Note x={429} y={182} anchor="middle" tone="verm">
+        not by flipping its status — that restarts everything
       </Note>
-      <Note x={800} y={282} anchor="end" tone="verm">
-        emergencies: never miss one
+
+      <Arrow from={[340, 143]} to={[240, 143]} />
+      <Box x={60} y={120} w={178} h={46} lines={["SAME FILE PATH", "link never changes"]} tone="blue" />
+      <Note x={149} y={182} anchor="middle" tone="blue">
+        nothing downstream needs updating
+      </Note>
+
+      <path d="M 0 214 L 800 214" stroke={RULE} strokeDasharray="3 4" strokeWidth={1} fill="none" />
+
+      <Note x={0} y={234} tone="verm">Guard 5 — if all four fail</Note>
+      <Box x={0} y={244} w={280} h={44} lines={["WRITES THE SAME FILE", "costs money, cannot corrupt"]} tone="verm" />
+      <Note x={300} y={262}>
+        Photos, walkaround video and the AI step are never touched.
+      </Note>
+      <Note x={300} y={278}>
+        Every re-run writes one audit record, searchable by video.
       </Note>
     </Frame>
   );
 }
 
-/* ---------------------------- 06 · eval tiers ---------------------- */
+/* ---------------------------- 04 · thumbnail ----------------------- */
 
-function EvalTiers() {
+function Thumbnail() {
   return (
-    <Frame h={302}>
-      <Note x={0} y={12} tone="blue">LIVE — must be fast, cost does not matter (3 seconds)</Note>
-      <Box x={0} y={24} w={112} h={44} lines={["HE TALKS", "one take"]} />
-      <Arrow from={[112, 46]} to={[150, 46]} />
-      <Box x={152} y={24} w={150} h={44} lines={["SPEECH→TEXT", "as he talks"]} tone="blue" />
-      <Arrow from={[302, 46]} to={[340, 46]} />
-      <Box x={342} y={24} w={186} h={44} lines={["ONE AI CALL", "write-up OR a question"]} tone="blue" />
-      <Arrow from={[528, 46]} to={[566, 46]} />
-      <Box x={568} y={24} w={112} h={44} lines={["HE CHECKS IT"]} />
-      <Arrow from={[680, 46]} to={[718, 46]} />
-      <Box x={720} y={24} w={80} h={44} lines={["SAVE"]} />
-      <Note x={435} y={84} anchor="middle">
-        there is no screen for a second question, so it simply cannot happen
+    <Frame h={272}>
+      <Note x={0} y={12} tone="verm">BEFORE — the video finishes, and that is all</Note>
+
+      <Box x={0} y={28} w={150} h={44} lines={["RENDER FINISHES", "video only"]} />
+      <Arrow from={[150, 50]} to={[192, 50]} />
+      <Box x={194} y={28} w={160} h={44} lines={["NO PREVIEW", "nothing saved"]} tone="verm" dashed />
+      <Arrow from={[354, 50]} to={[396, 50]} />
+      <Box x={398} y={28} w={186} h={44} lines={["DOWNSTREAM GUESSES", "falls back to a logo"]} tone="verm" />
+      <Note x={800} y={86} anchor="end" tone="verm">
+        the fallback hides the gap, so nobody reports it
       </Note>
 
-      {/* shared spine */}
-      <Box x={252} y={106} w={140} h={38} lines={["PROMPT STORE"]} />
-      <Box x={408} y={106} w={140} h={38} lines={["RECORDS TABLE"]} />
-      <Arrow from={[435, 92]} to={[435, 104]} dashed />
-      <Note x={0} y={130}>the only two things</Note>
-      <Note x={0} y={143}>the paths share</Note>
+      <path d="M 0 92 L 800 92" stroke={RULE} strokeDasharray="3 4" strokeWidth={1} fill="none" />
 
-      <Note x={0} y={180} tone="verm">SCORING — must be cheap, can be slow</Note>
-      <Box x={0} y={192} w={150} h={44} lines={["STEP 1", "simple code checks"]} />
-      <Arrow from={[150, 214]} to={[186, 214]} />
-      <Box x={188} y={192} w={168} h={44} lines={["STEP 2", "an AI grades it"]} tone="verm" />
-      <Arrow from={[356, 214]} to={[392, 214]} />
-      <Box x={394} y={192} w={150} h={44} lines={["STEP 3", "compare to known answers"]} />
-      <Arrow from={[544, 214]} to={[580, 214]} />
-      <Box x={582} y={192} w={218} h={44} lines={["THE GATE", "keep or reject — AI and me alike"]} tone="blue" />
-      <Note x={272} y={252} tone="verm">
-        step 2 is 83% of the bill, so the cheap checks run first
+      <Note x={0} y={112} tone="blue">AFTER — the preview is made where the file already is</Note>
+
+      <Box x={0} y={128} w={150} h={46} lines={["TEMPLATE SAYS", "grab at this moment"]} tone="blue" />
+      <Arrow from={[75, 174]} to={[75, 206]} tone="blue" />
+      <Note x={0} y={226}>a config value, not</Note>
+      <Note x={0} y={240}>a line of code</Note>
+
+      <Arrow from={[150, 151]} to={[192, 151]} tone="blue" />
+      <Box x={194} y={128} w={170} h={46} lines={["RENDER FINISHES", "file already in hand"]} />
+      <Arrow from={[364, 151]} to={[406, 151]} />
+      <Box x={408} y={128} w={170} h={46} lines={["GRAB THE FRAME", "no re-download"]} tone="blue" />
+      <Arrow from={[578, 151]} to={[620, 151]} />
+      <Box x={622} y={128} w={178} h={46} lines={["SAVED BESIDE IT", "same id, same place"]} tone="blue" />
+
+      <Note x={800} y={198} anchor="end" tone="blue">
+        anything holding a video id can find the preview
+      </Note>
+      <Note x={800} y={214} anchor="end">
+        first frame is usually an intro card — which sells nothing
       </Note>
 
-      <path d="M 0 268 L 800 268" stroke={RULE} strokeDasharray="3 4" strokeWidth={1} fill="none" />
-      <Note x={0} y={288}>
-        I measured my own error bar first. My cut-off for calling something better
-        had been 5 times smaller than that error.
+      <path d="M 0 252 L 800 252" stroke={RULE} strokeDasharray="3 4" strokeWidth={1} fill="none" />
+      <Note x={0} y={268}>
+        The logo fallbacks that were covering for this should now be deleted, not kept.
       </Note>
     </Frame>
   );
 }
 
 const registry: Record<string, () => ReactNode> = {
-  "dispatch-before-write": DispatchBeforeWrite,
+  "round-robin": RoundRobin,
   "fit-loop": FitLoop,
-  "event-carried": EventCarried,
-  ratchet: Ratchet,
-  "voice-cascade": VoiceCascade,
-  "eval-tiers": EvalTiers,
+  "price-retrigger": PriceRetrigger,
+  thumbnail: Thumbnail,
 };
 
 export default function Diagram({ name }: { name: string }) {

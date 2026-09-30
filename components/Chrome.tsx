@@ -4,6 +4,7 @@ import { useTheme, setTheme } from "@/components/externalState";
 
 const nav = [
   { href: "#how", label: "How I work" },
+  { href: "#skills", label: "Skills" },
   { href: "#work", label: "Work" },
   { href: "#ai", label: "On AI" },
   { href: "#about", label: "About" },

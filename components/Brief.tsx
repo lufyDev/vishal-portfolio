@@ -83,7 +83,7 @@ function Resolver() {
         href="#work"
         className="stamp flex items-center justify-between gap-3 border-t border-rule px-5 py-3.5 text-faint transition-colors hover:bg-sunk hover:text-vermilion"
       >
-        <span>Open the full story</span>
+        <span>See how it was actually solved</span>
         <span aria-hidden>→</span>
       </a>
     </div>
@@ -93,27 +93,38 @@ function Resolver() {
 export default function Brief() {
   return (
     <section id="top" className="border-b border-rule" style={{ scrollMarginTop: "5rem" }}>
-      <div className="mx-auto max-w-[1120px] px-5 pt-16 pb-18 md:px-10 md:pt-28 md:pb-28">
-        <p className="stamp mb-7 text-vermilion">
-          {masthead.eyebrow} · {personalInfo.locus}
-        </p>
-
+      <div className="mx-auto max-w-[1120px] px-5 pt-14 pb-16 md:px-10 md:pt-24 md:pb-24">
         <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,0.75fr)] lg:gap-16">
           <div>
-            <h1 className="display rise max-w-[14ch] text-[clamp(2.7rem,6.6vw,4.7rem)]">
+            {/* the role, said loudly — it is the first thing anyone needs */}
+            <p className="display text-[clamp(2.1rem,5vw,3.4rem)] leading-none">
+              {masthead.role}
+            </p>
+            <div className="mt-4 mb-7 flex items-center gap-3">
+              <span className="h-px w-12 bg-vermilion" />
+              <span className="stamp text-faint">
+                {personalInfo.name} · {personalInfo.locus}
+              </span>
+            </div>
+
+            <h1 className="display rise max-w-[15ch] text-[clamp(2.4rem,5.6vw,4rem)] text-vermilion">
               {masthead.headline}
             </h1>
 
-            <p className="mt-8 max-w-[50ch] text-[clamp(1.05rem,2vw,1.25rem)] leading-relaxed text-soft">
+            <p className="mt-7 max-w-[52ch] text-[clamp(1.05rem,2vw,1.22rem)] leading-relaxed text-soft">
               {masthead.lede}
             </p>
 
-            <p className="display mt-6 max-w-[38ch] text-[clamp(1.2rem,2.3vw,1.55rem)] text-vermilion">
+            <p className="display mt-6 max-w-[40ch] text-[clamp(1.15rem,2.2vw,1.5rem)]">
+              {masthead.punch}
+            </p>
+
+            <p className="display mt-3 max-w-[40ch] text-[clamp(1.15rem,2.2vw,1.5rem)] italic text-vermilion">
               {masthead.kicker}
             </p>
           </div>
 
-          <div className="lg:pt-3">
+          <div className="lg:pt-6">
             <Portrait />
           </div>
         </div>
@@ -148,7 +159,7 @@ export default function Brief() {
         </div>
 
         {/* three numbers, then the one interactive idea */}
-        <div className="mt-16 grid gap-px border border-rule bg-rule sm:grid-cols-3">
+        <div className="mt-14 grid gap-px border border-rule bg-rule sm:grid-cols-3">
           {ledger.map((l) => (
             <div key={l.label} className="bg-raised px-5 py-6">
               <p className="value text-[clamp(1.7rem,3.4vw,2.2rem)] leading-none text-vermilion">

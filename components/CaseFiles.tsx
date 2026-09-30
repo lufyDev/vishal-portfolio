@@ -305,8 +305,8 @@ export default function CaseFiles() {
   return (
     <Section id="work" sunk>
       <SectionHead
-        stamp="Work"
-        title="Six problems I was handed."
+        stamp="Recent work"
+        title="Problems I worked on."
         lede="Open any one to see the whole thing: what was asked, what it turned out to be, how I built it, and what changed. Where something isn't finished or isn't measured, it says so."
       />
 

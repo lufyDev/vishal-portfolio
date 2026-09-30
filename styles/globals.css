@@ -214,6 +214,7 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  .loader { display: none; }
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
@@ -288,4 +289,36 @@ body {
 .portrait-trace {
   stroke-dasharray: 5 7;
   animation: trace 22s linear infinite;
+}
+
+/* the portrait hovers, very slowly */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-11px); }
+}
+.portrait-float { animation: float 7.5s ease-in-out infinite; }
+
+/* ------------------------------- loader ----------------------------- *
+ * A quick registration pass, then it lifts. Under a second and a half.
+ * ------------------------------------------------------------------- */
+
+@keyframes loader-line { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes loader-mark { from { opacity: 0; transform: scale(2.2) rotate(-25deg); } to { opacity: 1; transform: none; } }
+@keyframes loader-name { from { opacity: 0; letter-spacing: 0.7em; } to { opacity: 1; letter-spacing: 0.2em; } }
+@keyframes loader-out { to { opacity: 0; transform: translateY(-14px); visibility: hidden; } }
+
+.loader { animation: loader-out 0.45s cubic-bezier(0.7, 0, 0.84, 0) 1.05s forwards; }
+:root[data-seen="1"] .loader { display: none; }
+.loader-mark { animation: loader-mark 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.loader-name { animation: loader-name 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both; }
+.loader-line { transform-origin: left; animation: loader-line 1s cubic-bezier(0.4, 0, 0.2, 1) 0.15s both; }
+
+/* ------------------------------ campus ------------------------------ */
+
+/* The photo sits under the education panel, faded into the paper. */
+.campus img {
+  filter: grayscale(0.28) contrast(1.04);
+}
+:root[data-theme="dark"] .campus img {
+  filter: grayscale(0.35) brightness(0.62) contrast(1.06);
 }

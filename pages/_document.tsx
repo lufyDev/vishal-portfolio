@@ -3,10 +3,12 @@ import { Html, Head, Main, NextScript } from "next/document";
 /* Applied before first paint so a returning visitor never sees a flash of
  * the wrong theme. Wrapped because storage throws in some private modes. */
 const themeBoot = `
-(function(){try{var t=localStorage.getItem("theme");
+(function(){var d=document.documentElement;
+try{var t=localStorage.getItem("theme");
 if(!t){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}
-document.documentElement.setAttribute("data-theme",t);}catch(e){
-document.documentElement.setAttribute("data-theme","light");}})();
+d.setAttribute("data-theme",t);}catch(e){d.setAttribute("data-theme","light");}
+try{if(sessionStorage.getItem("seen")==="1"){d.setAttribute("data-seen","1");}
+else{sessionStorage.setItem("seen","1");}}catch(e){}})();
 `;
 
 export default function Document() {

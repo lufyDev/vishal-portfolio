@@ -59,7 +59,7 @@ export default function Portrait() {
           <span className="absolute left-1/2 bottom-0 h-px w-4 -translate-x-1/2 bg-rule-strong" />
         </div>
 
-        <div className="plate relative p-2.5">
+        <div className="portrait-float plate relative p-2.5">
           {corners.map((c, i) => (
             <span
               key={i}
