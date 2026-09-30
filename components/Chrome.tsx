@@ -68,11 +68,11 @@ export function Masthead() {
       {/* on small screens the nav moves below the title as a scrollable strip */}
       <nav
         aria-label="Sections"
-        className="flex gap-4 overflow-x-auto border-t border-rule px-5 py-2.5 lg:hidden"
+        className="flex gap-4 overflow-x-auto border-t border-rule px-5 lg:hidden"
         style={{ scrollbarWidth: "none" }}
       >
         {nav.map((n) => (
-          <a key={n.href} href={n.href} className="stamp whitespace-nowrap text-soft">
+          <a key={n.href} href={n.href} className="stamp whitespace-nowrap py-2.5 text-soft">
             {n.label}
           </a>
         ))}

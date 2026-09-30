@@ -30,7 +30,7 @@ export default function Contact() {
             </p>
           </div>
 
-          <div className="border-t border-rule">
+          <div className="min-w-0 border-t border-rule">
             {lines.map((l) => (
               <a
                 key={l.label}
@@ -38,13 +38,15 @@ export default function Contact() {
                 className="group flex items-center gap-4 border-b border-rule py-4 transition-colors hover:bg-sunk"
               >
                 <l.icon size={15} className="shrink-0 text-faint group-hover:text-vermilion" />
-                <span className="stamp w-[72px] shrink-0 text-faint">{l.label}</span>
+                <span className="stamp sr-only min-[480px]:not-sr-only min-[480px]:w-[72px] min-[480px]:shrink-0 text-faint">
+                  {l.label}
+                </span>
                 <span className="mono min-w-0 flex-1 truncate text-[13.5px] text-soft group-hover:text-ink">
                   {l.value}
                 </span>
                 <FiArrowUpRight
                   size={14}
-                  className="shrink-0 text-faint transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-vermilion"
+                  className="hidden shrink-0 text-faint transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-vermilion min-[480px]:block"
                 />
               </a>
             ))}
