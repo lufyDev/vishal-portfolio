@@ -19,7 +19,7 @@ export const personalInfo = {
   email: "vishalpundhirofficial@gmail.com",
   phone: "+91 8193809760",
   resumeUrl:
-    "https://drive.google.com/uc?export=download&id=1yyBaMewscmhBwuHNPbSI6cQEskwDvTAB",
+    "https://drive.google.com/uc?export=download&id=1pJx_ndrjsm44MP_0sIgh37GTZ56XYUCF",
   socials: {
     github: "https://github.com/lufyDev",
     linkedin: "https://www.linkedin.com/in/vishal-pundhir-31059b197",
