@@ -644,23 +644,6 @@ export const projects: Project[] = [
 
   {
     n: "02",
-    name: "Urban Update",
-    tagline: "Newsroom CMS and the site it feeds",
-    span: "2026",
-    state: "live",
-    stateLabel: "Live",
-    summary:
-      "A publishing tool for a city-affairs magazine and the public site that reads from it. Reporters draft and submit, editors assign and publish, admins run the place — three roles, three dashboards, one set of articles underneath. Media uploads and per-article numbers are part of it.",
-    note:
-      "Request and response shapes live in a shared contracts package the API and the front end both import. The two sides can disagree at build time, which is the only time it's cheap.",
-    shot: "urban-update",
-    shotAlt: "The Urban Update home page \u2014 the masthead, a news navigation bar, and the Featured Stories list.",
-    stack: ["NestJS", "Next.js", "MongoDB", "Turborepo", "pnpm", "Tailwind", "Quill", "Chart.js"],
-    links: [{ label: "urbanupdate.in", href: "https://urbanupdate.in/", kind: "live" }],
-  },
-
-  {
-    n: "03",
     name: "mini-claude",
     tagline: "A coding agent, built from scratch",
     span: "2026",
