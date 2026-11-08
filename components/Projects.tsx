@@ -4,14 +4,16 @@ import { Section, SectionHead } from "@/components/Chrome";
 import { FiArrowUpRight, FiGithub, FiArrowUp, FiLock } from "react-icons/fi";
 import itineraryaiShot from "@/public/shots/itineraryai.jpg";
 import urbanUpdateShot from "@/public/shots/urban-update.jpg";
+import miniClaudeShot from "@/public/shots/mini-claude.jpg";
 
-/* Two plates, each a screenshot beside the write-up: index, live/private
+/* One plate per project, each a screenshot above the write-up: index, live/private
  * state, what it is, the one decision worth reading, what it's built
  * from, and where to go next. */
 
 const shots: Record<string, StaticImageData> = {
   itineraryai: itineraryaiShot,
   "urban-update": urbanUpdateShot,
+  "mini-claude": miniClaudeShot,
 };
 
 function StateMark({ p }: { p: Project }) {

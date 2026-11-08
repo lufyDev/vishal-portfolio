@@ -659,6 +659,31 @@ export const projects: Project[] = [
     links: [{ label: "urbanupdate.in", href: "https://urbanupdate.in/", kind: "live" }],
   },
 
+  {
+    n: "03",
+    name: "mini-claude",
+    tagline: "A coding agent, built from scratch",
+    span: "2026",
+    state: "live",
+    stateLabel: "Live",
+    summary:
+      "A small version of the AI coding assistants everyone now has open all day, built to find out how they actually work. Give it a task and it reads files, writes them, and runs commands until it's done. The page shows every step live — what it's weighing up, which tool it reached for, what came back, and what the turn cost.",
+    note:
+      "It's public, so the shell it runs commands in works off a list of what's allowed rather than a list of what's banned. A list of dangerous commands is one you are permanently one entry short on.",
+    shot: "mini-claude",
+    shotAlt:
+      "The mini-claude web UI — a prompt to write and run a primes script, followed by the agent's reasoning, three tool calls, the answer, and the token cost for the turn.",
+    stack: ["Python", "FastAPI", "SSE", "OpenAI Responses API", "Docker", "Railway"],
+    links: [
+      {
+        label: "Try it live",
+        href: "https://mini-claude-production-002f.up.railway.app",
+        kind: "live",
+      },
+      { label: "Repo", href: "https://github.com/lufyDev/mini-claude", kind: "repo" },
+    ],
+  },
+
 ];
 
 export const leverage = {
