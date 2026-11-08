@@ -124,6 +124,16 @@ body {
   border: 1px solid var(--rule);
 }
 
+/* project plates: the hover border has to be unlayered to beat the
+ * global `* { border-color }` reset above. */
+.project-plate {
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+.project-plate:hover,
+.project-plate:focus-within {
+  border-color: var(--vermilion);
+}
+
 /* corner ticks — drafting registration marks, drawn with gradients */
 .ticked {
   position: relative;

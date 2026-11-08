@@ -3,6 +3,7 @@ import { Masthead, Footer } from "@/components/Chrome";
 import Brief from "@/components/Brief";
 import Approach from "@/components/Approach";
 import CaseFiles from "@/components/CaseFiles";
+import Projects from "@/components/Projects";
 import Leverage from "@/components/Leverage";
 import Skills from "@/components/Skills";
 import Education from "@/components/Education";
@@ -35,6 +36,7 @@ export default function Home() {
         <Skills />
         <Approach />
         <CaseFiles />
+        <Projects />
         <Contact />
       </main>
       <Footer />

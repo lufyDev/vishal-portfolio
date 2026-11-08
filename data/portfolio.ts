@@ -92,23 +92,26 @@ export const skills: SkillGroup[] = [
     items: ["Kafka", "SQS / FIFO", "SNS", "CDC events", "Round-robin dispatch", "Idempotent consumers"],
   },
   {
-    stamp: "Cloud & infra",
-    lead: "Deploying it, running it, and being the one paged for it.",
-    items: ["AWS", "Lambda", "Step Functions", "ECS", "EC2", "S3", "CloudFront", "Nginx", "PM2"],
-  },
-  {
+    core: true,
     stamp: "AI in production",
-    lead: "Real workflows, not demos.",
+    lead: "Shipped in real workflows, not demos \u2014 and the same tools run my own day. I measure whether they actually earn their cost.",
     items: [
       "Structured outputs",
       "LangGraph",
+      "Agent loops & critics",
       "RAG",
       "Tool calling",
       "MCP",
       "LLM-as-judge",
+      "Evals & measurement",
       "Speech in / out",
       "Prompt versioning",
     ],
+  },
+  {
+    stamp: "Cloud & infra",
+    lead: "Deploying it, running it, and being the one paged for it.",
+    items: ["AWS", "Lambda", "Step Functions", "ECS", "EC2", "S3", "CloudFront", "Nginx", "PM2"],
   },
   {
     stamp: "Frontend",
@@ -173,28 +176,28 @@ export const caseFiles: CaseFile[] = [
     ask: "One dealer's bulk upload blocks everyone else.",
     headline: "An hour's wait becomes about three minutes",
     span: "2026",
-    status: "Built \u00b7 behind a flag",
+    status: "Built · behind a flag",
     brief:
-      "A video normally takes about three minutes to process. But one large dealer sends a hundred at once, and everything from every other dealer lines up behind them \u2014 so a small dealer's single video sat for about an hour. The queue was first-in-first-out, and once a hundred jobs are in it nobody can change the order.",
+      "Videos get processed in the order they arrive. One big dealer uploaded a hundred at once, so the next customer in line — with a single video — waited about an hour instead of three minutes. And you cannot reorder a line once everyone is already standing in it.",
     decomposition: [
       {
         label: "More machines move the wait, they don't share it",
-        text: "With a first-in-first-out queue the hundred-and-first video is still hundred-and-first. You'd pay more for the same unfairness.",
+        text: "In a first-come-first-served line, the hundred-and-first video is still hundred-and-first. You'd pay more and the small dealer would still wait.",
       },
       {
-        label: "Everything having the same priority is the same as no priority",
+        label: "The priority setting was a dead end",
         edge: true,
-        text: "The render service lets you set a priority number. Every job was already on the same value, so it fell through to oldest-first. A priority system that was FIFO wearing a different name.",
+        text: "The video service lets you mark a job urgent. Every job was already marked the same, so it quietly fell back to oldest-first. A priority system with one priority is just a queue with extra steps.",
       },
       {
-        label: "The video that caused the complaint skipped the queue we were about to fix",
+        label: "The video people complained about took a different route",
         edge: true,
-        text: "Videos take one of two routes, and this one skipped the AI step entirely \u2014 so every fix aimed at that queue would have done nothing for it. I only found that by tracing the actual blocked video instead of reasoning about the general case.",
+        text: "Videos go down one of two paths, and this one skipped the AI step entirely — so every fix aimed at that step would have changed nothing for it. I only found that by following the actual stuck video instead of reasoning about the general case.",
       },
       {
-        label: "You can't reorder a queue you've already filled \u2014 so don't fill it",
+        label: "So don't fill the line in the first place",
         edge: true,
-        text: "Keep the work in a short waiting list on our side and hand over a few at a time, taking turns. A short queue is the only queue you can still control.",
+        text: "Hold the work on our side and send a few at a time, taking turns between dealers. A short line is the only line you can still reorder.",
       },
     ],
     diagram: "round-robin",
@@ -202,50 +205,50 @@ export const caseFiles: CaseFile[] = [
       "The waiting list is ours, so we decide the order. The queue stays short on purpose.",
     decisions: [
       {
-        chose: "Hold the work on our side and release a few at a time, taking turns between dealers.",
-        insteadOf: "Sorting the queue, or using the render service's priority number.",
+        chose: "Keep a waiting list on our side and release a few per dealer at a time, taking turns.",
+        insteadOf: "Reordering the queue, or using the video service's priority setting.",
         because:
-          "Once jobs are queued you cannot reorder them. And that priority number only has two settings, both already spoken for.",
+          "You cannot reorder a queue that's already full. And the priority setting has two values, both already spoken for.",
       },
       {
-        chose: "Fix the render queue first.",
-        insteadOf: "The AI queue, which everyone assumed was the problem.",
+        chose: "Fix the slower of the two stages first.",
+        insteadOf: "The AI stage, which everyone assumed was the problem.",
         because:
-          "The blocked video never touches the AI step. And rendering is about four times slower than work arrives, so that is the only place a lasting pile-up forms.",
+          "The stuck video never touches the AI stage. And rendering is about four times slower than work arrives, so it's the only place a lasting pile-up can form.",
       },
       {
-        chose: "Leave the video's status changes exactly as they are.",
-        because: "Dashboards and customer APIs read that status. Making things fair shouldn't break a report.",
+        chose: "Don't change how a video reports its status.",
+        because: "Dashboards and customer APIs read that status. Making the queue fair shouldn't break someone's report.",
       },
     ],
     metrics: [
       {
-        metric: "normal processing time for one video",
+        metric: "time to process one video",
         before: "~3 min",
         after: "unchanged",
         how: "this was never the slow part",
       },
       {
-        metric: "small dealer's wait behind a 100-video upload",
+        metric: "a small dealer's wait behind a 100-video upload",
         before: "~62 min",
         after: "~3 min",
         how: "worked out from measured speeds at both stages",
       },
       {
-        metric: "speed of the AI step",
+        metric: "how fast the AI stage really runs",
         before: "quoted as ~60 an hour",
-        after: "~360\u2013480 an hour",
-        how: "corrected \u2014 the old figure was one worker's rate read as the total",
+        after: "~360–480 an hour",
+        how: "I corrected my own number — the old one was one worker's rate read as the total",
       },
       {
         metric: "status",
-        before: "\u2014",
-        after: "built on a release branch, flag off",
-        how: "said plainly \u2014 not yet switched on in production",
+        before: "—",
+        after: "built, switched off in production",
+        how: "said plainly — it sits behind a flag",
       },
     ],
     reflection:
-      "My first plan fixed the AI queue, because that's the obvious place to look. It would not have helped the one video that caused the complaint. I also quoted an AI speed about six times too low for weeks, because I read one worker's rate as the total, and corrected it in front of the same thread once I measured properly.",
+      "My first plan fixed the AI stage, because that's the obvious place to look. It would not have helped the one video that caused the complaint. I also quoted that stage's speed about six times too low for weeks, because I read one worker's rate as the total — and corrected it in the same thread once I measured properly.",
     stack: ["Node.js", "SQS", "MySQL", "Kafka", "AWS"],
   },
 
@@ -258,26 +261,26 @@ export const caseFiles: CaseFile[] = [
     span: "2026",
     status: "Shipped",
     brief:
-      "Each video segment has a fixed length. An AI writes a short script for it and a text-to-speech service reads it out. The check meant to keep scripts short enough kept passing while the audio kept getting cut off \u2014 and when a script came in short, the slot sat in silence, which nobody had even named as a bug.",
+      "Each slot in the video is a fixed number of seconds. An AI writes the line, a text-to-speech voice reads it out. The check meant to keep lines short enough kept passing while the audio kept getting chopped mid-word. And when a line came in too short, the slot just sat in silence — which nobody had even called a bug.",
     decomposition: [
       {
-        label: "The check was counting the wrong thing",
+        label: "The check counted words, the slot measures seconds",
         edge: true,
-        text: "\u201c2025 BMW i7 looks stunning\u201d is five words on the page but about nine when spoken. The budget was written in words against a slot measured in seconds.",
+        text: "“2025 BMW i7 looks stunning” is five words on the page but about nine when spoken. Those two numbers were never going to line up.",
       },
       {
         label: "Never ask an AI for an exact count",
         edge: true,
-        text: "Give it a target it can't hit and it returns a confident wrong answer, not an error. All 12 prompts moved to \u201cat most\u201d, with a way out if it still can't fit.",
+        text: "Give it a target it can't hit and you get a confident wrong answer, not an error. All 12 prompts moved to “at most”, with a way out if the line still doesn't fit.",
       },
       {
         label: "Too short is a bug too",
         edge: true,
-        text: "Everyone watched for cut-offs, so nothing watched for a script that finished early and left silence. Fitting means using the room you were given, not just staying under a limit.",
+        text: "Everyone was watching for cut-offs, so nothing was watching for a line that ended early and left silence. Fitting a slot means using the room you were given, not just staying under the limit.",
       },
       {
         label: "Picked a real target instead of inventing one",
-        text: "A hand-made video filled 97% of its slots. That's what made 51% look bad and 73% look like real progress.",
+        text: "A hand-made video fills 97% of its slots. That's the number that made 51% look bad and 73% look like real progress.",
       },
     ],
     diagram: "fit-loop",
@@ -285,26 +288,26 @@ export const caseFiles: CaseFile[] = [
       "The guess is gone. The loop measures the real audio and corrects in both directions.",
     decisions: [
       {
-        chose: "Measure the real length of the audio file before uploading it.",
-        insteadOf: "A better guess with a safety margin.",
+        chose: "Measure how long the audio actually is before using it.",
+        insteadOf: "A better guess, with a safety margin.",
         because:
           "A safety margin is a guess about how wrong your guess is. Measuring removes the guess. If you're tuning a margin, stop and go measure.",
       },
       {
-        chose: "Correct in both directions \u2014 shorten if it overruns, lengthen if it falls short.",
-        insteadOf: "Only guarding the overrun people complained about.",
-        because: "A half-empty slot is a worse video too, it just doesn't generate a ticket.",
+        chose: "Correct in both directions — trim if it overruns, extend if it falls short.",
+        insteadOf: "Only fixing the overrun people complained about.",
+        because: "A half-empty slot is a worse video too. It just doesn't generate a ticket.",
       },
       {
-        chose: "Leave the shared audio service alone completely.",
+        chose: "Leave the shared audio service completely alone.",
         because:
-          "Other teams depend on it. Doing the work on my side of the line meant I could not break anyone else.",
+          "Other teams depend on it. Doing the work on my side of the line meant I couldn't break anyone else.",
       },
     ],
     metrics: [
-      { metric: "how much of the slot gets used", before: "51%", after: "73%", how: "test renders, one template" },
-      { metric: "cut-offs", before: "every time", after: "zero", how: "same renders" },
-      { metric: "slots left half-silent", before: "unwatched", after: "corrected automatically", how: "same renders" },
+      { metric: "how much of each slot gets used", before: "51%", after: "73%", how: "test renders, one template" },
+      { metric: "lines cut off mid-word", before: "every time", after: "none", how: "same renders" },
+      { metric: "slots left half-silent", before: "nobody was watching", after: "fixed automatically", how: "same renders" },
       {
         metric: "where the length came from",
         before: "guessed from word count",
@@ -313,7 +316,7 @@ export const caseFiles: CaseFile[] = [
       },
     ],
     reflection:
-      "I built a better guess first and only measured second. If I'd asked \u201ccan I just measure this?\u201d on day one, the middle step would have been unnecessary. And 73% against a 97% target isn't finished \u2014 what's left is script quality, not fitting.",
+      "I built the better guess first and only measured second. If I'd asked “can I just measure this?” on day one, the middle step would never have existed. And 73% against a 97% target isn't finished — what's left is writing better lines, not fitting them.",
     stack: ["Node.js", "OpenAI", "Text-to-speech", "Prompt design"],
   },
 
@@ -324,73 +327,73 @@ export const caseFiles: CaseFile[] = [
     ask: "The price dropped but the ad still shows the old one.",
     headline: "One event now rebuilds one video, by itself",
     span: "2026",
-    status: "Built & tested \u00b7 deploy pending",
+    status: "Built & tested · deploy pending",
     brief:
-      "Our ad videos have the price printed into the video itself. When a dealer dropped a price, the ad kept showing the old number until someone noticed and re-made it by hand. I built the path that listens for a price change and rebuilds exactly that one video \u2014 in the usual three minutes, with nobody involved.",
+      "The price is printed into the ad video itself, not laid over it. So when a dealer dropped a price, the ad kept showing the old number until a person noticed and remade it by hand. I built the path that hears the price change and rebuilds exactly that one video — in the usual three minutes, with nobody involved.",
     decomposition: [
       {
-        label: "The same event will arrive more than once",
+        label: "The same price change will arrive more than once",
         edge: true,
-        text: "Five guards, outside in: the queue drops exact repeats within five minutes; one car is handled one at a time even across servers; skip if the car is sold; skip if the price already matches; and if all that fails, the re-render writes the same file, so a repeat costs money but can't corrupt anything.",
+        text: "Five guards, cheapest first: the queue drops exact repeats within five minutes; one car is handled one at a time even across servers; skip if the car is sold; skip if the video already shows the right price; and if all of that fails, the rebuild overwrites the same file — so a repeat costs money but can't corrupt anything.",
       },
       {
-        label: "A price event can arrive after the car is sold",
+        label: "A price change can arrive after the car is sold",
         edge: true,
-        text: "So that's the very first check \u2014 before any lookup, any render, any spend.",
+        text: "So that is the very first check — before any lookup, any rebuild, any spend.",
       },
       {
-        label: "Read the current price from the video, not from inventory",
+        label: "Read the current price off the video, not from inventory",
         edge: true,
-        text: "The question isn't \u201cwhat is this car's price\u201d, it's \u201cwhat price is this video showing\u201d. Only the second one tells you whether a re-render is pointless. It also took a 4\u20135 second API call out of the path.",
+        text: "The question isn't “what does this car cost”, it's “what price is this video showing”. Only the second one tells you whether rebuilding is pointless. It also took a 4–5 second lookup out of the path.",
       },
       {
         label: "Don't wake the rest of the pipeline",
         edge: true,
-        text: "The obvious way to rebuild it is to reset the video's status \u2014 but something watches that column and restarts the entire pipeline when it changes. I call the render step directly instead.",
+        text: "The obvious way to rebuild a video is to reset its status — but something watches that field and restarts the entire pipeline when it changes. So I call the rebuild step directly instead.",
       },
     ],
     diagram: "price-retrigger",
     diagramCaption:
-      "Guards run cheapest first. Two of the five are free \u2014 they come from the queue's own guarantees.",
+      "Guards run cheapest first. Two of the five are free — they come from the queue's own guarantees.",
     decisions: [
       {
-        chose: "Hook the rebuild to the price event itself.",
+        chose: "Trigger the rebuild from the price change itself.",
         insteadOf: "A scheduled job that re-checks every car's price.",
-        because: "A schedule is either too slow to matter or wastes almost all its work. The event says exactly which car changed.",
+        because: "A schedule is either too slow to matter or wastes almost all its work. The event already says which car changed.",
       },
       {
-        chose: "Keep the same file path, so the link never changes.",
-        because: "Nothing downstream needs updating \u2014 no feed refresh, no cache to clear, no callback.",
+        chose: "Write the new video to the same address as the old one.",
+        because: "Then nothing downstream needs updating — no feed refresh, no cache to clear, no callback.",
       },
       {
-        chose: "Five guard layers, and write down which ones cost code.",
+        chose: "Write down which of the five guards actually cost me code.",
         because:
-          "Two come free from the queue's ordering and de-duplication. Worth knowing which of your protections you're actually maintaining.",
+          "Two of them come free from how the queue already works. Worth knowing which of your protections you're genuinely maintaining.",
       },
     ],
     metrics: [
       {
-        metric: "price change \u2192 updated ad",
+        metric: "price change → updated ad",
         before: "by hand, whenever someone noticed",
-        after: "automatic, ~3 min per event",
+        after: "automatic, ~3 min",
         how: "design",
       },
       { metric: "what gets rebuilt", before: "risk of re-running everything", after: "one ad video", how: "design" },
       {
-        metric: "price lookup",
-        before: "an API call, 4\u20135 seconds",
-        after: "read from the video's own data",
+        metric: "looking up the price",
+        before: "an API call, 4–5 seconds",
+        after: "read off the video's own data",
         how: "removed from the path entirely",
       },
       {
-        metric: "guards against duplicate events",
-        before: "\u2014",
+        metric: "guards against a repeated event",
+        before: "—",
         after: "5, two of them free",
         how: "written out layer by layer",
       },
     ],
     reflection:
-      "The choice I'd defend hardest is reading the current price from the video rather than from inventory. It looks like the wrong source until you say the question out loud. What I'd do differently: I wrote out the five guard layers after building them. Doing that first would have shown me two were free.",
+      "The choice I'd defend hardest is reading the price off the video rather than from inventory — it looks like the wrong source until you say the question out loud. What I'd do differently: I listed the five guards after building them. Doing it first would have shown me two were free.",
     stack: ["Node.js", "SQS FIFO", "SNS", "MySQL", "AWS"],
   },
 
@@ -403,35 +406,35 @@ export const caseFiles: CaseFile[] = [
     span: "2026",
     status: "Shipped",
     brief:
-      "Videos from the newer pipeline finished without a preview image, so anything that needed one fell back to a logo or showed nothing. I added automatic thumbnails: one frame pulled out of the delivered video at a point each template chooses, generated as part of the render rather than as a job someone has to remember to run.",
+      "Videos from the newer pipeline finished without a preview image, so anything that needed one fell back to a logo or showed nothing. Now a single frame is pulled out of the finished video, at a moment each template chooses — as part of the render, not as a job someone has to remember to run.",
     decomposition: [
       {
         label: "The first frame is the worst frame",
         edge: true,
-        text: "A walkaround video often opens on an intro card or a half-drawn scene. So the moment to grab became a per-template setting \u2014 the same creative always looks good at the same point, and that's a design call, not a code one.",
+        text: "These videos often open on a title card or a half-drawn scene. So which second to grab became a per-template setting — the same creative always looks good at the same moment, and that's a design call, not a code one.",
       },
       {
-        label: "Grab it from the delivered file, after the render",
-        text: "That way the preview can never disagree with the video someone actually sees. It costs about a second of ffmpeg instead of a full frame render on the machine that's already the bottleneck.",
+        label: "Take it from the finished file, after the render",
+        text: "Then the preview can never disagree with the video people actually see. It costs about a second of ffmpeg instead of a full frame render on the machine that's already the bottleneck.",
       },
       {
-        label: "The two halves of the render don't share memory",
+        label: "The two halves of the render share no memory",
         edge: true,
-        text: "Setup runs on one machine; the real render finishes minutes later on another, and the step that collects the finished file knows nothing except the video's id. So the chosen frame time is handed over through a small file in storage, filed under that id.",
+        text: "Setup runs on one machine; the real render finishes minutes later on another, and the step that collects the file knows nothing except the video's id. So the chosen moment is handed over in a tiny file, filed under that id.",
       },
       {
-        label: "ffmpeg exits 0 having written nothing",
+        label: "ffmpeg can succeed and write nothing",
         edge: true,
-        text: "If the timestamp lands past the end of the video it succeeds with an empty file. So the check is file size, not exit code \u2014 and a timestamp past the end clamps back inside the video instead of giving up.",
+        text: "Ask for a frame past the end of the video and it exits happily with an empty file. So the check is file size, not exit code — and a timestamp past the end gets pulled back inside the video instead of giving up.",
       },
       {
-        label: "The content type is load-bearing",
+        label: "One header decides whether it displays or downloads",
         edge: true,
-        text: "Without an explicit image type the file downloads instead of displaying, and the ad platform's fetch fails. The cache is five minutes on purpose too: the address stays the same across re-renders, so a long cache would serve the old preview forever.",
+        text: "Without an explicit image type the file downloads instead of showing, and the ad platform's fetch fails. The five-minute cache is deliberate too: the address stays the same across rebuilds, so a long cache would serve the old preview forever.",
       },
       {
         label: "It must never make a good render fail",
-        text: "Every step is best-effort. If anything goes wrong there's simply no preview, and the field is left out rather than sent empty \u2014 so a failed re-run can't wipe a preview an earlier one already saved.",
+        text: "Every step is best-effort. If anything goes wrong there's simply no preview, and the field is left out rather than sent empty — so a failed retry can't wipe a preview an earlier one already saved.",
       },
     ],
     diagram: "thumbnail",
@@ -439,58 +442,58 @@ export const caseFiles: CaseFile[] = [
       "Made from the delivered file, at a moment the template picks, handed between two passes that share nothing but an id.",
     decisions: [
       {
-        chose: "Take the frame at a time the template sets.",
-        insteadOf: "Always the first frame, or the middle.",
+        chose: "Take the frame at a moment the template sets.",
+        insteadOf: "Always the first frame, or always the middle.",
         because:
-          "Which moment looks best is a design decision and it differs per template. Leaving the setting off is also how the whole feature stays switched off for that template \u2014 no separate flag.",
+          "Which moment looks best is a design decision and it differs per template. Leaving the setting empty is also how the whole feature stays off for that template — no separate flag needed.",
       },
       {
-        chose: "Hand the frame time between passes through its own small file.",
+        chose: "Hand the chosen moment between the two passes in its own small file.",
         insteadOf: "Reading it back out of the render config that's already uploaded.",
         because:
-          "The value is sitting right there in that file, which is exactly why it is tempting. Its own file, filed under the video id, cannot be reshaped by whatever else writes to the other one.",
+          "The value is sitting right there in that file, which is exactly why it's tempting. Its own file, filed under the video id, can't be reshaped by whatever else writes to the other one.",
       },
       {
-        chose: "Seek after loading the file, not before.",
+        chose: "Load the video first, then seek to the moment.",
         insteadOf: "The faster seek.",
         because:
-          "The fast one snaps to the nearest earlier keyframe and can hand back a visibly different frame than the template asked for. At the one-or-two-second marks templates use, the extra decode costs nothing.",
+          "The fast one snaps to the nearest earlier keyframe and can hand back a visibly different frame than the template asked for. At the one-or-two-second marks templates use, doing it properly costs nothing.",
       },
       {
-        chose: "Reuse the field name the old pipeline already emits.",
-        because: "Both pipelines then write the same column through one contract, and nothing downstream needs a version branch.",
+        chose: "Reuse the field name the old pipeline already fills.",
+        because: "Both pipelines then write the same column through one contract, and nothing downstream needs a version check.",
       },
     ],
     metrics: [
-      { metric: "videos with a real preview", before: "none on this pipeline", after: "every configured template", how: "\u2014" },
+      { metric: "videos with a real preview", before: "none on this pipeline", after: "every configured template", how: "—" },
       {
-        metric: "what downstream showed instead",
+        metric: "what people saw instead",
         before: "a brand logo stand-in, or nothing",
         after: "a frame from the video itself",
-        how: "\u2014",
+        how: "—",
       },
-      { metric: "which frame", before: "n/a", after: "chosen per template", how: "a config value, not code" },
+      { metric: "which frame", before: "n/a", after: "chosen per template", how: "a setting, not code" },
       {
-        metric: "cost to generate",
+        metric: "cost to make one",
         before: "would need a full frame render",
-        after: "~1s of ffmpeg, off the bottleneck box",
+        after: "~1s of ffmpeg, off the busiest machine",
         how: "design",
       },
       {
-        metric: "effect on a failed thumbnail",
-        before: "\u2014",
-        after: "none \u2014 the render still succeeds",
+        metric: "if the preview fails",
+        before: "—",
+        after: "nothing — the video still succeeds",
         how: "best-effort at every step",
       },
       {
         metric: "how often it actually produces one",
-        before: "\u2014",
+        before: "—",
         after: "never measured",
-        how: "the gap I'd close first: count previews against configured templates over a real render window",
+        how: "the gap I'd close first: count previews against configured templates over a real week",
       },
     ],
     reflection:
-      "Shipped and running with no incidents, but I never measured the success rate \u2014 how many configured renders actually produce a preview. I know the method to get it, which makes not having it worse rather than better. The fallbacks that were covering for the missing previews should also come out now; a stand-in that's never removed becomes the design.",
+      "Shipped and running with no incidents, but I never measured the success rate — how many configured renders actually produce a preview. I know exactly how to get that number, which makes not having it worse rather than better. The logo fallbacks that were covering for the missing previews should come out now too; a stand-in that's never removed quietly becomes the design.",
     stack: ["Node.js", "ffmpeg", "S3", "AWS render farm"],
   },
 
@@ -501,28 +504,28 @@ export const caseFiles: CaseFile[] = [
     ask: "Planning a group trip is all friction.",
     headline: "A planner that checks its own work",
     span: "2026",
-    status: "Single-trip planner built \u00b7 group side designed, not built",
+    status: "Single-trip planner built · group side designed, not built",
     brief:
-      "Six people want six different things. One wants museums, one wants to sleep in, one is counting money, and somebody has to turn all of that into a day-by-day plan nobody hates. It's the kind of problem that looks like a chat prompt and isn't \u2014 so I built it as an agent with tools and a critic that checks the plan before you ever see it.",
+      "Six people want six different things. One wants museums, one wants to sleep in, one is counting every rupee — and somebody has to turn that into a day-by-day plan nobody hates. It looks like a job for a chat prompt and isn't, so I built it as an agent with tools, plus a critic that reads the plan before you ever see it.",
     decomposition: [
       {
         label: "One big prompt can't do this",
         edge: true,
-        text: "Three reasons, in order. It can't know today's prices or what's actually open. You can't fit the research for every destination into one prompt. And one call is one shot at getting the structure right \u2014 there's no second chance to catch its own mistake.",
+        text: "Three reasons, in order. It can't know today's prices or what's actually open. The research for every destination won't fit in one prompt. And one call is one shot at the right answer — there's no second pass to catch its own mistake.",
       },
       {
         label: "So: an agent that fetches, then a critic that judges",
-        text: "The planner pulls only what it needs, when it needs it. Then a separate pass reads the finished plan with fresh eyes and no attachment to it \u2014 which is the whole point. Checking is far easier than writing.",
+        text: "The planner pulls only what it needs, when it needs it. Then a separate pass reads the finished plan with fresh eyes and no attachment to it. Checking a plan is far easier than writing one.",
       },
       {
         label: "Cheap checks first, expensive ones after",
         edge: true,
-        text: "Day count, required fields, whether the budget actually adds up \u2014 those are plain code and cost nothing. The model only gets asked the things rules can't express: is day two overpacked, does the pace match what they asked for, is this even the right season for it.",
+        text: "Day count, missing fields, whether the budget adds up — those are plain code and cost nothing. The model only gets asked what rules can't express: is day two overpacked, does the pace match what they asked for, is this even the right season.",
       },
       {
-        label: "A disagreeing critic can't run up the bill",
+        label: "A critic that keeps disagreeing can't run up the bill",
         edge: true,
-        text: "The loop stops after three attempts. Without a bound, a critic that keeps rejecting and a planner that keeps rewriting will happily burn tokens all night.",
+        text: "The loop stops after three attempts. Without a ceiling, a critic that keeps rejecting and a planner that keeps rewriting will happily burn tokens all night.",
       },
       {
         label: "Two kinds of data, two different shelf lives",
@@ -531,7 +534,7 @@ export const caseFiles: CaseFile[] = [
       {
         label: "My best anecdote was really a bug",
         edge: true,
-        text: "The critic once caught a three-day request that came back with two days \u2014 a great story until I realised counting days is something a plain rule does for free. That's exactly why the cheap checks now run first.",
+        text: "The critic once caught a three-day request that came back with two days — a great story until I realised counting days is something a plain rule does for free. That's exactly why the cheap checks now run first.",
       },
     ],
     diagram: "critic-loop",
@@ -545,13 +548,13 @@ export const caseFiles: CaseFile[] = [
           "Live data, context limits, and the fact that a single call has no way to catch its own mistake. All three point the same direction.",
       },
       {
-        chose: "A critic with no memory of writing the plan.",
+        chose: "A critic that doesn't remember writing the plan.",
         insteadOf: "Asking the planner to check itself.",
         because:
-          "Something that just wrote an answer is the worst judge of it. A fresh reader has no stake in defending it.",
+          "Anything that just wrote an answer is the worst judge of it. A fresh reader has no stake in defending it.",
       },
       {
-        chose: "Split cacheable knowledge from live inventory at the design stage.",
+        chose: "Split cacheable knowledge from live prices at the design stage.",
         because:
           "Not all data goes stale at the same rate, so one cache setting can't be right for both. It also leaves a clean slot for a real booking API later.",
       },
@@ -559,28 +562,103 @@ export const caseFiles: CaseFile[] = [
     metrics: [
       {
         metric: "what's actually built",
-        before: "\u2014",
+        before: "—",
         after: "the single-trip planner, with the critic loop",
         how: "said plainly",
       },
       {
         metric: "the group side",
-        before: "\u2014",
+        before: "—",
         after: "designed, not built",
         how: "it's the reason the project exists, and it isn't done",
       },
       { metric: "retry ceiling", before: "unbounded by default", after: "3", how: "so a stuck loop can't run up a bill" },
       {
         metric: "does the critic earn its cost?",
-        before: "\u2014",
+        before: "—",
         after: "not measured here",
-        how: "I built that measurement on a later project instead: how often the first draft fails, whether attempt two actually passes, and how often the critic rejects something that was fine.",
+        how: "I built that measurement on a later project instead: how often the first draft fails, whether attempt two passes, and how often the critic rejects something that was fine",
       },
     ],
     reflection:
-      "The honest line: the group-preference part is the reason I started this, and it's the part I haven't built. What exists is the single-trip planner underneath it. I also never measured whether the critic loop pays for itself here \u2014 I only worked out how to measure that on a later project, which makes it a gap I can name precisely rather than one I can wave at.",
+      "The honest line: the group-preference part is the reason I started this, and it's the part I haven't built. What exists is the single-trip planner underneath it. I also never measured whether the critic loop pays for itself here — I only worked out how to measure that on a later project, which makes it a gap I can name precisely rather than one I can wave at.",
     stack: ["LangGraph", "OpenAI", "RAG", "Tavily", "Next.js", "FastAPI", "AWS EC2"],
   },
+];
+
+/* ------------------------------ projects --------------------------- *
+ * Things built outside work. Same rules as the rest of this file:
+ * plain English, nothing claimed that isn't in the repo. Links are
+ * checked — a dead URL on a portfolio is worse than no URL.
+ * ------------------------------------------------------------------ */
+
+export type ProjectLink = {
+  label: string;
+  href: string;
+  kind: "live" | "repo" | "internal";
+};
+
+export type Project = {
+  n: string;
+  name: string;
+  tagline: string;
+  span: string;
+  state: "live" | "private";
+  stateLabel: string;
+  summary: string;
+  note: string;
+  shot: string;
+  shotAlt: string;
+  stack: string[];
+  links: ProjectLink[];
+};
+
+export const projectsIntro = {
+  stamp: "Projects",
+  title: "Built on my own time.",
+  lede: "Nobody asked for any of these. Each one started with something I wanted to understand, so the interesting part is usually one decision rather than the whole thing — that's the line marked ◆ on each card.",
+};
+
+export const projects: Project[] = [
+  {
+    n: "01",
+    name: "ItineraryAI",
+    tagline: "Agentic trip planner",
+    span: "2026",
+    state: "live",
+    stateLabel: "Live",
+    summary:
+      "Say where you're going and for how long, and you get a day-by-day plan back. An agent pulls what it needs as it needs it — places, stays, current prices — and then a separate critic reads the finished plan with fresh eyes before you ever see it.",
+    note:
+      "The critic loop stops after three attempts. Without a ceiling, a critic that keeps rejecting and a planner that keeps rewriting will happily burn tokens all night.",
+    shot: "itineraryai",
+    shotAlt: "The ItineraryAI landing page \u2014 \u201cWhere group trip plans finally leave the group chat\u201d over a night sky, with a Plan Your Trip button.",
+    stack: ["LangGraph", "OpenAI", "FastAPI", "ChromaDB", "Next.js", "Express", "MongoDB", "Railway"],
+    links: [
+      { label: "itineraryai.in", href: "https://www.itineraryai.in", kind: "live" },
+      { label: "Web repo", href: "https://github.com/lufyDev/itenaryAI", kind: "repo" },
+      { label: "Agent repo", href: "https://github.com/lufyDev/itenary_ai", kind: "repo" },
+      { label: "Full case file", href: "#work", kind: "internal" },
+    ],
+  },
+
+  {
+    n: "02",
+    name: "Urban Update",
+    tagline: "Newsroom CMS and the site it feeds",
+    span: "2026",
+    state: "live",
+    stateLabel: "Live",
+    summary:
+      "A publishing tool for a city-affairs magazine and the public site that reads from it. Reporters draft and submit, editors assign and publish, admins run the place — three roles, three dashboards, one set of articles underneath. Media uploads and per-article numbers are part of it.",
+    note:
+      "Request and response shapes live in a shared contracts package the API and the front end both import. The two sides can disagree at build time, which is the only time it's cheap.",
+    shot: "urban-update",
+    shotAlt: "The Urban Update home page \u2014 the masthead, a news navigation bar, and the Featured Stories list.",
+    stack: ["NestJS", "Next.js", "MongoDB", "Turborepo", "pnpm", "Tailwind", "Quill", "Chart.js"],
+    links: [{ label: "urbanupdate.in", href: "https://urbanupdate.in/", kind: "live" }],
+  },
+
 ];
 
 export const leverage = {

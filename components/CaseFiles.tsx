@@ -260,7 +260,7 @@ function Entry({ c }: { c: CaseFile }) {
                 {work ? "Work" : "Side project"}
               </span>
               <span className="stamp text-faint">{c.domain}</span>
-              <span className="stamp text-soft">→ {c.headline}</span>
+              <span className="text-[15px] leading-snug text-soft">→ {c.headline}</span>
             </div>
           </div>
 
@@ -301,7 +301,7 @@ export default function CaseFiles() {
       <SectionHead
         stamp="Recent work"
         title="Problems I worked on."
-        lede="Four from work, one from my own time. Open any to see what was asked, what it turned out to be, how I built it, and what changed."
+        lede="Four from work, one from my own time. Open any one: what was asked, what it turned out to be, how I built it, and what changed. Written for someone who has never seen these systems — no jargon, and where a word is unavoidable I explain it."
       />
 
       <div className="border-t border-rule">

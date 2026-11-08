@@ -2,8 +2,8 @@ import { skills } from "@/data/portfolio";
 import { Section, SectionHead } from "@/components/Chrome";
 
 /* The earlier version read as muted grey chips. Now the group name is
- * display type, the chips are filled rather than hairline, and the two
- * core groups are carried in vermilion so the eye lands there first. */
+ * display type, the chips are filled rather than hairline, and the
+ * three core groups are carried in vermilion so the eye lands there first. */
 
 export default function Skills() {
   return (
@@ -11,7 +11,7 @@ export default function Skills() {
       <SectionHead
         stamp="Skills"
         title="What I work with."
-        lede="Grouped by what I actually reach for. The two marked core are where most of my time goes."
+        lede="Grouped by what I actually reach for. The three marked core are where most of my time goes."
       />
 
       <div className="grid gap-4 md:grid-cols-2">
